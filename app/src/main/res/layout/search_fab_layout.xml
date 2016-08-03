@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.FloatingActionButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/search_fab"
+    style="@style/FAB_style"
+    android:contentDescription="@string/action_search"
+    android:src="@drawable/ic_search_white_24dp"
+    android:layout_gravity="bottom|end"
+    app:backgroundTint="@color/colorSearchFAB"
+    app:elevation = "@dimen/fab_elevation"
+    app:fabSize = "normal"
+    app:pressedTranslationZ = "@dimen/fab_press_translation_z"/>
