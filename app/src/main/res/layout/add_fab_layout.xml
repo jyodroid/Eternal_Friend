@@ -1,0 +1,11 @@
+<android.support.design.widget.FloatingActionButton
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/add_fab"
+    style="@style/FAB_style"
+    android:contentDescription="@string/action_add_profile"
+    android:src="@drawable/ic_add_white_24dp"
+    app:backgroundTint="@color/colorAccent"
+    app:elevation = "@dimen/fab_elevation"
+    app:fabSize = "normal"
+    app:pressedTranslationZ = "@dimen/fab_press_translation_z"/>

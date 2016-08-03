@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name">EternalFriend</string>
+    <string name="app_name">Eternal Friend</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_profile_summarize">Pets Profile</string>
+    <string name="action_search">Search nearby veterinarian and pet shops</string>
+    <string name="action_add_profile">Add pet profile</string>
 </resources>
