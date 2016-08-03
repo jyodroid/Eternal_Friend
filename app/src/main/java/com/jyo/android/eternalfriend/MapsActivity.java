@@ -2,10 +2,13 @@ package com.jyo.android.eternalfriend;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 
@@ -13,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -28,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.ConnectException;
+import java.util.concurrent.ExecutionException;
 
 
 public class MapsActivity extends FragmentActivity
@@ -80,7 +85,7 @@ public class MapsActivity extends FragmentActivity
 
                 if (points != null && points.length() > 0) {
                     for (int i = 0; i < points.length(); i++) {
-                        JSONObject object = (JSONObject) points.get(i);
+                        final JSONObject object = (JSONObject) points.get(i);
                         JSONObject geometry = (JSONObject) object.get("geometry");
                         JSONObject location = (JSONObject) geometry.get("location");
                         double lat = Double.valueOf(location.get("lat").toString());
@@ -98,8 +103,9 @@ public class MapsActivity extends FragmentActivity
                                         .position(position)
                                         .title(object.getString("name"))
                                         .snippet(strOpen);
-
+                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.pet_shop));
                         mMap.addMarker(markerOptions);
+
                     }
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(mYourPosition));
                 }
@@ -181,7 +187,7 @@ public class MapsActivity extends FragmentActivity
         mMap.addMarker(
                 new MarkerOptions()
                         .position(mYourPosition)
-                        .title("your position")
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                        .title("your position"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mYourPosition));
     }
 }
