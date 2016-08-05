@@ -53,7 +53,7 @@ public class ProfileSummarizeActivity extends AppCompatActivity {
         profiles.add(profile);
         profiles.add(profile2);
 
-        profileAdapter = new ProfileAdapter(profiles, getBaseContext());
+        profileAdapter = new ProfileAdapter(profiles, this);
         viewHolder.recyclerView.setAdapter(profileAdapter);
     }
 
