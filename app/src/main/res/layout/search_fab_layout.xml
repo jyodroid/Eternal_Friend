@@ -3,10 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/search_fab"
-    style="@style/NormalFabStyle"
+    style="@style/SearchFabPadding"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:contentDescription="@string/action_search"
     android:src="@drawable/ic_search_white_24dp"
     app:backgroundTint="@color/colorSearchFAB"
     app:elevation = "@dimen/fab_elevation"
+    app:pressedTranslationZ="@dimen/fab_press_translation_z"
     app:fabSize = "normal"
-    app:pressedTranslationZ = "@dimen/fab_press_translation_z"/>
+    app:borderWidth="0dp"
+    app:rippleColor="@color/colorSearchFABAccent"/>

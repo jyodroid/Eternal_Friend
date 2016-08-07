@@ -1,0 +1,12 @@
+<resources>
+
+    <style name="AddFabPadding">
+        <item name="android:layout_marginStart">@dimen/fab_margin</item>
+        <item name="android:layout_marginEnd">@dimen/fab_margin</item>
+        <item name="android:layout_marginBottom">@dimen/fab_margin</item>
+    </style>
+
+    <style name="SearchFabPadding">
+        <item name="android:layout_margin">@dimen/fab_margin</item>
+    </style>
+</resources>

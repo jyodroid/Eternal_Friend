@@ -1,7 +1,24 @@
 <resources>
     <string name="app_name">Eternal Friend</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps">Eternal Friend Map</string>
     <string name="title_activity_profile_summarize">Pets Profile</string>
     <string name="action_search">Search nearby veterinarian and pet shops</string>
     <string name="action_add_profile">Add pet profile</string>
+    <string name="add_profile">Add profile</string>
+    <string name="pet_name_hint">Pet Name</string>
+    <string name="pet_birth_label">Birth date</string>
+    <string name="pet_birth_value">Select one</string>
+    <string name="pet_breed_hint">Pet Breed</string>
+    <string name="date_format">LLLL, dd yyyy</string>
+    <string name="date_picker_date_text"><![CDATA[<u>%1$s</u>]]></string>
+
+    <!-- Ask for Permission Dialogs-->
+    <string name="permission_dialog_tittle">You need additional Permissions</string>
+    <string name="permission_from_settings_info">Maybe you check \"Don\'t ask again\" in a past permission request so you will need to grant permissions from application settings manually</string>
+    <string name="permission_location_info">In order to obtain nearest pet shops and veterinarian, application needs to know your actual location.</string>
+    <string name="permission_write_storage_info">In order to store in your gallery your pet\'s picture, application needs to have access to your storage</string>
+    <string name="permission_from_settings_ok_button">Go to settings</string>
+    <string name="permission_from_activity_ok_button">Grant permissions</string>
+    <string name="permission_cancel_button">Maybe later</string>
+
 </resources>

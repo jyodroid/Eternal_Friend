@@ -1,9 +1,7 @@
 package com.jyo.android.eternalfriend.profile_summarize;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,10 +24,11 @@ public class ProfileSummarizeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_summarize);
+        ButterKnife.bind(this);
 
         View rootView = findViewById(R.id.profile_container);
 
-        ViewHolder viewHolder = new ViewHolder(rootView, this);
+        ViewHolder viewHolder = new ViewHolder(rootView);
 
         //improve performance
         viewHolder.recyclerView.setHasFixedSize(true);
@@ -57,23 +56,23 @@ public class ProfileSummarizeActivity extends AppCompatActivity {
         viewHolder.recyclerView.setAdapter(profileAdapter);
     }
 
+    @OnClick(R.id.search_fab)
+    public void goToMap(){
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.add_fab)
+    public void goToAddProfile(){
+        Intent intent = new Intent(this, AddProfileActivity.class);
+        startActivity(intent);
+    }
+
     static class ViewHolder {
-        FloatingActionButton searchFab;
-        FloatingActionButton addProfile;
+        @BindView(R.id.profile_recycler_view)
         RecyclerView recyclerView;
-
-        public ViewHolder(View view, final Activity acivity) {
-            searchFab = (FloatingActionButton) view.findViewById(R.id.search_fab);
-            searchFab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(acivity, MapsActivity.class);
-                    acivity.startActivity(intent);
-                }
-            });
-
-            recyclerView = (RecyclerView) view.findViewById(R.id.profile_recycler_view);
-
+        public ViewHolder(View view) {
+            ButterKnife.bind(this,view);
         }
     }
 }

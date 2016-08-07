@@ -1,4 +1,4 @@
-package com.jyo.android.eternalfriend.network;
+package com.jyo.android.eternalfriend.commons;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
