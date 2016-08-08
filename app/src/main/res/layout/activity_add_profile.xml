@@ -20,7 +20,18 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:scaleType="centerCrop"
+            android:elevation="@dimen/card_elevation"
+            android:foreground="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_image_black_48dp" />
+        <TextView
+            android:id="@+id/profile_pet_picture_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/pet_birth_label"
+            android:textSize="@dimen/profile_normal_text"
+            android:textStyle="bold" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"

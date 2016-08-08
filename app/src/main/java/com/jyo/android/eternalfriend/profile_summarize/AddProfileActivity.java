@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -66,6 +68,7 @@ public class AddProfileActivity extends AppCompatActivity
     private static final String DOGS_BREED_LIST_NAME = "dogs";
     private static final String JSON_FORMAT = "UTF-8";
     private static final String PICTURE_PREFIX = "Profile";
+    private static final String FILE_PROVIDER_AUTHORITY = "com.jyo.android.eternalfriend.fileprovider";
 
     public static final int REQUEST_TAKE_PICTURE = 1;
     public static final int REQUEST_OBTAIN_FROM_GALLERY = 2;
@@ -152,8 +155,8 @@ public class AddProfileActivity extends AppCompatActivity
 
     @OnClick(R.id.profile_pet_picture_set)
     public void obtainImage() {
-        final String[] items = new String[]{"From Camera", "From Gallery"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, items);
+        final String[] items = new String[]{"Take a picture", "Choose from Gallery"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, items);
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
 
         builder.setTitle("Profile Image");
@@ -179,10 +182,10 @@ public class AddProfileActivity extends AppCompatActivity
                         } else {
                             useCameraIntent(activity);
                         }
-                    } else if (!isAskingForPermission){
+                    } else if (!isAskingForPermission) {
                         useCameraIntent(activity);
                     }
-                } else{
+                } else {
                     // Create intent to Open Image applications like Gallery, Google Photos
                     Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -263,7 +266,7 @@ public class AddProfileActivity extends AppCompatActivity
 
     @Override
     protected void onResume() {
-        if (handleMessage != null){
+        if (handleMessage != null) {
             handleMessage.isAskingForPermission(false);
         }
         super.onResume();
@@ -306,7 +309,15 @@ public class AddProfileActivity extends AppCompatActivity
                     break;
                 case REQUEST_OBTAIN_FROM_GALLERY:
                     Uri selectedImage = data.getData();
-                    mViewHolder.petPicture.setImageURI(selectedImage);
+
+                    Bitmap mImage = BitmapFactory.decodeFile(mFilePath);
+                    File pictureFile = new File(mFilePath);
+                    //Adjust the portrait view
+                    if (mImage.getWidth() > mImage.getHeight() && pictureFile != null) {
+                        mImage = MediaHelper.portraitRotation(mImage, pictureFile);
+                    }
+
+                    mViewHolder.petPicture.setImageBitmap(mImage);
                     break;
 
             }
@@ -324,7 +335,7 @@ public class AddProfileActivity extends AppCompatActivity
         isAskingForPermission = false;
         boolean permissionRequiredGranted = false;
         Activity activity = this;
-        if (requestCode == PermissionsHelper.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION){
+        if (requestCode == PermissionsHelper.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION) {
             if (grantResults.length > 0 &&
                     PackageManager.PERMISSION_GRANTED == grantResults[0]) {
                 Log.v(LOG_TAG, "Write external storage permission granted!!");
@@ -341,7 +352,7 @@ public class AddProfileActivity extends AppCompatActivity
             //Verify if user check on "Never ask again" and take him to application settings to
             //Grant permission manually
             if (PermissionsHelper.isCheckedDontAskAgain(
-                            activity, PermissionsHelper.WRITE_EXTERNAL_STORAGE_PERMISSION)) {
+                    activity, PermissionsHelper.WRITE_EXTERNAL_STORAGE_PERMISSION)) {
                 if (handleMessage == null) {
                     handleMessage = new PermissionsHelper.HandleMessage();
                     handleMessage.isAskingForPermission(true);
@@ -450,9 +461,10 @@ public class AddProfileActivity extends AppCompatActivity
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 mFilePath = photoFile.getAbsolutePath();
-                Uri photoURI = FileProvider.getUriForFile(activity,
-                        "com.jyo.android.eternalfriend.fileprovider",
-                        photoFile);
+                Uri photoURI =
+                        FileProvider.getUriForFile(activity,
+                                FILE_PROVIDER_AUTHORITY,
+                                photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PICTURE);
             }

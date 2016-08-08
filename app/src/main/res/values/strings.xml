@@ -1,16 +1,32 @@
 <resources>
+
+    <!-- Application -->
     <string name="app_name">Eternal Friend</string>
-    <string name="title_activity_maps">Eternal Friend Map</string>
-    <string name="title_activity_profile_summarize">Pets Profile</string>
     <string name="action_search">Search nearby veterinarian and pet shops</string>
+
+    <!-- Maps -->
+    <string name="title_activity_maps">Eternal Friend Map</string>
+    <string name="veterinarian">Veterinarian</string>
+    <string name="pet_shop">Pet Shop</string>
+
+    <!--Profile summarize-->
+    <string name="title_activity_profile_summarize">Pets Profile</string>
     <string name="action_add_profile">Add pet profile</string>
+
+    <!--Add profile-->
     <string name="add_profile">Add profile</string>
     <string name="pet_name_hint">Pet Name</string>
-    <string name="pet_birth_label">Birth date</string>
+    <string name="pet_pet_profile_picture_label">Birth date</string>
+    <string name="pet_birth_label">Pet\'s profile picture</string>
     <string name="pet_birth_value">Select one</string>
-    <string name="pet_breed_hint">Pet Breed</string>
+    <string name="pet_breed_hint">Pet\'s Breed</string>
     <string name="date_format">LLLL, dd yyyy</string>
     <string name="date_picker_date_text"><![CDATA[<u>%1$s</u>]]></string>
+
+    <!-- Profile -->
+    <string name="profile">Profile</string>
+    <string name="clinical_history">Clinical\nHistory</string>
+    <string name="vaccination_plan">Vaccination\nPlan</string>
 
     <!-- Ask for Permission Dialogs-->
     <string name="permission_dialog_tittle">You need additional Permissions</string>

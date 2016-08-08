@@ -3,7 +3,10 @@ package com.jyo.android.eternalfriend.commons;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -64,5 +67,48 @@ public class MediaHelper {
         );
 
         return image;
+    }
+    /**
+     * Use for store image in portrait
+     *
+     * @param bmImage image to rotate
+     * @param file    where is stored the image
+     * @return rotated byte array of the image
+     * @throws IOException when can't write again the file
+     */
+    public static Bitmap portraitRotation(@NonNull Bitmap bmImage, @NonNull File file)
+            throws IOException {
+
+        ExifInterface exif = new ExifInterface(file.toString());
+
+        Log.d("EXIF value", exif.getAttribute(ExifInterface.TAG_ORIENTATION));
+        if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("6")) {
+            bmImage = rotate(bmImage, 90);
+        } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("8")) {
+            bmImage = rotate(bmImage, 270);
+        } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("3")) {
+            bmImage = rotate(bmImage, 180);
+        } else if (exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("0")) {
+            bmImage = rotate(bmImage, 90);
+        }
+
+        return bmImage;
+    }
+
+    /**
+     * Rotates Bitmap image
+     *
+     * @param image  image to rotate
+     * @param degree anti - clockwise degrees
+     * @return image rotated
+     */
+    public static Bitmap rotate(@NonNull Bitmap image, int degree) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        Matrix matrix = new Matrix();
+        matrix.setRotate(degree);
+
+        return Bitmap.createBitmap(image, 0, 0, width, height, matrix, true);
     }
 }

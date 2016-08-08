@@ -9,7 +9,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        map:cameraZoom="13"
+        map:cameraZoom="@integer/zoom"
         map:mapType="normal"
         map:uiZoomControls="true" />
 
@@ -36,16 +36,16 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:paddingEnd="5dp"
+                android:layout_width="@dimen/thumbnail_legend_size"
+                android:layout_height="@dimen/thumbnail_legend_size"
+                android:paddingEnd="@dimen/activity_margin"
                 android:src="@drawable/ic_veterinarian_indicator" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Veterinarian"
-                android:textSize="12sp" />
+                android:text="@string/veterinarian"
+                android:textSize="@dimen/legend_size" />
 
         </LinearLayout>
 
@@ -55,16 +55,16 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:paddingEnd="5dp"
+                android:layout_width="@dimen/thumbnail_legend_size"
+                android:layout_height="@dimen/thumbnail_legend_size"
+                android:paddingEnd="@dimen/activity_margin"
                 android:src="@drawable/ic_pet_shop_indicator" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pet Shop"
-                android:textSize="12sp" />
+                android:text="@string/pet_shop"
+                android:textSize="@dimen/legend_size" />
 
         </LinearLayout>
     </LinearLayout>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jyo.android.eternalfriend.profile.ProfileActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_margin"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_image_black_48dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kevin"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2 years"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Snauser"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:gravity = "center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/button_normal_size">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="@dimen/button_normal_size"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="@dimen/button_normal_size"
+                    android:layout_height="@dimen/button_normal_size"
+                    android:padding="@dimen/button_image_padding"
+                    android:background="@drawable/circular_button_green"
+                    android:src="@drawable/ic_photo_library_white_24dp"
+                    android:layout_marginBottom="@dimen/fab_margin"
+                    android:elevation="@dimen/fab_elevation"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Gallery"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="@dimen/button_normal_size"
+                    android:layout_height="@dimen/button_normal_size"
+                    android:background="@drawable/circular_button_green"
+                    android:padding="@dimen/button_image_padding"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ic_local_hospital_white_24dp"
+                    android:layout_marginBottom="@dimen/fab_margin"
+                    android:elevation="@dimen/fab_elevation"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/clinical_history"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/button_normal_size"
+                android:layout_gravity="end"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="@dimen/button_normal_size"
+                    android:layout_height="@dimen/button_normal_size"
+                    android:padding="@dimen/button_image_padding"
+                    android:background="@drawable/circular_button_green"
+                    android:src="@drawable/ic_schedule_white_24dp"
+                    android:layout_marginBottom="@dimen/fab_margin"
+                    android:layout_gravity="center_horizontal"
+                    android:elevation="@dimen/fab_elevation"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/vaccination_plan"/>
+
+            </LinearLayout>
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom">
+
+        <include layout="@layout/search_fab_layout" />
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -12,4 +12,14 @@
 
     <dimen name="pet_name_size">24sp</dimen>
     <dimen name="profile_normal_text">18sp</dimen>
+
+    <!--Map-->
+    <dimen name="thumbnail_legend_size">15dp</dimen>
+    <dimen name="legend_size">12sp</dimen>
+    <integer name="zoom">13</integer>
+
+    <!-- Profile -->
+    <dimen name="button_normal_size">56dp</dimen>
+    <dimen name="button_image_padding">10dp</dimen>
+
 </resources>

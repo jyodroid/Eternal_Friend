@@ -1,6 +1,8 @@
 package com.jyo.android.eternalfriend.profile_summarize;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jyo.android.eternalfriend.R;
+import com.jyo.android.eternalfriend.profile.ProfileActivity;
 import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
 
 import java.util.List;
@@ -37,7 +40,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         View layoutView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.profile_card_layout, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(layoutView);
+        ViewHolder viewHolder = new ViewHolder(layoutView, mContext);
 
         return viewHolder;
     }
@@ -48,6 +51,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         Glide
                 .with(mContext)
                 .load("http://goo.gl/gEgYUd")
+                .error(R.drawable.ic_image_black_48dp)
                 .into(holder.petPicture);
 
         holder.petAge.setText(mProfiles.get(position).getAge());
@@ -74,9 +78,20 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         @BindView(R.id.profile_pet_breed)
         TextView petBreed;
 
-        public ViewHolder(View itemView) {
+        @BindView(R.id.profile_card)
+        CardView profileCard;
+
+        public ViewHolder(View itemView, final Context context) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            profileCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ProfileActivity.class);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }
