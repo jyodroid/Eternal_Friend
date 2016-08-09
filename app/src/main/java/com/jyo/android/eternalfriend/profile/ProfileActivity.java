@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jyo.android.eternalfriend.R;
 import com.jyo.android.eternalfriend.commons.MediaHelper;
+import com.jyo.android.eternalfriend.gallery.GalleryActivity;
 import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
 
 import butterknife.BindView;
@@ -24,6 +25,8 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        ButterKnife.bind(this);
 
         View rootView = findViewById(R.id.profile_view_container);
         ViewHolder viewHolder = new ViewHolder(rootView);
@@ -48,7 +51,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     @OnClick(R.id.gallery_button)
     public void goToGallery(){
-
+        Intent intent = new Intent(this, GalleryActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.clinical_history_button)

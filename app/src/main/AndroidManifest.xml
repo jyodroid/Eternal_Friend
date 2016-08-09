@@ -56,7 +56,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".profile_summarize.ProfileSummarizeActivity" />
         </activity>
-
         <activity
             android:name=".profile.ProfileActivity"
             android:label="@string/profile"
@@ -77,6 +76,10 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <activity
+            android:name=".gallery.GalleryActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
