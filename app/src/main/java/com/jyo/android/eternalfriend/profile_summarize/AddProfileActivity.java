@@ -68,10 +68,6 @@ public class AddProfileActivity extends AppCompatActivity
     private static final String DOGS_BREED_LIST_NAME = "dogs";
     private static final String JSON_FORMAT = "UTF-8";
     private static final String PICTURE_PREFIX = "Profile";
-    private static final String FILE_PROVIDER_AUTHORITY = "com.jyo.android.eternalfriend.fileprovider";
-
-    public static final int REQUEST_TAKE_PICTURE = 1;
-    public static final int REQUEST_OBTAIN_FROM_GALLERY = 2;
 
     private DatePickerDialog mDatePickerDialog;
     private ViewHolder mViewHolder;
@@ -170,27 +166,33 @@ public class AddProfileActivity extends AppCompatActivity
                         handleMessage = new PermissionsHelper.HandleMessage();
                     }
                     isAskingForPermission = handleMessage.isAskingForPermission();
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isAskingForPermission) {
-                        //Obtain permission type required
-                        int requiredPermissionType = PermissionsHelper.obtainPermissionType(activity);
-                        if (requiredPermissionType != PermissionsHelper.MY_PERMISSIONS_UNKNOWN) {
-                            //Prepare Thread to show message and handler to management
-                            handleMessage = new PermissionsHelper.HandleMessage();
-                            handleMessage.isAskingForPermission(true);
-                            PermissionsHelper.requestFeaturePermissions(
-                                    requiredPermissionType, activity, handleMessage);
-                        } else {
-                            useCameraIntent(activity);
+                    try {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isAskingForPermission) {
+                            //Obtain permission type required
+                            int requiredPermissionType = PermissionsHelper.obtainPermissionType(activity);
+                            if (requiredPermissionType != PermissionsHelper.MY_PERMISSIONS_UNKNOWN) {
+                                //Prepare Thread to show message and handler to management
+                                handleMessage = new PermissionsHelper.HandleMessage();
+                                handleMessage.isAskingForPermission(true);
+                                PermissionsHelper.requestFeaturePermissions(
+                                        requiredPermissionType, activity, handleMessage);
+                            } else {
+
+                                mFilePath = MediaHelper.useCameraIntent(activity, PICTURE_PREFIX);
+                            }
+                        } else if (!isAskingForPermission) {
+                            mFilePath = MediaHelper.useCameraIntent(activity, PICTURE_PREFIX);
                         }
-                    } else if (!isAskingForPermission) {
-                        useCameraIntent(activity);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        //TODO: snack bar
                     }
                 } else {
                     // Create intent to Open Image applications like Gallery, Google Photos
                     Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     // Start the Intent
-                    startActivityForResult(galleryIntent, REQUEST_OBTAIN_FROM_GALLERY);
+                    startActivityForResult(galleryIntent, MediaHelper.REQUEST_OBTAIN_FROM_GALLERY);
                 }
 
                 dialog.cancel();
@@ -302,12 +304,12 @@ public class AddProfileActivity extends AppCompatActivity
         }
         try {
             switch (requestCode) {
-                case REQUEST_TAKE_PICTURE:
+                case MediaHelper.REQUEST_TAKE_PICTURE:
                     // When an Image is picked
                     MediaHelper.setPic(mViewHolder.petPicture, mFilePath);
-                    galleryAddPic();
+                    MediaHelper.galleryAddPic(mFilePath, this);
                     break;
-                case REQUEST_OBTAIN_FROM_GALLERY:
+                case MediaHelper.REQUEST_OBTAIN_FROM_GALLERY:
                     Uri selectedImage = data.getData();
 
                     Bitmap mImage = BitmapFactory.decodeFile(mFilePath);
@@ -344,7 +346,11 @@ public class AddProfileActivity extends AppCompatActivity
         }
         if (permissionRequiredGranted) {
             Log.v(LOG_TAG, "Permission granted!!");
-            useCameraIntent(activity);
+            try {
+                mFilePath = MediaHelper.useCameraIntent(activity, PICTURE_PREFIX);
+            } catch (Exception e) {
+                //TODO: snack bar
+            }
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         } else {
             Log.v(LOG_TAG, "Permission not granted");
@@ -437,41 +443,6 @@ public class AddProfileActivity extends AppCompatActivity
         String[] arrayBreed = new String[breeds.size()];
         arrayBreed = breeds.toArray(arrayBreed);
         return arrayBreed;
-    }
-
-    private void galleryAddPic() throws IOException {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File file = new File(mFilePath);
-        Uri contentUri = Uri.fromFile(file);
-        mediaScanIntent.setData(contentUri);
-        this.sendBroadcast(mediaScanIntent);
-    }
-
-    private void useCameraIntent(Activity activity) {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = MediaHelper.createImageFile(activity, PICTURE_PREFIX);
-            } catch (IOException ioe) {
-                Log.e(LOG_TAG, "Error obtaining file dir", ioe);
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                mFilePath = photoFile.getAbsolutePath();
-                Uri photoURI =
-                        FileProvider.getUriForFile(activity,
-                                FILE_PROVIDER_AUTHORITY,
-                                photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PICTURE);
-            }
-        } else {
-            Log.e(LOG_TAG, "Can't use device's camera");
-            //TODO: snackbar
-        }
     }
 
     private void stopPermissionDialog() {

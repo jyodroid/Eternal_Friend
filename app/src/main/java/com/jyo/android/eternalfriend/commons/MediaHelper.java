@@ -1,12 +1,17 @@
 package com.jyo.android.eternalfriend.commons;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -23,6 +28,9 @@ public class MediaHelper {
 
     private static final String FILE_NAME_DATE_FORMAT = "yyyy_MM_dd_HH_mm_ss";
     private static final String APP_NAME = "Eternal Friend";
+    private static final String FILE_PROVIDER_AUTHORITY = "com.jyo.android.eternalfriend.fileprovider";
+    public static final int REQUEST_TAKE_PICTURE = 1;
+    public static final int REQUEST_OBTAIN_FROM_GALLERY = 2;
 
     public static void setPic(ImageView holder, String filePath) {
         // Get the dimensions of the View
@@ -122,5 +130,38 @@ public class MediaHelper {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         photo.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         return stream.toByteArray();
+    }
+
+    public static void galleryAddPic(String filePath, Activity activity) throws IOException {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File file = new File(filePath);
+        Uri contentUri = Uri.fromFile(file);
+        mediaScanIntent.setData(contentUri);
+        activity.sendBroadcast(mediaScanIntent);
+    }
+
+    public static String useCameraIntent(Activity activity, String prefix) throws Exception {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile;
+            photoFile = createImageFile(activity, prefix);
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                String filePath = photoFile.getAbsolutePath();
+                Uri photoURI =
+                        FileProvider.getUriForFile(activity,
+                                FILE_PROVIDER_AUTHORITY,
+                                photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                activity.startActivityForResult(takePictureIntent, REQUEST_TAKE_PICTURE);
+                return filePath;
+            }else {
+                throw new Exception("Can't obtain image");
+            }
+        } else {
+            throw new Exception("Can't access camera app");
+        }
     }
 }
