@@ -3,6 +3,7 @@ package com.jyo.android.eternalfriend.profile_summarize;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import butterknife.OnClick;
  */
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHolder> {
 
+    private static final String LOG_TAG = ProfileAdapter.class.getSimpleName();
     private List<Profile> mProfiles;
     private Context mContext;
 
@@ -62,7 +64,11 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                     .into(holder.petPicture);
         }
 
-        holder.petAge.setText(profile.getAge());
+        try {
+            holder.petAge.setText(profile.getAge());
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "invalid birth date", e);
+        }
         holder.petName.setText(profile.getName());
         holder.petBreed.setText(profile.getBreed());
     }

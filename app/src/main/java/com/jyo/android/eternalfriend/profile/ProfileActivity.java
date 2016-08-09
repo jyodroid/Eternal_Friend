@@ -3,6 +3,7 @@ package com.jyo.android.eternalfriend.profile;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.jyo.android.eternalfriend.R;
 import com.jyo.android.eternalfriend.commons.MediaHelper;
 import com.jyo.android.eternalfriend.gallery.GalleryActivity;
+import com.jyo.android.eternalfriend.map.MapsActivity;
 import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
 
 import butterknife.BindView;
@@ -20,6 +22,7 @@ import butterknife.OnClick;
 public class ProfileActivity extends AppCompatActivity {
 
     public static final String PROFILE_EXTRA= "profile_extra";
+    private static final String LOG_TAG = ProfileActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,11 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         viewHolder.name.setText(profile.getName());
-        viewHolder.age.setText(profile.getAge());
+        try {
+            viewHolder.age.setText(profile.getAge());
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Invalid age", e);
+        }
         viewHolder.breed.setText(profile.getBreed());
     }
 
@@ -63,6 +70,12 @@ public class ProfileActivity extends AppCompatActivity {
     @OnClick(R.id.vaccination_plan_button)
     public void goToVaccinationPlan(){
 
+    }
+
+    @OnClick(R.id.search_fab)
+    public void goToMap(){
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
     }
 
 

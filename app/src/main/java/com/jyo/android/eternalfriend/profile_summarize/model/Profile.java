@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -11,10 +12,9 @@ import java.util.Date;
  */
 public class Profile implements Parcelable{
     private String name;
-    private Date birth_date;
+    private Date birthDate;
     private String breed;
     private int age;
-    private Date dayAgeSetted;
 
     private Bitmap picture;
 
@@ -59,8 +59,8 @@ public class Profile implements Parcelable{
         this.name = name;
     }
 
-    public void setBirth_date(Date birth_date) {
-        this.birth_date = birth_date;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getBreed() {
@@ -80,7 +80,41 @@ public class Profile implements Parcelable{
     }
 
 
-    public String getAge(){
-        return "two years";
+    public String getAge() throws Exception {
+
+//        if (birthDate == null) {
+//            throw new Exception("No birth date set");
+//        }
+//
+//        Date today = new Date(System.currentTimeMillis());
+//        if (today.after(birthDate)) {
+//            throw new Exception("Wrong birth date set");
+//        }
+//
+//        Calendar birthDateCal = Calendar.getInstance();
+//        birthDateCal.setTime(birthDate);
+//        Calendar todayCal = Calendar.getInstance();
+//        todayCal.setTime(today);
+//
+//        //Check if years are equal
+//        if (birthDateCal.get(Calendar.YEAR) == todayCal.get(Calendar.YEAR)) {
+//            //Check if months are equal
+//            if (birthDateCal.get(Calendar.MONTH) == todayCal.get(Calendar.MONTH)) {
+//                int days = todayCal.get(Calendar.DAY_OF_MONTH) - birthDateCal.get(Calendar.DAY_OF_MONTH);
+//                return days + " days";
+//            } else {
+//                int months = todayCal.get(Calendar.MONTH) - birthDateCal.get(Calendar.MONTH);
+//                return months + " months";
+//            }
+//        } else {
+//            if (birthDateCal.get(Calendar.MONTH) > todayCal.get(Calendar.MONTH)) {
+//                //Months from moth to december plus months from december to today month.
+//                return "";
+//            } else {
+//                int years = todayCal.get(Calendar.YEAR) - birthDateCal.get(Calendar.YEAR);
+//                return years + " years";
+//            }
+//        }
+        return "2 years";
     }
 }
