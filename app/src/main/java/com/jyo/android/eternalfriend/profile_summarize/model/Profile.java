@@ -1,14 +1,15 @@
 package com.jyo.android.eternalfriend.profile_summarize.model;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import java.util.Calendar;
 import java.util.Date;
 
 /**
  * Created by johntangarife on 8/5/16.
  */
-public class Profile {
+public class Profile implements Parcelable{
     private String name;
     private Date birth_date;
     private String breed;
@@ -16,6 +17,39 @@ public class Profile {
     private Date dayAgeSetted;
 
     private Bitmap picture;
+
+    public Profile(){}
+    protected Profile(Parcel in) {
+        name = in.readString();
+        breed = in.readString();
+        age = in.readInt();
+        picture = in.readParcelable(Bitmap.class.getClassLoader());
+    }
+
+    public static final Creator<Profile> CREATOR = new Creator<Profile>() {
+        @Override
+        public Profile createFromParcel(Parcel in) {
+            return new Profile(in);
+        }
+
+        @Override
+        public Profile[] newArray(int size) {
+            return new Profile[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeString(breed);
+        parcel.writeInt(age);
+        parcel.writeParcelable(picture, i);
+    }
 
     public String getName() {
         return name;
@@ -45,16 +79,8 @@ public class Profile {
         this.picture = picture;
     }
 
-    //TODO: calculate age based on birth date in case age is null
+
     public String getAge(){
-        return "2 years";
+        return "two years";
     }
-
-    public void setAge(int age) {
-        this.age = age;
-        Calendar calendar = Calendar.getInstance();
-        this.dayAgeSetted = calendar.getTime();
-    }
-
-    //    https://www.petfinder.com/developers/api-docs
 }

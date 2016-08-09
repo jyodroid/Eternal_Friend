@@ -2,7 +2,6 @@ package com.jyo.android.eternalfriend.profile_summarize;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jyo.android.eternalfriend.R;
+import com.jyo.android.eternalfriend.commons.MediaHelper;
 import com.jyo.android.eternalfriend.profile.ProfileActivity;
 import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
 
@@ -19,6 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by johntangarife on 8/5/16.
@@ -48,15 +49,22 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Glide
-                .with(mContext)
-                .load("http://goo.gl/gEgYUd")
-                .error(R.drawable.ic_image_black_48dp)
-                .into(holder.petPicture);
+        Profile profile = mProfiles.get(position);
+        holder.setProfile(profile);
 
-        holder.petAge.setText(mProfiles.get(position).getAge());
-        holder.petName.setText(mProfiles.get(position).getName());
-        holder.petBreed.setText(mProfiles.get(position).getBreed());
+        if (profile.getPicture() != null){
+            byte[] image = MediaHelper.bitmapToArray(profile.getPicture());
+
+            Glide
+                    .with(mContext)
+                    .load(image)
+                    .error(R.drawable.ic_image_black_48dp)
+                    .into(holder.petPicture);
+        }
+
+        holder.petAge.setText(profile.getAge());
+        holder.petName.setText(profile.getName());
+        holder.petBreed.setText(profile.getBreed());
     }
 
     @Override
@@ -65,6 +73,9 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        private Context mContext;
+        private Profile mProfile;
 
         @BindView(R.id.profile_pet_picture)
         ImageView petPicture;
@@ -78,20 +89,21 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         @BindView(R.id.profile_pet_breed)
         TextView petBreed;
 
-        @BindView(R.id.profile_card)
-        CardView profileCard;
-
         public ViewHolder(View itemView, final Context context) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            mContext = context;
+        }
 
-            profileCard.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(context, ProfileActivity.class);
-                    context.startActivity(intent);
-                }
-            });
+        @OnClick(R.id.profile_card)
+        public void goToProfile(){
+            Intent intent = new Intent(mContext, ProfileActivity.class);
+            intent.putExtra(ProfileActivity.PROFILE_EXTRA, mProfile);
+            mContext.startActivity(intent);
+        }
+
+        public void setProfile(Profile profile){
+            mProfile = profile;
         }
     }
 }

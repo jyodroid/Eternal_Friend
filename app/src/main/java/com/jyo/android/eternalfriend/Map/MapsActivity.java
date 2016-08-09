@@ -1,4 +1,4 @@
-package com.jyo.android.eternalfriend.Map;
+package com.jyo.android.eternalfriend.map;
 
 import android.Manifest;
 import android.app.Activity;
@@ -29,13 +29,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jyo.android.eternalfriend.R;
 import com.jyo.android.eternalfriend.commons.NetworkHelper;
 import com.jyo.android.eternalfriend.commons.PermissionsHelper;
 import com.jyo.android.eternalfriend.places.PlacesConnection;
+import com.jyo.android.eternalfriend.places.model.Place;
+import com.jyo.android.eternalfriend.places.model.PlacesResponse;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.ConnectException;
@@ -46,8 +48,8 @@ public class MapsActivity extends AppCompatActivity
         OnMapReadyCallback {
 
     private static final String LOG_TAG = MapsActivity.class.getSimpleName();
+    private static final String VETERINARIAN_TYPE = "veterinary_care";
 
-    private static final String RESULTS_ATR_NAME = "results";
     private LatLng mYourPosition;
     private ProgressBar mProgressBar;
 
@@ -88,46 +90,35 @@ public class MapsActivity extends AppCompatActivity
     Response.Listener<JSONObject> mOnSuccessHandler = new Response.Listener<JSONObject>() {
         @Override
         public void onResponse(JSONObject response) {
-            try {
+            Gson gson = new GsonBuilder().create();
+            PlacesResponse placesResponse =
+                    gson.fromJson(response.toString(), PlacesResponse.class);
 
-                JSONArray points = response.getJSONArray(RESULTS_ATR_NAME);
-
-                if (points != null && points.length() > 0) {
-                    for (int i = 0; i < points.length(); i++) {
-                        final JSONObject object = (JSONObject) points.get(i);
-                        JSONObject geometry = (JSONObject) object.get("geometry");
-                        JSONObject location = (JSONObject) geometry.get("location");
-                        double lat = location.getDouble("lat");
-                        double lng = location.getDouble("lng");
-                        boolean open = false;
-                        if (object.has("opening_hours")) {
-                            JSONObject openingHours = (JSONObject) object.get("opening_hours");
-                            open = openingHours.getBoolean("open_now");
-                        }
-                        String strOpen = open ? "open" : "closed";
-
-                        LatLng position = new LatLng(lat, lng);
-                        final MarkerOptions markerOptions =
-                                new MarkerOptions()
-                                        .position(position)
-                                        .title(object.getString("name"))
-                                        .snippet(strOpen);
-                        JSONArray types = object.getJSONArray("types");
-                        int resource = R.drawable.ic_pet_shop;
-                        for (int j = 0; j < types.length(); j++) {
-                            String type = (String) types.get(j);
-                            if ("veterinary_care".equals(type)) {
-                                resource = R.drawable.ic_veterinarian;
-                                break;
-                            }
-                        }
-                        markerOptions.icon(BitmapDescriptorFactory.fromResource(resource));
-                        mMap.addMarker(markerOptions);
-
+            if (placesResponse != null && placesResponse.getPlaces() != null) {
+                for (Place place : placesResponse.getPlaces()) {
+                    String strOpen = "";
+                    if (place.getOpeningHours() != null) {
+                        boolean isOpen = place.getOpeningHours().isOpenNow();
+                        strOpen = isOpen ? "open now" : "closed now";
                     }
+
+                    LatLng position = new LatLng(
+                            place.getGeometry().getLocation().getLat(),
+                            place.getGeometry().getLocation().getLng());
+
+                    final MarkerOptions markerOptions =
+                            new MarkerOptions()
+                                    .position(position)
+                                    .title(place.getName())
+                                    .snippet(strOpen);
+                    int resource = R.drawable.ic_pet_shop;
+
+                    if (place.getTypes().contains(VETERINARIAN_TYPE)) {
+                        resource = R.drawable.ic_veterinarian;
+                    }
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(resource));
+                    mMap.addMarker(markerOptions);
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
             mProgressBar.setVisibility(View.GONE);
         }
@@ -152,7 +143,7 @@ public class MapsActivity extends AppCompatActivity
         mMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null){
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
@@ -170,7 +161,7 @@ public class MapsActivity extends AppCompatActivity
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        if (mMap == null){
+        if (mMap == null) {
             mMap = googleMap;
         }
 
@@ -262,7 +253,7 @@ public class MapsActivity extends AppCompatActivity
         isAskingForPermission = false;
         boolean permissionRequiredGranted = false;
         Activity activity = this;
-        if (requestCode == PermissionsHelper.MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION){
+        if (requestCode == PermissionsHelper.MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION) {
             if (grantResults.length > 0 &&
                     PackageManager.PERMISSION_GRANTED == grantResults[0]) {
                 Log.v(LOG_TAG, "Location permission granted!!");

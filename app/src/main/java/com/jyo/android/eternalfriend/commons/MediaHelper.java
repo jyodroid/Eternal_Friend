@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -110,5 +111,16 @@ public class MediaHelper {
         matrix.setRotate(degree);
 
         return Bitmap.createBitmap(image, 0, 0, width, height, matrix, true);
+    }
+
+    /**
+     * Transform a {@link Bitmap} into an {@link Byte} array
+     * @param photo
+     * @return
+     */
+    public static byte[] bitmapToArray(Bitmap photo) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        photo.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        return stream.toByteArray();
     }
 }

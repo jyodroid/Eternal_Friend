@@ -32,7 +32,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jyo.android.eternalfriend.Map.MapsActivity;
+import com.jyo.android.eternalfriend.map.MapsActivity;
 import com.jyo.android.eternalfriend.R;
 import com.jyo.android.eternalfriend.commons.MediaHelper;
 import com.jyo.android.eternalfriend.commons.PermissionsHelper;

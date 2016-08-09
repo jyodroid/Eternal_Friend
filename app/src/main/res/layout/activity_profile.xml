@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/profile_view_container"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,27 +14,29 @@
         android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/profile_pet_picture"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_image_black_48dp" />
 
         <TextView
+            android:id="@+id/profile_pet_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Kevin"
             android:textSize="24sp" />
 
         <TextView
+            android:id="@+id/profile_pet_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2 years"
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/profile_pet_breed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Snauser"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -55,7 +58,8 @@
                 android:layout_gravity="start"
                 android:layout_marginStart="@dimen/button_normal_size"
                 android:orientation="vertical">
-                <ImageView
+                <ImageButton
+                    android:id="@+id/gallery_button"
                     android:layout_width="@dimen/button_normal_size"
                     android:layout_height="@dimen/button_normal_size"
                     android:padding="@dimen/button_image_padding"
@@ -76,7 +80,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:orientation="vertical">
-                <ImageView
+                <ImageButton
+                    android:id="@+id/clinical_history_button"
                     android:layout_width="@dimen/button_normal_size"
                     android:layout_height="@dimen/button_normal_size"
                     android:background="@drawable/circular_button_green"
@@ -99,7 +104,8 @@
                 android:layout_marginEnd="@dimen/button_normal_size"
                 android:layout_gravity="end"
                 android:orientation="vertical">
-                <ImageView
+                <ImageButton
+                    android:id="@+id/vaccination_plan_button"
                     android:layout_width="@dimen/button_normal_size"
                     android:layout_height="@dimen/button_normal_size"
                     android:padding="@dimen/button_image_padding"

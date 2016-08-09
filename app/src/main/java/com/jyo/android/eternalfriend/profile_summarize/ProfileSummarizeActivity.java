@@ -1,13 +1,14 @@
 package com.jyo.android.eternalfriend.profile_summarize;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.jyo.android.eternalfriend.Map.MapsActivity;
+import com.jyo.android.eternalfriend.map.MapsActivity;
 import com.jyo.android.eternalfriend.R;
 import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
 
@@ -43,10 +44,12 @@ public class ProfileSummarizeActivity extends AppCompatActivity {
         Profile profile = new Profile();
         profile.setBreed("Schnauzer");
         profile.setName("Kevin");
+        profile.setPicture(BitmapFactory.decodeResource(getResources(), R.drawable.ic_veterinarian));
 
         Profile profile2 = new Profile();
         profile2.setBreed("Puddle");
         profile2.setName("Pako");
+        profile2.setPicture(BitmapFactory.decodeResource(getResources(), R.drawable.ic_pet_shop));
 
         List<Profile> profiles = new ArrayList<>();
         profiles.add(profile);
