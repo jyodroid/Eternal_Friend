@@ -2,6 +2,8 @@ package com.jyo.android.eternalfriend.profile_summarize;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,9 +15,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jyo.android.eternalfriend.R;
 import com.jyo.android.eternalfriend.commons.MediaHelper;
+import com.jyo.android.eternalfriend.data.EFContract;
 import com.jyo.android.eternalfriend.profile.ProfileActivity;
 import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,14 +31,14 @@ import butterknife.OnClick;
 /**
  * Created by johntangarife on 8/5/16.
  */
-public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHolder> {
+public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHolder>{
 
     private static final String LOG_TAG = ProfileAdapter.class.getSimpleName();
     private List<Profile> mProfiles;
     private Context mContext;
 
-    public ProfileAdapter(List<Profile> profiles, Context context) {
-        mProfiles = profiles;
+    public ProfileAdapter(Context context) {
+        mProfiles = new ArrayList<>();
         mContext = context;
     }
 
@@ -112,4 +118,42 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
             mProfile = profile;
         }
     }
+
+    public void changeCursor(Cursor cursor){
+
+        final int profileIdIndx = cursor.getColumnIndex(EFContract.ProfileEntry.COLUMN_PROFILE_ID);
+        final int profileNameIndx = cursor.getColumnIndex(EFContract.ProfileEntry.COLUMN_PROFILE_NAME);
+        final int profileBirthDateIndx = cursor.getColumnIndex(EFContract.ProfileEntry.COLUMN_PROFILE_BIRTH_DATE);
+        final int profileImageIndx = cursor.getColumnIndex(EFContract.ProfileEntry.COLUMN_PROFILE_IMAGE);
+        final int profileBreedIndx = cursor.getColumnIndex(EFContract.ProfileEntry.COLUMN_PROFILE_BREED);
+
+        try {
+            while(cursor.moveToNext()){
+
+                Profile profile = new Profile();
+
+                profile.setProfileId(cursor.getInt(profileIdIndx));
+                profile.setName(cursor.getString(profileNameIndx));
+                profile.setPicture(cursor.getBlob(profileImageIndx);
+                Date birthDate = profile.dateFormat.parse(cursor.getString(profileBirthDateIndx));
+                profile.setBirthDate(birthDate);
+                profile.setBreed(cursor.getString(profileBreedIndx));
+
+                mProfiles.add(profile);
+            }
+        } catch (ParseException pe){
+            Log.e(LOG_TAG, "Date parse exception",pe);
+        }finally {
+            if (null != cursor){
+                cursor.close();
+            }
+        }
+
+
+    }
+
+    public void changeCursor(){
+        mProfiles.clear();
+    }
+
 }

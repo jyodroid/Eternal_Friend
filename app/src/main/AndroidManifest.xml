@@ -79,8 +79,14 @@
 
         <activity
             android:name=".gallery.GalleryActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+
+        <provider
+            android:name=".data.EFContentProvider"
+            android:authorities="com.jyo.android.eternalfriend"
+            android:enabled="true"
+            android:syncable="false"
+            android:exported="true"></provider>
     </application>
 
 </manifest>

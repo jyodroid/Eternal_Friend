@@ -16,8 +16,8 @@
     <!--Add profile-->
     <string name="add_profile">Add profile</string>
     <string name="pet_name_hint">Pet Name</string>
-    <string name="pet_pet_profile_picture_label">Birth date</string>
-    <string name="pet_birth_label">Pet\'s profile picture</string>
+    <string name="pet_pet_profile_picture_label">Pet\'s profile picture</string>
+    <string name="pet_birth_label">Birth date</string>
     <string name="pet_birth_value">Select one</string>
     <string name="pet_breed_hint">Pet\'s Breed</string>
     <string name="date_format">LLLL, dd yyyy</string>

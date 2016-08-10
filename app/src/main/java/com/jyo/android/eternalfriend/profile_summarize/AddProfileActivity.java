@@ -2,6 +2,9 @@ package com.jyo.android.eternalfriend.profile_summarize;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,10 +14,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -32,10 +33,12 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jyo.android.eternalfriend.map.MapsActivity;
 import com.jyo.android.eternalfriend.R;
 import com.jyo.android.eternalfriend.commons.MediaHelper;
 import com.jyo.android.eternalfriend.commons.PermissionsHelper;
+import com.jyo.android.eternalfriend.data.EFContract;
+import com.jyo.android.eternalfriend.map.MapsActivity;
+import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,6 +47,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -104,12 +108,11 @@ public class AddProfileActivity extends AppCompatActivity
 
         mViewHolder.birdDate.setText(underLinedText);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     private void setDatePickerTextView(@NonNull Date shownDate) {
-        //Show date with format
 
+        //Show date with format
         SimpleDateFormat simpleDateFormat =
                 new SimpleDateFormat(getString(R.string.date_format));
 
@@ -124,6 +127,71 @@ public class AddProfileActivity extends AppCompatActivity
             underLinedText = Html.fromHtml(text);
         }
         mViewHolder.birdDate.setText(underLinedText);
+    }
+
+    @OnClick(R.id.add_profile_button)
+    public void addProfile(){
+
+        final String EMPTY = "";
+        boolean validImage = true;
+        boolean validName = true;
+        boolean validBirthDate = true;
+        boolean validBreed = true;
+
+        Profile profile = new Profile();
+
+        if (null != mFilePath){
+            Bitmap mImage = BitmapFactory.decodeFile(mFilePath);
+            if(null != mImage){
+                profile.setPicture(mImage);
+            }else{
+                validImage = false;
+            }
+        }else {
+            validImage = false;
+        }
+
+        if(EMPTY.equals(mViewHolder.petName.getText())){
+            mViewHolder.petName.setError("Empty pet name");
+            validName = false;
+        }else {
+            profile.setName(mViewHolder.petName.getText().toString());
+        }
+
+        if (getString(R.string.pet_birth_value).equals(mViewHolder.birdDate.getText())){
+            mViewHolder.birdDate.setError("Select a date");
+            validBirthDate = false;
+        }else{
+            SimpleDateFormat simpleDateFormat =
+                    new SimpleDateFormat(getString(R.string.date_format));
+            Date birthDate = null;
+            try {
+                birthDate = simpleDateFormat.parse(mViewHolder.birdDate.getText().toString());
+                if (null != birthDate){
+                    profile.setBirthDate(birthDate);
+                }else {
+                    validBirthDate = false;
+                }
+            } catch (ParseException e) {
+                Log.e(LOG_TAG, "Parse date exception", e);
+                return;
+            }
+        }
+
+        if(EMPTY.equals(mViewHolder.breed.getText())){
+            mViewHolder.breed.setError("Empty pet breed");
+            validBreed = false;
+        }else{
+            profile.setBreed(mViewHolder.breed.getText().toString());
+        }
+
+        if(validImage && validName && validBirthDate && validBreed){
+            saveProfile(profile);
+            //TODO SnackBar;
+        }else{
+            //TODO SnackBar;
+        }
+
     }
 
     @OnClick(R.id.birth_date_value)
@@ -185,6 +253,7 @@ public class AddProfileActivity extends AppCompatActivity
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
+                        mFilePath = null;
                         //TODO: snack bar
                     }
                 } else {
@@ -249,6 +318,10 @@ public class AddProfileActivity extends AppCompatActivity
     }
 
     static class ViewHolder {
+
+        @BindView(R.id.pet_name_value)
+        EditText petName;
+
         @BindView(R.id.birth_date_value)
         TextView birdDate;
 
@@ -321,12 +394,12 @@ public class AddProfileActivity extends AppCompatActivity
 
                     mViewHolder.petPicture.setImageBitmap(mImage);
                     break;
-
             }
 
         } catch (Exception e) {
             Toast.makeText(context, "Something went wrong", Toast.LENGTH_LONG)
                     .show();
+            mFilePath = null;
         }
     }
 
@@ -349,6 +422,7 @@ public class AddProfileActivity extends AppCompatActivity
             try {
                 mFilePath = MediaHelper.useCameraIntent(activity, PICTURE_PREFIX);
             } catch (Exception e) {
+                mFilePath = null;
                 //TODO: snack bar
             }
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -400,7 +474,6 @@ public class AddProfileActivity extends AppCompatActivity
         }
     }
 
-
     private String[] obtainBreedList(String listName) {
         if (CATS_BREED_LIST_NAME.equals(listName)) {
             if (mCatsBreedList == null) {
@@ -414,7 +487,6 @@ public class AddProfileActivity extends AppCompatActivity
             return mDogsBreedList;
         }
     }
-
 
     private String[] loadBreedsFromJSON(String jsonName, String listName) {
 
@@ -456,5 +528,23 @@ public class AddProfileActivity extends AppCompatActivity
             }
             isAskingForPermission = false;
         }
+    }
+
+    private long saveProfile(Profile profile) {
+
+        ContentResolver resolver = getContentResolver();
+
+        ContentValues profileValues = new ContentValues();
+
+        profileValues.put(EFContract.ProfileEntry.COLUMN_PROFILE_NAME, profile.getName());
+        profileValues.put(EFContract.ProfileEntry.COLUMN_PROFILE_BIRTH_DATE, profile.getBirthDate());
+        profileValues.put(EFContract.ProfileEntry.COLUMN_PROFILE_BREED, profile.getBreed());
+        profileValues.put(EFContract.ProfileEntry.COLUMN_PROFILE_IMAGE,
+                MediaHelper.bitmapToArray(profile.getPicture()));
+
+        Uri insertedUri =
+                resolver.insert(EFContract.ProfileEntry.CONTENT_URI, profileValues);
+
+        return ContentUris.parseId(insertedUri);
     }
 }

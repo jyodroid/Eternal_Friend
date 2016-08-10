@@ -4,25 +4,30 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by johntangarife on 8/5/16.
  */
 public class Profile implements Parcelable{
-    private String name;
-    private Date birthDate;
-    private String breed;
-    private int age;
 
+    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+    private int profileId;
+    private String name;
+    private String birthDate;
+    private String breed;
     private Bitmap picture;
 
     public Profile(){}
     protected Profile(Parcel in) {
+        profileId = in.readInt();
         name = in.readString();
+        birthDate = in.readString();
         breed = in.readString();
-        age = in.readInt();
         picture = in.readParcelable(Bitmap.class.getClassLoader());
     }
 
@@ -45,10 +50,19 @@ public class Profile implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(profileId);
         parcel.writeString(name);
+        parcel.writeString(birthDate);
         parcel.writeString(breed);
-        parcel.writeInt(age);
         parcel.writeParcelable(picture, i);
+    }
+
+    public int getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(int profileId) {
+        this.profileId = profileId;
     }
 
     public String getName() {
@@ -60,7 +74,11 @@ public class Profile implements Parcelable{
     }
 
     public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
+        this.birthDate = dateFormat.format(birthDate);
+    }
+
+    public String getBirthDate(){
+        return birthDate;
     }
 
     public String getBreed() {
@@ -79,42 +97,51 @@ public class Profile implements Parcelable{
         this.picture = picture;
     }
 
-
     public String getAge() throws Exception {
 
-//        if (birthDate == null) {
-//            throw new Exception("No birth date set");
-//        }
-//
-//        Date today = new Date(System.currentTimeMillis());
-//        if (today.after(birthDate)) {
-//            throw new Exception("Wrong birth date set");
-//        }
-//
-//        Calendar birthDateCal = Calendar.getInstance();
-//        birthDateCal.setTime(birthDate);
-//        Calendar todayCal = Calendar.getInstance();
-//        todayCal.setTime(today);
-//
-//        //Check if years are equal
-//        if (birthDateCal.get(Calendar.YEAR) == todayCal.get(Calendar.YEAR)) {
-//            //Check if months are equal
-//            if (birthDateCal.get(Calendar.MONTH) == todayCal.get(Calendar.MONTH)) {
-//                int days = todayCal.get(Calendar.DAY_OF_MONTH) - birthDateCal.get(Calendar.DAY_OF_MONTH);
-//                return days + " days";
-//            } else {
-//                int months = todayCal.get(Calendar.MONTH) - birthDateCal.get(Calendar.MONTH);
-//                return months + " months";
-//            }
-//        } else {
-//            if (birthDateCal.get(Calendar.MONTH) > todayCal.get(Calendar.MONTH)) {
-//                //Months from moth to december plus months from december to today month.
-//                return "";
-//            } else {
-//                int years = todayCal.get(Calendar.YEAR) - birthDateCal.get(Calendar.YEAR);
-//                return years + " years";
-//            }
-//        }
-        return "2 years";
+        if (birthDate == null) {
+            throw new Exception("No birth date set");
+        }
+
+        Date today = new Date(System.currentTimeMillis());
+        Date dBirthDate = dateFormat.parse(birthDate);
+
+        if (today.after(dBirthDate)) {
+            throw new Exception("Wrong birth date set");
+        }
+
+        Calendar birthDateCal = Calendar.getInstance();
+        birthDateCal.setTime(dBirthDate);
+        Calendar todayCal = Calendar.getInstance();
+        todayCal.setTime(today);
+
+        //Check if years are equal
+        if (birthDateCal.get(Calendar.YEAR) == todayCal.get(Calendar.YEAR)) {
+            //Check if months are equal
+            if (birthDateCal.get(Calendar.MONTH) == todayCal.get(Calendar.MONTH)) {
+                int days = todayCal.get(Calendar.DAY_OF_MONTH) - birthDateCal.get(Calendar.DAY_OF_MONTH);
+                return days + " days";
+            } else {
+                int months = todayCal.get(Calendar.MONTH) - birthDateCal.get(Calendar.MONTH);
+                return months + " months";
+            }
+        } else {
+            if (birthDateCal.get(Calendar.MONTH) > todayCal.get(Calendar.MONTH) &&
+                    todayCal.get(Calendar.MONTH) - birthDateCal.get(Calendar.YEAR) == 1) {
+
+                //Months from birth month to december
+                int secondHalf = Calendar.DECEMBER - birthDateCal.get(Calendar.MONTH);
+
+                //Months from moth to december plus months from december to today month.
+                return secondHalf + todayCal.get(Calendar.MONTH) + " months";
+            } else if(todayCal.get(Calendar.MONTH) >= birthDateCal.get(Calendar.YEAR)){
+                //Just count years
+                int years = todayCal.get(Calendar.YEAR) - birthDateCal.get(Calendar.YEAR);
+                return years + " years";
+            }else {
+                int years = todayCal.get(Calendar.YEAR) - birthDateCal.get(Calendar.YEAR) - 1;
+                return years + " years";
+            }
+        }
     }
 }
