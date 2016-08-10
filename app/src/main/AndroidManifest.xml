@@ -85,7 +85,7 @@
             android:name=".data.EFContentProvider"
             android:authorities="com.jyo.android.eternalfriend"
             android:enabled="true"
-            android:syncable="false"
+            android:syncable="true"
             android:exported="true"></provider>
     </application>
 

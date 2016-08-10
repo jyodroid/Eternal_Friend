@@ -59,6 +59,11 @@ public class EFDBHelper extends SQLiteOpenHelper{
                 "FOREIGN KEY(" + VacccinationPlanEntry.COLUMN_PROFILE_ID + ") REFERENCES " +
                 ProfileEntry.TABLE_NAME + "(" + ProfileEntry.COLUMN_PROFILE_ID + ") ON DELETE CASCADE" +
                 " );";
+
+        sqLiteDatabase.execSQL(SQL_CREATE_PROFILE_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_CLINICAL_HISTORY_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_GALLERY_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_VACCINATION_PLAN_TABLE);
     }
 
     @Override

@@ -169,7 +169,7 @@ public class EFContentProvider extends ContentProvider {
             case PROFILE:
             {
                 retCursor = mEFHelper.getReadableDatabase().query(
-                        ProfileEntry.TABLE_NAME,
+                        PROFILE_TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
