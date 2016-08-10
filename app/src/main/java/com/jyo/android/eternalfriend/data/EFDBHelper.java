@@ -10,7 +10,7 @@ import com.jyo.android.eternalfriend.data.EFContract.*;
  */
 public class EFDBHelper extends SQLiteOpenHelper{
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     static final String DATABASE_NAME = "eternal_friend.db";
 
     public EFDBHelper(Context context) {
@@ -23,7 +23,7 @@ public class EFDBHelper extends SQLiteOpenHelper{
         // Create a table to hold profiles.
         final String SQL_CREATE_PROFILE_TABLE = "CREATE TABLE " + ProfileEntry.TABLE_NAME + " (" +
                 ProfileEntry.COLUMN_PROFILE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                ProfileEntry.COLUMN_PROFILE_IMAGE + " BLOB NOT NULL, " +
+                ProfileEntry.COLUMN_PROFILE_IMAGE + " TEXT NOT NULL, " +
                 ProfileEntry.COLUMN_PROFILE_NAME + " TEXT NOT NULL, " +
                 ProfileEntry.COLUMN_PROFILE_BIRTH_DATE + " TEXT NOT NULL, " +
                 ProfileEntry.COLUMN_PROFILE_BREED + " TEXT NOT NULL " +
@@ -33,7 +33,7 @@ public class EFDBHelper extends SQLiteOpenHelper{
         final String SQL_CREATE_GALLERY_TABLE = "CREATE TABLE " + GalleryEntry.TABLE_NAME + " (" +
                 GalleryEntry.COLUMN_GALLERY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 GalleryEntry.COLUMN_PROFILE_ID + " INTEGER NOT NULL, " +
-                GalleryEntry.COLUMN_GALLERY_IMAGE + " BLOB NOT NUL, " +
+                GalleryEntry.COLUMN_GALLERY_IMAGE + " TEXT NOT NULL, " +
                 "FOREIGN KEY(" + GalleryEntry.COLUMN_PROFILE_ID + ") REFERENCES " +
                 ProfileEntry.TABLE_NAME + "(" + ProfileEntry.COLUMN_PROFILE_ID + ") ON DELETE CASCADE" +
                 " );";
@@ -42,9 +42,9 @@ public class EFDBHelper extends SQLiteOpenHelper{
         final String SQL_CREATE_CLINICAL_HISTORY_TABLE = "CREATE TABLE " + ClinicalHistoryEntry.TABLE_NAME + " (" +
                 ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 ClinicalHistoryEntry.COLUMN_PROFILE_ID + " INTEGER NOT NULL, " +
-                ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_DATE + " TEXT NOT NUL, " +
-                ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_HOSPITAL + " TEXT NOT NUL, " +
-                ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_PROGNOSTIC + " TEXT NOT NUL, " +
+                ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_DATE + " TEXT NOT NULL, " +
+                ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_HOSPITAL + " TEXT NOT NULL, " +
+                ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_PROGNOSTIC + " TEXT NOT NULL, " +
                 "FOREIGN KEY(" + ClinicalHistoryEntry.COLUMN_PROFILE_ID + ") REFERENCES " +
                 ProfileEntry.TABLE_NAME + "(" + ProfileEntry.COLUMN_PROFILE_ID + ") ON DELETE CASCADE" +
                 " );";
@@ -53,9 +53,9 @@ public class EFDBHelper extends SQLiteOpenHelper{
         final String SQL_CREATE_VACCINATION_PLAN_TABLE = "CREATE TABLE " + VacccinationPlanEntry.TABLE_NAME + " (" +
                 VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 VacccinationPlanEntry.COLUMN_PROFILE_ID + " INTEGER NOT NULL, " +
-                VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_DATE + " TEXT NOT NUL, " +
-                VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_NAME + " TEXT NOT NUL, " +
-                VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_STATUS + " INTEGER NOT NUL, " +
+                VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_DATE + " TEXT NOT NULL, " +
+                VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_NAME + " TEXT NOT NULL, " +
+                VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_STATUS + " INTEGER NOT NULL, " +
                 "FOREIGN KEY(" + VacccinationPlanEntry.COLUMN_PROFILE_ID + ") REFERENCES " +
                 ProfileEntry.TABLE_NAME + "(" + ProfileEntry.COLUMN_PROFILE_ID + ") ON DELETE CASCADE" +
                 " );";

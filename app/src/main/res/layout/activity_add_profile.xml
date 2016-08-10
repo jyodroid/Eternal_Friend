@@ -29,8 +29,9 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:layout_gravity="center_horizontal"
-            android:text="@string/pet_birth_label"
+            android:text="@string/pet_pet_profile_picture_label"
             android:textSize="@dimen/profile_normal_text"
+            android:clickable="true"
             android:textStyle="bold" />
 
         <android.support.design.widget.TextInputLayout

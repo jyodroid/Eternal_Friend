@@ -1,6 +1,5 @@
 package com.jyo.android.eternalfriend.profile_summarize.model;
 
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -20,7 +19,7 @@ public class Profile implements Parcelable{
     private String name;
     private String birthDate;
     private String breed;
-    private Bitmap picture;
+    private String picturePath;
 
     public Profile(){}
     protected Profile(Parcel in) {
@@ -28,7 +27,7 @@ public class Profile implements Parcelable{
         name = in.readString();
         birthDate = in.readString();
         breed = in.readString();
-        picture = in.readParcelable(Bitmap.class.getClassLoader());
+        picturePath = in.readString();
     }
 
     public static final Creator<Profile> CREATOR = new Creator<Profile>() {
@@ -54,7 +53,7 @@ public class Profile implements Parcelable{
         parcel.writeString(name);
         parcel.writeString(birthDate);
         parcel.writeString(breed);
-        parcel.writeParcelable(picture, i);
+        parcel.writeString(picturePath);
     }
 
     public int getProfileId() {
@@ -89,12 +88,12 @@ public class Profile implements Parcelable{
         this.breed = breed;
     }
 
-    public Bitmap getPicture() {
-        return picture;
+    public String getPicture() {
+        return picturePath;
     }
 
-    public void setPicture(Bitmap picture) {
-        this.picture = picture;
+    public void setPicture(String picturePath) {
+        this.picturePath = picturePath;
     }
 
     public String getAge() throws Exception {
@@ -106,7 +105,7 @@ public class Profile implements Parcelable{
         Date today = new Date(System.currentTimeMillis());
         Date dBirthDate = dateFormat.parse(birthDate);
 
-        if (today.after(dBirthDate)) {
+        if (today.before(dBirthDate)) {
             throw new Exception("Wrong birth date set");
         }
 

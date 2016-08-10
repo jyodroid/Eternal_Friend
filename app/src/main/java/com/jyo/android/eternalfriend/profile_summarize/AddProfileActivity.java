@@ -9,11 +9,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
@@ -130,7 +132,7 @@ public class AddProfileActivity extends AppCompatActivity
     }
 
     @OnClick(R.id.add_profile_button)
-    public void addProfile(){
+    public void addProfile() {
 
         final String EMPTY = "";
         boolean validImage = true;
@@ -140,36 +142,32 @@ public class AddProfileActivity extends AppCompatActivity
 
         Profile profile = new Profile();
 
-        if (null != mFilePath){
-            Bitmap mImage = BitmapFactory.decodeFile(mFilePath);
-            if(null != mImage){
-                profile.setPicture(mImage);
-            }else{
-                validImage = false;
-            }
-        }else {
+        if (null != mFilePath) {
+            profile.setPicture(mFilePath);
+        } else {
+            mViewHolder.petPictureLabel.setError("No picture selected");
             validImage = false;
         }
 
-        if(EMPTY.equals(mViewHolder.petName.getText())){
+        if (EMPTY.equals(mViewHolder.petName.getText().toString())) {
             mViewHolder.petName.setError("Empty pet name");
             validName = false;
-        }else {
+        } else {
             profile.setName(mViewHolder.petName.getText().toString());
         }
 
-        if (getString(R.string.pet_birth_value).equals(mViewHolder.birdDate.getText())){
+        if (getString(R.string.pet_birth_value).equals(mViewHolder.birdDate.getText().toString())) {
             mViewHolder.birdDate.setError("Select a date");
             validBirthDate = false;
-        }else{
+        } else {
             SimpleDateFormat simpleDateFormat =
                     new SimpleDateFormat(getString(R.string.date_format));
-            Date birthDate = null;
+            Date birthDate;
             try {
                 birthDate = simpleDateFormat.parse(mViewHolder.birdDate.getText().toString());
-                if (null != birthDate){
+                if (null != birthDate) {
                     profile.setBirthDate(birthDate);
-                }else {
+                } else {
                     validBirthDate = false;
                 }
             } catch (ParseException e) {
@@ -178,17 +176,17 @@ public class AddProfileActivity extends AppCompatActivity
             }
         }
 
-        if(EMPTY.equals(mViewHolder.breed.getText())){
+        if (EMPTY.equals(mViewHolder.breed.getText().toString())) {
             mViewHolder.breed.setError("Empty pet breed");
             validBreed = false;
-        }else{
+        } else {
             profile.setBreed(mViewHolder.breed.getText().toString());
         }
 
-        if(validImage && validName && validBirthDate && validBreed){
+        if (validImage && validName && validBirthDate && validBreed) {
             saveProfile(profile);
             //TODO SnackBar;
-        }else{
+        } else {
             //TODO SnackBar;
         }
 
@@ -207,6 +205,7 @@ public class AddProfileActivity extends AppCompatActivity
             int day = currentDateCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
             mDatePickerDialog
                     = new DatePickerDialog(this, this, year, month, day);
+            mDatePickerDialog.getDatePicker().setMaxDate(currentDateCalendar.getTime().getTime());
         }
         mDatePickerDialog.show();
     }
@@ -334,6 +333,9 @@ public class AddProfileActivity extends AppCompatActivity
         @BindView(R.id.profile_pet_picture_set)
         ImageView petPicture;
 
+        @BindView(R.id.profile_pet_picture_label)
+        TextView petPictureLabel;
+
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
@@ -383,14 +385,26 @@ public class AddProfileActivity extends AppCompatActivity
                     MediaHelper.galleryAddPic(mFilePath, this);
                     break;
                 case MediaHelper.REQUEST_OBTAIN_FROM_GALLERY:
+
+                    // Get the Image from data
+
                     Uri selectedImage = data.getData();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                    // Get the cursor
+                    Cursor cursor = context.getContentResolver().query(selectedImage,
+                            filePathColumn, null, null, null);
+
+                    // Move to first row
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    mFilePath = cursor.getString(columnIndex);
+
+                    cursor.close();
 
                     Bitmap mImage = BitmapFactory.decodeFile(mFilePath);
                     File pictureFile = new File(mFilePath);
-                    //Adjust the portrait view
-                    if (mImage.getWidth() > mImage.getHeight() && pictureFile != null) {
-                        mImage = MediaHelper.portraitRotation(mImage, pictureFile);
-                    }
 
                     mViewHolder.petPicture.setImageBitmap(mImage);
                     break;
@@ -399,6 +413,7 @@ public class AddProfileActivity extends AppCompatActivity
         } catch (Exception e) {
             Toast.makeText(context, "Something went wrong", Toast.LENGTH_LONG)
                     .show();
+            Log.e(LOG_TAG, "Exception loading image", e);
             mFilePath = null;
         }
     }
@@ -539,8 +554,7 @@ public class AddProfileActivity extends AppCompatActivity
         profileValues.put(EFContract.ProfileEntry.COLUMN_PROFILE_NAME, profile.getName());
         profileValues.put(EFContract.ProfileEntry.COLUMN_PROFILE_BIRTH_DATE, profile.getBirthDate());
         profileValues.put(EFContract.ProfileEntry.COLUMN_PROFILE_BREED, profile.getBreed());
-        profileValues.put(EFContract.ProfileEntry.COLUMN_PROFILE_IMAGE,
-                MediaHelper.bitmapToArray(profile.getPicture()));
+        profileValues.put(EFContract.ProfileEntry.COLUMN_PROFILE_IMAGE, profile.getPicture());
 
         Uri insertedUri =
                 resolver.insert(EFContract.ProfileEntry.CONTENT_URI, profileValues);

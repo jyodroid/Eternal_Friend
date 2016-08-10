@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jyo.android.eternalfriend.R;
-import com.jyo.android.eternalfriend.commons.MediaHelper;
 import com.jyo.android.eternalfriend.gallery.GalleryActivity;
 import com.jyo.android.eternalfriend.map.MapsActivity;
 import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
@@ -21,7 +20,7 @@ import butterknife.OnClick;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    public static final String PROFILE_EXTRA= "profile_extra";
+    public static final String PROFILE_EXTRA = "profile_extra";
     private static final String LOG_TAG = ProfileActivity.class.getSimpleName();
 
     @Override
@@ -37,15 +36,11 @@ public class ProfileActivity extends AppCompatActivity {
         Intent incoming = getIntent();
         Profile profile = incoming.getParcelableExtra(PROFILE_EXTRA);
 
-        if (profile.getPicture() != null){
-            byte[] image = MediaHelper.bitmapToArray(profile.getPicture());
-
-            Glide
-                    .with(this)
-                    .load(image)
-                    .error(R.drawable.ic_image_black_48dp)
-                    .into(viewHolder.profilePicture);
-        }
+        Glide
+                .with(this)
+                .load(profile.getPicture())
+                .error(R.drawable.ic_image_black_48dp)
+                .into(viewHolder.profilePicture);
 
         viewHolder.name.setText(profile.getName());
         try {
@@ -57,23 +52,23 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.gallery_button)
-    public void goToGallery(){
+    public void goToGallery() {
         Intent intent = new Intent(this, GalleryActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.clinical_history_button)
-    public void goToClinicalHistory(){
+    public void goToClinicalHistory() {
 
     }
 
     @OnClick(R.id.vaccination_plan_button)
-    public void goToVaccinationPlan(){
+    public void goToVaccinationPlan() {
 
     }
 
     @OnClick(R.id.search_fab)
-    public void goToMap(){
+    public void goToMap() {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
@@ -94,7 +89,7 @@ public class ProfileActivity extends AppCompatActivity {
         TextView breed;
 
         public ViewHolder(View view) {
-            ButterKnife.bind(this,view);
+            ButterKnife.bind(this, view);
         }
     }
 }

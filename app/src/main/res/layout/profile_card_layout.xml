@@ -25,8 +25,8 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:gravity="start"
+            android:layout_weight="3"
+            android:gravity="end"
             android:layout_gravity="end|center_vertical"
             android:orientation="vertical">
 
@@ -51,13 +51,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Breed"
+                android:maxLines="1"
                 android:textSize="@dimen/profile_normal_text" />
 
         </LinearLayout>
 
         <ImageButton
             android:id="@+id/delete_profile_image"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/cardColor"

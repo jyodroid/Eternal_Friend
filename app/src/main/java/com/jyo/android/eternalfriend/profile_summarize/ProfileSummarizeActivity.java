@@ -3,6 +3,7 @@ package com.jyo.android.eternalfriend.profile_summarize;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -14,6 +15,10 @@ import android.view.View;
 import com.jyo.android.eternalfriend.R;
 import com.jyo.android.eternalfriend.data.EFContract;
 import com.jyo.android.eternalfriend.map.MapsActivity;
+import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +55,16 @@ public class ProfileSummarizeActivity extends AppCompatActivity implements
         viewHolder.recyclerView.setLayoutManager(layoutManager);
 
         mProfileAdapter = new ProfileAdapter(this);
+        if (savedInstanceState != null && savedInstanceState.get("KEY") != null) {
+            mProfileAdapter.setProfiles((List<Profile>) savedInstanceState.get("KEY"));
+        }
         viewHolder.recyclerView.setAdapter(mProfileAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        getSupportLoaderManager().initLoader(PROFILE_LOADER, null, this);
+        super.onResume();
     }
 
     @OnClick(R.id.search_fab)
@@ -99,6 +113,7 @@ public class ProfileSummarizeActivity extends AppCompatActivity implements
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+
         mProfileAdapter.changeCursor();
     }
 
@@ -109,5 +124,13 @@ public class ProfileSummarizeActivity extends AppCompatActivity implements
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(
+                "KEY",
+                (ArrayList<? extends Parcelable>) mProfileAdapter.getProfiles());
     }
 }

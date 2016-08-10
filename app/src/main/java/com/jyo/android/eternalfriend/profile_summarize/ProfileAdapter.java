@@ -3,8 +3,6 @@ package com.jyo.android.eternalfriend.profile_summarize;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +13,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jyo.android.eternalfriend.R;
-import com.jyo.android.eternalfriend.commons.MediaHelper;
 import com.jyo.android.eternalfriend.data.EFContract;
 import com.jyo.android.eternalfriend.profile.ProfileActivity;
 import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
@@ -32,7 +29,7 @@ import butterknife.OnClick;
 /**
  * Created by johntangarife on 8/5/16.
  */
-public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHolder>{
+public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHolder> {
 
     private static final String LOG_TAG = ProfileAdapter.class.getSimpleName();
     private List<Profile> mProfiles;
@@ -61,15 +58,11 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         Profile profile = mProfiles.get(position);
         holder.setProfile(profile);
 
-        if (profile.getPicture() != null){
-            byte[] image = MediaHelper.bitmapToArray(profile.getPicture());
-
-            Glide
-                    .with(mContext)
-                    .load(image)
-                    .error(R.drawable.ic_image_black_48dp)
-                    .into(holder.petPicture);
-        }
+        Glide
+                .with(mContext)
+                .load(profile.getPicture())
+                .error(R.drawable.ic_image_black_48dp)
+                .into(holder.petPicture);
 
         try {
             holder.petAge.setText(profile.getAge());
@@ -109,18 +102,18 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         }
 
         @OnClick(R.id.profile_card)
-        public void goToProfile(){
+        public void goToProfile() {
             Intent intent = new Intent(mContext, ProfileActivity.class);
             intent.putExtra(ProfileActivity.PROFILE_EXTRA, mProfile);
             mContext.startActivity(intent);
         }
 
-        public void setProfile(Profile profile){
+        public void setProfile(Profile profile) {
             mProfile = profile;
         }
     }
 
-    public void changeCursor(Cursor cursor){
+    public void changeCursor(Cursor cursor) {
 
         final int profileIdIndx = cursor.getColumnIndex(EFContract.ProfileEntry.COLUMN_PROFILE_ID);
         final int profileNameIndx = cursor.getColumnIndex(EFContract.ProfileEntry.COLUMN_PROFILE_NAME);
@@ -129,32 +122,38 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         final int profileBreedIndx = cursor.getColumnIndex(EFContract.ProfileEntry.COLUMN_PROFILE_BREED);
 
         try {
-            while(cursor.moveToNext()){
+            while (cursor.moveToNext()) {
 
                 Profile profile = new Profile();
 
                 profile.setProfileId(cursor.getInt(profileIdIndx));
                 profile.setName(cursor.getString(profileNameIndx));
-                byte[] pictureArray = cursor.getBlob(profileImageIndx);
-                Bitmap profilePicture = BitmapFactory.decodeByteArray(pictureArray, 0, pictureArray.length);
-                profile.setPicture(profilePicture);
+                profile.setPicture(cursor.getString(profileImageIndx));
                 Date birthDate = profile.dateFormat.parse(cursor.getString(profileBirthDateIndx));
                 profile.setBirthDate(birthDate);
                 profile.setBreed(cursor.getString(profileBreedIndx));
 
                 mProfiles.add(profile);
             }
-        } catch (ParseException pe){
-            Log.e(LOG_TAG, "Date parse exception",pe);
-        }finally {
-            if (null != cursor){
+        } catch (ParseException pe) {
+            Log.e(LOG_TAG, "Date parse exception", pe);
+        } finally {
+            if (null != cursor) {
                 cursor.close();
             }
         }
     }
 
-    public void changeCursor(){
+    public void changeCursor() {
         mProfiles.clear();
+    }
+
+    public List<Profile> getProfiles(){
+        return mProfiles;
+    }
+
+    public void setProfiles(List<Profile> profiles){
+        mProfiles = profiles;
     }
 
 }
