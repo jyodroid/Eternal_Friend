@@ -27,6 +27,8 @@ import butterknife.OnClick;
 public class ProfileSummarizeActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final String PROFILES_KEY = "profiles_key";
+
     // Identifies a particular Loader being used in this component
     private static final int PROFILE_LOADER = 0;
     private ProfileAdapter mProfileAdapter;
@@ -36,12 +38,6 @@ public class ProfileSummarizeActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_summarize);
         ButterKnife.bind(this);
-
-        /*
-         * Initializes the CursorLoader. The URL_LOADER value is eventually passed
-         * to onCreateLoader().
-         */
-        getSupportLoaderManager().initLoader(PROFILE_LOADER, null, this);
 
         View rootView = findViewById(R.id.profile_container);
 
@@ -55,15 +51,20 @@ public class ProfileSummarizeActivity extends AppCompatActivity implements
         viewHolder.recyclerView.setLayoutManager(layoutManager);
 
         mProfileAdapter = new ProfileAdapter(this);
-        if (savedInstanceState != null && savedInstanceState.get("KEY") != null) {
-            mProfileAdapter.setProfiles((List<Profile>) savedInstanceState.get("KEY"));
+        if (savedInstanceState != null && savedInstanceState.get(PROFILES_KEY) != null) {
+            mProfileAdapter.setProfiles((List<Profile>) savedInstanceState.get(PROFILES_KEY));
+        } else {
+            /*
+         * Initializes the CursorLoader. The URL_LOADER value is eventually passed
+         * to onCreateLoader().
+         */
+            getSupportLoaderManager().initLoader(PROFILE_LOADER, null, this);
         }
         viewHolder.recyclerView.setAdapter(mProfileAdapter);
     }
 
     @Override
     protected void onResume() {
-        getSupportLoaderManager().initLoader(PROFILE_LOADER, null, this);
         super.onResume();
     }
 
@@ -113,8 +114,7 @@ public class ProfileSummarizeActivity extends AppCompatActivity implements
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
-        mProfileAdapter.changeCursor();
+        mProfileAdapter.swapCursor(null);
     }
 
     static class ViewHolder {
@@ -130,7 +130,7 @@ public class ProfileSummarizeActivity extends AppCompatActivity implements
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(
-                "KEY",
+                PROFILES_KEY,
                 (ArrayList<? extends Parcelable>) mProfileAdapter.getProfiles());
     }
 }

@@ -34,6 +34,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
     private static final String LOG_TAG = ProfileAdapter.class.getSimpleName();
     private List<Profile> mProfiles;
     private Context mContext;
+    private Cursor mCursor;
+
 
     public ProfileAdapter(Context context) {
         mProfiles = new ArrayList<>();
@@ -121,6 +123,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         final int profileImageIndx = cursor.getColumnIndex(EFContract.ProfileEntry.COLUMN_PROFILE_IMAGE);
         final int profileBreedIndx = cursor.getColumnIndex(EFContract.ProfileEntry.COLUMN_PROFILE_BREED);
 
+        mCursor = cursor;
+
         try {
             while (cursor.moveToNext()) {
 
@@ -144,10 +148,10 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         }
     }
 
-    public void changeCursor() {
-        mProfiles.clear();
+    public void swapCursor(Cursor newCursor) {
+        mCursor = newCursor;
+        notifyDataSetChanged();
     }
-
     public List<Profile> getProfiles(){
         return mProfiles;
     }
