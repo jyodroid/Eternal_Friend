@@ -3,6 +3,7 @@ package com.jyo.android.eternalfriend.profile_summarize;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -134,7 +135,9 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
 
                 profile.setProfileId(cursor.getInt(profileIdIndx));
                 profile.setName(cursor.getString(profileNameIndx));
-                profile.setPicture(cursor.getBlob(profileImageIndx);
+                byte[] pictureArray = cursor.getBlob(profileImageIndx);
+                Bitmap profilePicture = BitmapFactory.decodeByteArray(pictureArray, 0, pictureArray.length);
+                profile.setPicture(profilePicture);
                 Date birthDate = profile.dateFormat.parse(cursor.getString(profileBirthDateIndx));
                 profile.setBirthDate(birthDate);
                 profile.setBreed(cursor.getString(profileBreedIndx));
@@ -148,8 +151,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                 cursor.close();
             }
         }
-
-
     }
 
     public void changeCursor(){
