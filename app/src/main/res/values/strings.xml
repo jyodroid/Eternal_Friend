@@ -12,6 +12,7 @@
     <!--Profile summarize-->
     <string name="title_activity_profile_summarize">Pets Profile</string>
     <string name="action_add_profile">Add pet profile</string>
+    <string name="card_item_description">Pet profile</string>
 
     <!--Add profile-->
     <string name="add_profile">Add profile</string>
@@ -22,11 +23,20 @@
     <string name="pet_breed_hint">Pet\'s Breed</string>
     <string name="date_format">LLLL, dd yyyy</string>
     <string name="date_picker_date_text"><![CDATA[<u>%1$s</u>]]></string>
+    <string name="save_message">%1$s\'s profile added successfully</string>
+    <string name="delete_message">%1$s\'s profile deleted successfully</string>
+    <string name="dismiss_action">Dismiss</string>
+    <string name="invalid_values">Your pets profile is not complete!</string>
 
     <!-- Profile -->
     <string name="profile">Profile</string>
     <string name="clinical_history">Clinical\nHistory</string>
     <string name="vaccination_plan">Vaccination\nPlan</string>
+
+    <!-- Profile adapter -->
+    <string name="delete_prompt">Do you want to delete %1$s\'s profile?</string>
+    <string name="delete_button_delete">Delete</string>
+    <string name="delete_button_cancel">Cancel</string>
 
     <!-- Ask for Permission Dialogs-->
     <string name="permission_dialog_tittle">You need additional Permissions</string>

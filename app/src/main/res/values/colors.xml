@@ -7,4 +7,7 @@
     <color name="colorSearchFABAccent">#DD2C00</color>
     <color name="cardColor">#E8F5E9</color>
     <color name="opaque_black">#61000000</color>
+    <color name="card_background">#cccccc</color>
+    <color name="delete_color">#ecc6bc</color>
+    <color name="delete_button_color">#b71c1c</color>
 </resources>

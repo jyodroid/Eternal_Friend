@@ -72,8 +72,8 @@ public class Profile implements Parcelable{
         this.name = name;
     }
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = dateFormat.format(birthDate);
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getBirthDate(){

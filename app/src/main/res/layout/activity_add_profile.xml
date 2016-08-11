@@ -1,172 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_form_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/profile_form_container"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_margin"
-        android:orientation="vertical"
-        tools:context="com.jyo.android.eternalfriend.profile_summarize.AddProfileActivity">
-
-        <ImageView
-            android:id="@+id/profile_pet_picture_set"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_gravity="center_horizontal"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:scaleType="fitXY"
-            android:elevation="@dimen/card_elevation"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_image_black_48dp" />
-        <TextView
-            android:id="@+id/profile_pet_picture_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/pet_pet_profile_picture_label"
-            android:textSize="@dimen/profile_normal_text"
-            android:clickable="true"
-            android:textStyle="bold" />
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:paddingBottom="@dimen/activity_margin">
-
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/pet_name_value"
-                style="@style/input_text_style"
-                android:focusableInTouchMode="true"
-                android:hint="@string/pet_name_hint"
-                android:imeOptions="actionDone"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/activity_margin">
+            android:layout_margin="@dimen/activity_margin"
+            android:orientation="vertical"
+            tools:context="com.jyo.android.eternalfriend.profile_summarize.AddProfileActivity">
 
-            <TextView
-                android:id="@+id/birth_date_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif"
-                android:text="@string/pet_birth_label"
-                android:textSize="@dimen/profile_normal_text"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/birth_date_value"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif"
-                android:gravity="start"
-                android:textSize="@dimen/profile_normal_text" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/activity_margin">
-
-            <TextView
-                android:id="@+id/specie_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif"
-                android:text="Specie"
-                android:textSize="@dimen/profile_normal_text"
-                android:textStyle="bold" />
-
-            <RadioGroup
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_weight="2"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/radio_cat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:onClick="onRadioButtonClicked"
-                    android:text="Cat" />
-
-                <RadioButton
-                    android:id="@+id/radio_dog"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="onRadioButtonClicked"
-                    android:text="Dog" />
-
-                <RadioButton
-                    android:id="@+id/radio_other"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="onRadioButtonClicked"
-                    android:text="Other" />
-            </RadioGroup>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/activity_margin">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_weight="9"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingBottom="@dimen/activity_margin">
+                android:foreground="?android:attr/selectableItemBackground"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:id="@+id/profile_pet_picture_set"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_gravity="center_horizontal"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_note_add_black_48dp" />
+
+                <TextView
+                    android:id="@+id/profile_pet_picture_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:clickable="true"
+                    android:text="@string/pet_pet_profile_picture_label"
+                    android:textSize="@dimen/profile_normal_text"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="@dimen/activity_padding">
 
                 <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/breed_value"
+                    android:id="@+id/pet_name_value"
                     style="@style/input_text_style"
+                    android:layout_marginBottom="@dimen/activity_padding"
                     android:focusableInTouchMode="true"
-                    android:hint="Pet's Breed"
+                    android:hint="@string/pet_name_hint"
                     android:imeOptions="actionDone"
+                    android:maxLength="10"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.v7.widget.AppCompatImageButton
-                android:id="@+id/breed_list"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+
+                android:paddingBottom="@dimen/activity_padding">
+
+                <TextView
+                    android:id="@+id/birth_date_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/pet_birth_label"
+                    android:textSize="@dimen/profile_normal_text"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/birth_date_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif"
+                    android:gravity="start"
+                    android:textSize="@dimen/profile_normal_text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/activity_padding">
+
+                <TextView
+                    android:id="@+id/specie_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif"
+                    android:text="Specie"
+                    android:textSize="@dimen/profile_normal_text"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_weight="2"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_cat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:onClick="onRadioButtonClicked"
+                        android:text="Cat" />
+
+                    <RadioButton
+                        android:id="@+id/radio_dog"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onRadioButtonClicked"
+                        android:text="Dog" />
+
+                    <RadioButton
+                        android:id="@+id/radio_other"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onRadioButtonClicked"
+                        android:text="Other" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/activity_padding">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="9"
+                    android:paddingBottom="@dimen/activity_padding">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/breed_value"
+                        style="@style/input_text_style"
+                        android:focusableInTouchMode="true"
+                        android:hint="Pet's Breed"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/breed_list"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@android:color/transparent"
+                    android:src="@drawable/ic_keyboard_arrow_down_black_24dp" />
+            </LinearLayout>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/add_profile_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
-                android:src="@drawable/ic_keyboard_arrow_down_black_24dp"/>
+                android:text="@string/add_profile" />
         </LinearLayout>
+    </ScrollView>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/add_profile_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent"
-            android:text="Add"/>
-
-    </LinearLayout>
-
-    <FrameLayout
+    <include
+        layout="@layout/search_fab_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom">
-
-        <include layout="@layout/search_fab_layout" />
-    </FrameLayout>
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin" />
 </android.support.design.widget.CoordinatorLayout>

@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/profile_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/card_background"
     tools:context="com.jyo.android.eternalfriend.profile_summarize.ProfileSummarizeActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/profile_recycler_view"
-        android:scrollbars="vertical"
-        android:contentDescription=""
-        android:layout_margin="@dimen/activity_margin"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"/>
 
-    <LinearLayout
+    <include
+        layout="@layout/search_fab_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:orientation="vertical">
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="80dp"/>
 
-        <include layout="@layout/search_fab_layout"/>
-        <include layout="@layout/add_fab_layout"/>
-
-    </LinearLayout>
+    <include
+        layout="@layout/add_fab_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/fab_margin" />
 
 </android.support.design.widget.CoordinatorLayout>

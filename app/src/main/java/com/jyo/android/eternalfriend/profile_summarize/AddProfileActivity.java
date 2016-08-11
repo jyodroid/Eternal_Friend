@@ -2,9 +2,6 @@ package com.jyo.android.eternalfriend.profile_summarize;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -38,8 +36,8 @@ import android.widget.Toast;
 import com.jyo.android.eternalfriend.R;
 import com.jyo.android.eternalfriend.commons.MediaHelper;
 import com.jyo.android.eternalfriend.commons.PermissionsHelper;
-import com.jyo.android.eternalfriend.data.EFContract;
 import com.jyo.android.eternalfriend.map.MapsActivity;
+import com.jyo.android.eternalfriend.profile_summarize.Async.SaveProfileTask;
 import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
 
 import org.json.JSONArray;
@@ -97,18 +95,7 @@ public class AddProfileActivity extends AppCompatActivity
 
         isCatsSelected = true;
 
-        String text = String.format(
-                getString(R.string.date_picker_date_text),
-                getString(R.string.pet_birth_value));
-
-        Spanned underLinedText;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            underLinedText = Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY);
-        } else {
-            underLinedText = Html.fromHtml(text);
-        }
-
-        mViewHolder.birdDate.setText(underLinedText);
+        mViewHolder.birdDate.setText(getInitialDateText());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -162,11 +149,11 @@ public class AddProfileActivity extends AppCompatActivity
         } else {
             SimpleDateFormat simpleDateFormat =
                     new SimpleDateFormat(getString(R.string.date_format));
-            Date birthDate;
             try {
-                birthDate = simpleDateFormat.parse(mViewHolder.birdDate.getText().toString());
+                Date birthDate = simpleDateFormat.parse(mViewHolder.birdDate.getText().toString());
                 if (null != birthDate) {
-                    profile.setBirthDate(birthDate);
+                    String date = Profile.dateFormat.format(birthDate);
+                    profile.setBirthDate(date);
                 } else {
                     validBirthDate = false;
                 }
@@ -184,12 +171,35 @@ public class AddProfileActivity extends AppCompatActivity
         }
 
         if (validImage && validName && validBirthDate && validBreed) {
-            saveProfile(profile);
-            //TODO SnackBar;
+            new SaveProfileTask(this, profile, mViewHolder.viewContainer).execute();
+            mFilePath = null;
+            mViewHolder.petPicture.setImageResource(R.drawable.ic_note_add_black_48dp);
+            mViewHolder.petName.setText(EMPTY);
+            mViewHolder.birdDate.setText(getInitialDateText());
+            mViewHolder.breed.setText(EMPTY);
+
         } else {
-            //TODO SnackBar;
+            Snackbar.make(
+                    mViewHolder.viewContainer,
+                    getString(R.string.invalid_values),
+                    Snackbar.LENGTH_LONG)
+                    .show();
         }
 
+    }
+
+    private Spanned getInitialDateText() {
+        String text = String.format(
+                getString(R.string.date_picker_date_text),
+                getString(R.string.pet_birth_value));
+
+        Spanned underLinedText;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            underLinedText = Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            underLinedText = Html.fromHtml(text);
+        }
+        return underLinedText;
     }
 
     @OnClick(R.id.birth_date_value)
@@ -336,7 +346,10 @@ public class AddProfileActivity extends AppCompatActivity
         @BindView(R.id.profile_pet_picture_label)
         TextView petPictureLabel;
 
+        View viewContainer;
+
         public ViewHolder(View view) {
+            viewContainer = view;
             ButterKnife.bind(this, view);
         }
     }
@@ -543,22 +556,5 @@ public class AddProfileActivity extends AppCompatActivity
             }
             isAskingForPermission = false;
         }
-    }
-
-    private long saveProfile(Profile profile) {
-
-        ContentResolver resolver = getContentResolver();
-
-        ContentValues profileValues = new ContentValues();
-
-        profileValues.put(EFContract.ProfileEntry.COLUMN_PROFILE_NAME, profile.getName());
-        profileValues.put(EFContract.ProfileEntry.COLUMN_PROFILE_BIRTH_DATE, profile.getBirthDate());
-        profileValues.put(EFContract.ProfileEntry.COLUMN_PROFILE_BREED, profile.getBreed());
-        profileValues.put(EFContract.ProfileEntry.COLUMN_PROFILE_IMAGE, profile.getPicture());
-
-        Uri insertedUri =
-                resolver.insert(EFContract.ProfileEntry.CONTENT_URI, profileValues);
-
-        return ContentUris.parseId(insertedUri);
     }
 }
