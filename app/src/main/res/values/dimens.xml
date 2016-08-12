@@ -28,6 +28,7 @@
     <dimen name="thumbnail_legend_size">15dp</dimen>
     <dimen name="legend_size">12sp</dimen>
     <integer name="zoom">13</integer>
+    <dimen name="thumbnail_image_padding">4dp</dimen>
 
     <!-- Profile -->
     <dimen name="button_normal_size">56dp</dimen>
