@@ -7,10 +7,18 @@
     android:background="@color/card_background"
     tools:context="com.jyo.android.eternalfriend.profile_summarize.ProfileSummarizeActivity">
 
+    <TextView
+        android:id="@+id/empty_message_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/no_profiles"
+        android:visibility="gone"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/profile_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:scrollbars="vertical"/>
 
     <include

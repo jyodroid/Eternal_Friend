@@ -27,6 +27,7 @@ public class EFContentProvider extends ContentProvider {
     private static final int CLINICAL_HISTORY_FOR_PROFILE = 201;
     private static final int GALLERY = 300;
     private static final int GALLERY_FOR_PROFILE = 301;
+    private static final int GALLERY_FOR_PROFILE_AND_AGE = 302;
     private static final int VACCINATION_PLAN = 400;
     private static final int VACCINATION_PLAN_FOR_PROFILE = 401;
 
@@ -47,11 +48,17 @@ public class EFContentProvider extends ContentProvider {
             GALLERY_TABLE_NAME + "." +
                     GalleryEntry.COLUMN_PROFILE_ID + " = ?";
 
+    private static final String sGallerySelectionByAge =
+            GALLERY_TABLE_NAME + "." +
+                    GalleryEntry.COLUMN_PROFILE_ID + " = ? AND " +
+                    GALLERY_TABLE_NAME + "." +
+                    GalleryEntry.COLUMN_GALLERY_AGE_RANGE + " = ?";
+
     private static final String sVaccinationPlanSelection =
             VACCINATION_PLAN_TABLE_NAME + "." +
                     VacccinationPlanEntry.COLUMN_PROFILE_ID + " = ?";
 
-    static{
+    static {
         sQueryBuilder = new SQLiteQueryBuilder();
         sQueryBuilder.setDistinct(true);
     }
@@ -65,7 +72,7 @@ public class EFContentProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         int rowsDeleted;
         // this makes delete all rows return the number of rows deleted
-        if ( null == selection ) selection = "1";
+        if (null == selection) selection = "1";
         switch (match) {
             case PROFILE:
                 rowsDeleted = db.delete(
@@ -99,6 +106,8 @@ public class EFContentProvider extends ContentProvider {
                 return GalleryEntry.CONTENT_TYPE;
             case GALLERY_FOR_PROFILE:
                 return GalleryEntry.CONTENT_TYPE;
+            case GALLERY_FOR_PROFILE_AND_AGE:
+                return GalleryEntry.CONTENT_TYPE;
             case VACCINATION_PLAN:
                 return VacccinationPlanEntry.CONTENT_TYPE;
             case VACCINATION_PLAN_FOR_PROFILE:
@@ -117,7 +126,7 @@ public class EFContentProvider extends ContentProvider {
         switch (match) {
             case PROFILE: {
                 long _id = db.insert(PROFILE_TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = ProfileEntry.buildUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
@@ -125,7 +134,7 @@ public class EFContentProvider extends ContentProvider {
             }
             case CLINICAL_HISTORY: {
                 long _id = db.insert(CLINICAL_HISTORY_TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = ClinicalHistoryEntry.buildUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
@@ -133,7 +142,7 @@ public class EFContentProvider extends ContentProvider {
             }
             case GALLERY: {
                 long _id = db.insert(GALLERY_TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = GalleryEntry.buildUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
@@ -141,7 +150,7 @@ public class EFContentProvider extends ContentProvider {
             }
             case VACCINATION_PLAN: {
                 long _id = db.insert(VACCINATION_PLAN_TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = VacccinationPlanEntry.buildUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
@@ -166,8 +175,7 @@ public class EFContentProvider extends ContentProvider {
                         String[] selectionArgs, String sortOrder) {
         Cursor retCursor;
         switch (sUriMatcher.match(uri)) {
-            case PROFILE:
-            {
+            case PROFILE: {
                 retCursor = mEFHelper.getReadableDatabase().query(
                         PROFILE_TABLE_NAME,
                         projection,
@@ -189,6 +197,10 @@ public class EFContentProvider extends ContentProvider {
             }
             case GALLERY_FOR_PROFILE: {
                 retCursor = getGalleryForProfile(uri, projection, sortOrder);
+                break;
+            }
+            case GALLERY_FOR_PROFILE_AND_AGE: {
+                retCursor = getGalleryForProfileAndAge(uri, projection, sortOrder);
                 break;
             }
             case VACCINATION_PLAN_FOR_PROFILE: {
@@ -229,6 +241,7 @@ public class EFContentProvider extends ContentProvider {
 
         matcher.addURI(authority, EFContract.PATH_GALLERY, GALLERY);
         matcher.addURI(authority, EFContract.PATH_GALLERY + "/#", GALLERY_FOR_PROFILE);
+        matcher.addURI(authority, EFContract.PATH_GALLERY + "/#/#", GALLERY_FOR_PROFILE_AND_AGE);
 
         matcher.addURI(authority, EFContract.PATH_VACCINATION_PLAN, VACCINATION_PLAN);
         matcher.addURI(authority, EFContract.PATH_VACCINATION_PLAN + "/#", VACCINATION_PLAN_FOR_PROFILE);
@@ -236,7 +249,7 @@ public class EFContentProvider extends ContentProvider {
         return matcher;
     }
 
-    private Cursor getProfileById(Uri uri, String[] projection, String sortOrder){
+    private Cursor getProfileById(Uri uri, String[] projection, String sortOrder) {
 
         sQueryBuilder.setTables(PROFILE_TABLE_NAME);
 
@@ -277,12 +290,34 @@ public class EFContentProvider extends ContentProvider {
         sQueryBuilder.setTables(GALLERY_TABLE_NAME);
 
         String profileId = EFContract.getProfileIdFromUri(uri);
+        if (sortOrder == null){
+            sortOrder = GALLERY_TABLE_NAME + "." + GalleryEntry.COLUMN_GALLERY_AGE_RANGE + " ASC";
+        }
 
         String[] selectionArgs = new String[]{profileId};
 
         return sQueryBuilder.query(mEFHelper.getReadableDatabase(),
                 projection,
                 sGallerySelection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
+    }
+
+    private Cursor getGalleryForProfileAndAge(Uri uri, String[] projection, String sortOrder) {
+
+        sQueryBuilder.setTables(GALLERY_TABLE_NAME);
+
+        String profileId = EFContract.getProfileIdFromUri(uri);
+        String galleryAge = EFContract.getGalleryAgeFromUri(uri);
+
+        String[] selectionArgs = new String[]{profileId, galleryAge};
+
+        return sQueryBuilder.query(mEFHelper.getReadableDatabase(),
+                projection,
+                sGallerySelectionByAge,
                 selectionArgs,
                 null,
                 null,

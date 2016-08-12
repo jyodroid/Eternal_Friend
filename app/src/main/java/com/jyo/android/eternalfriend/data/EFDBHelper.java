@@ -10,7 +10,7 @@ import com.jyo.android.eternalfriend.data.EFContract.*;
  */
 public class EFDBHelper extends SQLiteOpenHelper{
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
     static final String DATABASE_NAME = "eternal_friend.db";
 
     public EFDBHelper(Context context) {
@@ -34,6 +34,7 @@ public class EFDBHelper extends SQLiteOpenHelper{
                 GalleryEntry.COLUMN_GALLERY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 GalleryEntry.COLUMN_PROFILE_ID + " INTEGER NOT NULL, " +
                 GalleryEntry.COLUMN_GALLERY_IMAGE + " TEXT NOT NULL, " +
+                GalleryEntry.COLUMN_GALLERY_AGE_RANGE + " INTEGER NOT NULL, " +
                 "FOREIGN KEY(" + GalleryEntry.COLUMN_PROFILE_ID + ") REFERENCES " +
                 ProfileEntry.TABLE_NAME + "(" + ProfileEntry.COLUMN_PROFILE_ID + ") ON DELETE CASCADE" +
                 " );";

@@ -1,4 +1,4 @@
-package com.jyo.android.eternalfriend.profile_summarize.Async;
+package com.jyo.android.eternalfriend.profile_summarize.async;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.jyo.android.eternalfriend.R;
-import com.jyo.android.eternalfriend.data.EFContract;
+import com.jyo.android.eternalfriend.data.EFContract.ProfileEntry;
 import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
 
 /**
@@ -33,8 +33,8 @@ public class DeleteProfileTask extends AsyncTask<Void, Void, Integer> {
         ContentResolver resolver = mContext.getContentResolver();
         return resolver
                 .delete(
-                        EFContract.ProfileEntry.CONTENT_URI,
-                        EFContract.ProfileEntry.COLUMN_PROFILE_ID + "= ?",
+                        ProfileEntry.CONTENT_URI,
+                        ProfileEntry.COLUMN_PROFILE_ID + "= ?",
                         new String[]{String.valueOf(mProfile.getProfileId())});
     }
 

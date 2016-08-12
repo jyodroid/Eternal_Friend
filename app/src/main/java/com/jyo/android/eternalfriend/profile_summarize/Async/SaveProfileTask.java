@@ -1,9 +1,10 @@
-package com.jyo.android.eternalfriend.profile_summarize.Async;
+package com.jyo.android.eternalfriend.profile_summarize.async;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
@@ -11,7 +12,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.jyo.android.eternalfriend.R;
-import com.jyo.android.eternalfriend.data.EFContract;
+import com.jyo.android.eternalfriend.data.EFContract.ProfileEntry;
+import com.jyo.android.eternalfriend.profile_summarize.ProfileSummarizeActivity;
 import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
 
 /**
@@ -37,13 +39,13 @@ public class SaveProfileTask extends AsyncTask<Void, Void, Long> {
 
         ContentValues profileValues = new ContentValues();
 
-        profileValues.put(EFContract.ProfileEntry.COLUMN_PROFILE_NAME, mProfile.getName());
-        profileValues.put(EFContract.ProfileEntry.COLUMN_PROFILE_BIRTH_DATE, mProfile.getBirthDate());
-        profileValues.put(EFContract.ProfileEntry.COLUMN_PROFILE_BREED, mProfile.getBreed());
-        profileValues.put(EFContract.ProfileEntry.COLUMN_PROFILE_IMAGE, mProfile.getPicture());
+        profileValues.put(ProfileEntry.COLUMN_PROFILE_NAME, mProfile.getName());
+        profileValues.put(ProfileEntry.COLUMN_PROFILE_BIRTH_DATE, mProfile.getBirthDate());
+        profileValues.put(ProfileEntry.COLUMN_PROFILE_BREED, mProfile.getBreed());
+        profileValues.put(ProfileEntry.COLUMN_PROFILE_IMAGE, mProfile.getPicture());
 
         Uri insertedUri =
-                resolver.insert(EFContract.ProfileEntry.CONTENT_URI, profileValues);
+                resolver.insert(ProfileEntry.CONTENT_URI, profileValues);
         return ContentUris.parseId(insertedUri);
     }
 
@@ -52,10 +54,12 @@ public class SaveProfileTask extends AsyncTask<Void, Void, Long> {
                 mSnackBarContainer,
                 String.format(
                         mContext.getString(R.string.save_message), mProfile.getName()),
-                Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.dismiss_action, new View.OnClickListener() {
+                Snackbar.LENGTH_LONG)
+                .setAction(R.string.go_to_profiles, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Intent intent = new Intent(mContext, ProfileSummarizeActivity.class);
+                        mContext.startActivity(intent);
                     }
                 }).show();
         Log.d(LOG_TAG, "Inserted URI: " + insertedUri);

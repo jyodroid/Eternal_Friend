@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/gallery_container"
@@ -8,6 +9,29 @@
     tools:context="com.jyo.android.eternalfriend.gallery.GalleryActivity">
 
     <include layout="@layout/collapsible_toolbar_layout" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/age_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_margin="@dimen/activity_margin" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/empty_message_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/no_Image_in_gallery"/>
 
     <GridView
         android:id="@+id/grid_view_pictures"
@@ -27,44 +51,28 @@
         android:verticalSpacing="2dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <FrameLayout
+    <include
+        layout="@layout/search_fab_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|start"
-        android:orientation="vertical">
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="80dp"
+        android:layout_marginEnd="@dimen/fab_margin" />
 
-        <Spinner
-            android:id="@+id/age_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_margin"
-            android:layout_gravity="center_horizontal|top"/>
-
-    </FrameLayout>
-
-    <LinearLayout
+    <android.support.design.widget.FloatingActionButton xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/take_picture_fab"
+        style="@style/AddFabPadding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:orientation="vertical">
-
-        <include layout="@layout/search_fab_layout" />
-
-        <android.support.design.widget.FloatingActionButton xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/take_picture_fab"
-            style="@style/AddFabPadding"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/action_add_profile"
-            android:src="@drawable/ic_photo_camera_white_24dp"
-            app:backgroundTint="@color/colorAccent"
-            app:borderWidth="0dp"
-            app:elevation="@dimen/fab_elevation"
-            app:fabSize="normal"
-            app:pressedTranslationZ="@dimen/fab_press_translation_z"
-            app:rippleColor="@color/colorPrimaryDark" />
-
-    </LinearLayout>
+        android:layout_gravity="end|bottom"
+        android:contentDescription="@string/action_add_profile"
+        android:src="@drawable/ic_photo_camera_white_24dp"
+        app:backgroundTint="@color/colorAccent"
+        app:borderWidth="0dp"
+        app:elevation="@dimen/fab_elevation"
+        app:fabSize="normal"
+        app:pressedTranslationZ="@dimen/fab_press_translation_z"
+        app:rippleColor="@color/colorPrimaryDark" />
 
 </android.support.design.widget.CoordinatorLayout>

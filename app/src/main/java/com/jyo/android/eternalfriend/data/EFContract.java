@@ -51,8 +51,9 @@ public class EFContract {
 
         //Columns
         public static final String COLUMN_PROFILE_ID = "profile_id";
-        public static final String COLUMN_GALLERY_ID = "gallery_image_id";
+        public static final String COLUMN_GALLERY_ID = "_id";
         public static final String COLUMN_GALLERY_IMAGE = "gallery_image";
+        public static final String COLUMN_GALLERY_AGE_RANGE = "gallery_age_range";
 
         public static Uri buildUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -105,5 +106,8 @@ public class EFContract {
 
     public static String getProfileIdFromUri(Uri uri) {
         return uri.getPathSegments().get(1);
+    }
+    public static String getGalleryAgeFromUri(Uri uri) {
+        return uri.getPathSegments().get(2);
     }
 }

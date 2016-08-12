@@ -11,9 +11,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+import android.widget.TextView;
 
 import com.jyo.android.eternalfriend.R;
-import com.jyo.android.eternalfriend.data.EFContract;
+import com.jyo.android.eternalfriend.data.EFContract.ProfileEntry;
 import com.jyo.android.eternalfriend.map.MapsActivity;
 import com.jyo.android.eternalfriend.profile_summarize.adapter.ProfileAdapter;
 import com.jyo.android.eternalfriend.profile_summarize.adapter.TouchHelperCallback;
@@ -28,14 +29,15 @@ public class ProfileSummarizeActivity extends AppCompatActivity implements
     // Identifies a particular Loader being used in this component
     private static final int PROFILE_LOADER = 0;
     private ProfileAdapter mProfileAdapter;
+    private ViewHolder mViewHolder;
 
     //Query projection
     String[] PROFILE_COLUMNS = {
-            EFContract.ProfileEntry.COLUMN_PROFILE_ID,
-            EFContract.ProfileEntry.COLUMN_PROFILE_NAME,
-            EFContract.ProfileEntry.COLUMN_PROFILE_BIRTH_DATE,
-            EFContract.ProfileEntry.COLUMN_PROFILE_IMAGE,
-            EFContract.ProfileEntry.COLUMN_PROFILE_BREED
+            ProfileEntry.COLUMN_PROFILE_ID,
+            ProfileEntry.COLUMN_PROFILE_NAME,
+            ProfileEntry.COLUMN_PROFILE_BIRTH_DATE,
+            ProfileEntry.COLUMN_PROFILE_IMAGE,
+            ProfileEntry.COLUMN_PROFILE_BREED
     };
 
     @Override
@@ -46,10 +48,10 @@ public class ProfileSummarizeActivity extends AppCompatActivity implements
 
         View rootView = findViewById(R.id.profile_container);
 
-        ViewHolder viewHolder = new ViewHolder(rootView);
+        mViewHolder = new ViewHolder(rootView);
 
         //improve performance
-        viewHolder.recyclerView.setHasFixedSize(true);
+        mViewHolder.recyclerView.setHasFixedSize(true);
 
          /*
          * Initializes the CursorLoader. The URL_LOADER value is eventually passed
@@ -58,14 +60,14 @@ public class ProfileSummarizeActivity extends AppCompatActivity implements
         getSupportLoaderManager().initLoader(PROFILE_LOADER, null, this);
         //Design manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        viewHolder.recyclerView.setLayoutManager(layoutManager);
+        mViewHolder.recyclerView.setLayoutManager(layoutManager);
 
         mProfileAdapter = new ProfileAdapter(this, rootView);
         ItemTouchHelper.Callback callback =
                 new TouchHelperCallback(mProfileAdapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(viewHolder.recyclerView);
-        viewHolder.recyclerView.setAdapter(mProfileAdapter);
+        touchHelper.attachToRecyclerView(mViewHolder.recyclerView);
+        mViewHolder.recyclerView.setAdapter(mProfileAdapter);
     }
 
     @OnClick(R.id.search_fab)
@@ -90,7 +92,7 @@ public class ProfileSummarizeActivity extends AppCompatActivity implements
                 // Returns a new CursorLoader
                 return new CursorLoader(
                         this,   // Parent activity context
-                        EFContract.ProfileEntry.CONTENT_URI,    // Table to query
+                        ProfileEntry.CONTENT_URI,    // Table to query
                         PROFILE_COLUMNS,     // Projection to return
                         null,            // No selection clause
                         null,            // No selection arguments
@@ -109,6 +111,11 @@ public class ProfileSummarizeActivity extends AppCompatActivity implements
      * Moves the query results into the adapter, causing the
      * ListView fronting this adapter to re-display
      */
+        if (data.getCount() == 0){
+            mViewHolder.emptyMessage.setVisibility(View.VISIBLE);
+        }else {
+            mViewHolder.emptyMessage.setVisibility(View.GONE);
+        }
         mProfileAdapter.swapCursor(data);
     }
 
@@ -120,6 +127,9 @@ public class ProfileSummarizeActivity extends AppCompatActivity implements
     static class ViewHolder {
         @BindView(R.id.profile_recycler_view)
         RecyclerView recyclerView;
+
+        @BindView(R.id.empty_message_holder)
+        TextView emptyMessage;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);

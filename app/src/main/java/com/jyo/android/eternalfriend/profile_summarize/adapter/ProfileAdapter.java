@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jyo.android.eternalfriend.R;
 import com.jyo.android.eternalfriend.profile.ProfileActivity;
-import com.jyo.android.eternalfriend.profile_summarize.Async.DeleteProfileTask;
+import com.jyo.android.eternalfriend.profile_summarize.async.DeleteProfileTask;
 import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
 
 import butterknife.BindView;

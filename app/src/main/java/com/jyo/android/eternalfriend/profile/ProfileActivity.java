@@ -23,6 +23,8 @@ public class ProfileActivity extends AppCompatActivity {
     public static final String PROFILE_EXTRA = "profile_extra";
     private static final String LOG_TAG = ProfileActivity.class.getSimpleName();
 
+    private Profile mProfile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,26 +36,27 @@ public class ProfileActivity extends AppCompatActivity {
         ViewHolder viewHolder = new ViewHolder(rootView);
 
         Intent incoming = getIntent();
-        Profile profile = incoming.getParcelableExtra(PROFILE_EXTRA);
+        mProfile = incoming.getParcelableExtra(PROFILE_EXTRA);
 
         Glide
                 .with(this)
-                .load(profile.getPicture())
+                .load(mProfile.getPicture())
                 .error(R.drawable.ic_image_black_48dp)
                 .into(viewHolder.profilePicture);
 
-        viewHolder.name.setText(profile.getName());
+        viewHolder.name.setText(mProfile.getName());
         try {
-            viewHolder.age.setText(profile.getAge());
+            viewHolder.age.setText(mProfile.getAge());
         } catch (Exception e) {
             Log.e(LOG_TAG, "Invalid age", e);
         }
-        viewHolder.breed.setText(profile.getBreed());
+        viewHolder.breed.setText(mProfile .getBreed());
     }
 
     @OnClick(R.id.gallery_button)
     public void goToGallery() {
         Intent intent = new Intent(this, GalleryActivity.class);
+        intent.putExtra(PROFILE_EXTRA, mProfile);
         startActivity(intent);
     }
 
