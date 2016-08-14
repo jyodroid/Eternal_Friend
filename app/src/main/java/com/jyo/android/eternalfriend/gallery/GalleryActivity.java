@@ -17,16 +17,16 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -48,21 +48,24 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class GalleryActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<Cursor> {
+        LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final String LOG_TAG = GalleryActivity.class.getSimpleName();
     private static final String PICTURE_PREFIX = "Gallery";
+    private static final String FILE_SEPARATOR = "_";
+    private static final String AGES_KEY = "ages_key";
+    private static final String AGE_SELECTION_KEY = "age_selection_key";
     private static final int GALLERY_LOADER = 1;
-    private static final int GALLERY_BY_AGE_LOADER = 2;
+    private static final int AGES_LOADER = 2;
 
-    int COLUMN_GALLERY_ID_INDEX = 0;
-    int COLUMN_GALLERY_IMAGE_INDEX = 1;
-    int COLUMN_GALLERY_AGE_RANGE = 2;
-
-    //Query projection
+    //Query projection for gallery
     String[] GALLERY_COLUMNS = {
             GalleryEntry.COLUMN_GALLERY_ID,
-            GalleryEntry.COLUMN_GALLERY_IMAGE,
+            GalleryEntry.COLUMN_GALLERY_IMAGE
+    };
+
+    //Query projection for ages
+    String[] AGES_COLUMNS = {
             GalleryEntry.COLUMN_GALLERY_AGE_RANGE
     };
 
@@ -72,12 +75,23 @@ public class GalleryActivity extends AppCompatActivity implements
     private Profile mProfile;
     private ViewHolder mViewHolder;
     private GalleryAdapter mAdapter;
+    private List<String> ages;
+    private Menu mMenu;
+    private String ageSelection = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
+        if (savedInstanceState != null) {
+            if (savedInstanceState.get(AGES_KEY) != null){
+                ages = (List<String>) savedInstanceState.get(AGES_KEY);
+            }
+            if (savedInstanceState.get(AGE_SELECTION_KEY) != null){
+                ageSelection = savedInstanceState.getString(AGE_SELECTION_KEY);
+            }
+        }
         ButterKnife.bind(this);
 
         View rootView = findViewById(R.id.gallery_container);
@@ -89,7 +103,8 @@ public class GalleryActivity extends AppCompatActivity implements
         //Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.gallery_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         mViewHolder.collapsingToolbarLayout.setTitle(mProfile.getName());
 
@@ -103,10 +118,6 @@ public class GalleryActivity extends AppCompatActivity implements
         ViewCompat.setNestedScrollingEnabled(mViewHolder.gridView, true);
         mAdapter = new GalleryAdapter(this, null);
         mViewHolder.gridView.setAdapter(mAdapter);
-
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View emptyView = inflater.inflate(R.layout.delete_card_layout, null);
-
         mViewHolder.gridView.setEmptyView(findViewById(R.id.empty_message_holder));
 
         /*
@@ -119,30 +130,6 @@ public class GalleryActivity extends AppCompatActivity implements
                 ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_arrow_back_white_24dp);
 
         getSupportActionBar().setHomeAsUpIndicator(backIcon);
-
-        //Spinner
-        Spinner spinner = (Spinner) findViewById(R.id.age_spinner);
-
-        List<String> years = new ArrayList<>();
-        years.add("age");
-        years.add("1 year");
-        years.add("2 year");
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, years);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-
-        return (super.onOptionsItemSelected(item));
     }
 
     @OnClick(R.id.search_fab)
@@ -159,6 +146,7 @@ public class GalleryActivity extends AppCompatActivity implements
         isAskingForPermission = handleMessage.isAskingForPermission();
         try {
             final Activity activity = this;
+            String prefix = PICTURE_PREFIX + FILE_SEPARATOR + mProfile.getName();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isAskingForPermission) {
                 //Obtain permission type required
                 int requiredPermissionType = PermissionsHelper.obtainPermissionType(activity);
@@ -169,11 +157,10 @@ public class GalleryActivity extends AppCompatActivity implements
                     PermissionsHelper.requestFeaturePermissions(
                             requiredPermissionType, activity, handleMessage);
                 } else {
-
-                    mFilePath = MediaHelper.useCameraIntent(activity, PICTURE_PREFIX);
+                    mFilePath = MediaHelper.useCameraIntent(activity, prefix);
                 }
             } else if (!isAskingForPermission) {
-                mFilePath = MediaHelper.useCameraIntent(activity, PICTURE_PREFIX);
+                mFilePath = MediaHelper.useCameraIntent(activity, prefix);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -198,6 +185,7 @@ public class GalleryActivity extends AppCompatActivity implements
         if (permissionRequiredGranted) {
             Log.v(LOG_TAG, "Permission granted!!");
             try {
+                String prefix = PICTURE_PREFIX + FILE_SEPARATOR + mProfile.getName();
                 mFilePath = MediaHelper.useCameraIntent(activity, PICTURE_PREFIX);
             } catch (Exception e) {
                 //TODO: snack bar
@@ -234,7 +222,7 @@ public class GalleryActivity extends AppCompatActivity implements
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != Activity.RESULT_OK
                 || null == data) {
-            Toast.makeText(context, "You haven't picked Image",
+            Toast.makeText(context, getString(R.string.image_not_picked),
                     Toast.LENGTH_LONG).show();
             return;
         }
@@ -280,8 +268,17 @@ public class GalleryActivity extends AppCompatActivity implements
                 // Returns a new CursorLoader
                 return new CursorLoader(
                         this,   // Parent activity context
-                        Uri.withAppendedPath(GalleryEntry.CONTENT_URI, String.valueOf(mProfile.getProfileId())),    // Table to query
+                        Uri.withAppendedPath(GalleryEntry.CONTENT_URI, String.valueOf(mProfile.getProfileId()) + ageSelection),    // Table to query
                         GALLERY_COLUMNS,     // Projection to return
+                        null,            // selection clause
+                        null,            // No selection arguments
+                        null             // Default sort order
+                );
+            case AGES_LOADER:
+                return new CursorLoader(
+                        this,   // Parent activity context
+                        Uri.withAppendedPath(GalleryEntry.CONTENT_URI, String.valueOf(mProfile.getProfileId())),    // Table to query
+                        AGES_COLUMNS,     // Projection to return
                         null,            // selection clause
                         null,            // No selection arguments
                         null             // Default sort order
@@ -294,7 +291,22 @@ public class GalleryActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mAdapter.changeCursor(data);
+        if (loader.getId() == GALLERY_LOADER){
+            mAdapter.changeCursor(data);
+        }
+        if (loader.getId() == AGES_LOADER){
+            ages.add(getString(R.string.gallery_image_all_ages));
+            while (data.moveToNext()){
+                int years = data.getInt(0);
+                String ageStr = String.format(getString(R.string.gallery_image_years), years);
+                if (years == 1){
+                    ageStr = String.format(getString(R.string.gallery_image_year), years);
+                }
+                ages.add(ageStr);
+            }
+            onPrepareOptionsMenu(mMenu);
+        }
+
     }
 
     @Override
@@ -319,5 +331,57 @@ public class GalleryActivity extends AppCompatActivity implements
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        mMenu = menu;
+        getMenuInflater().inflate(R.menu.age_spinner, menu);
+        if (ages == null){
+            ages = new ArrayList<>();
+            getSupportLoaderManager().initLoader(AGES_LOADER, null, this);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.age_spinner);
+        SubMenu ageMenu = item.getSubMenu();
+
+        for (String age:ages) {
+            ageMenu.add(age);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }else
+        if (item.getTitle()!= null){
+            if (item.getTitle().equals(getString(R.string.gallery_image_all_ages))){
+                ageSelection = "";
+            }else {
+                if (!item.getTitle().equals(getString(R.string.menu_age_title))){
+                    String ageString = item.getTitle().toString().split("\\s+")[0];
+                    ageSelection = "/" + ageString;
+                }
+            }
+            getSupportLoaderManager().restartLoader(GALLERY_LOADER, null, this);
+        }
+
+        return (super.onOptionsItemSelected(item));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putStringArrayList(
+                AGES_KEY, (ArrayList<String>) ages);
+        outState.putString(
+                AGE_SELECTION_KEY, ageSelection);
     }
 }

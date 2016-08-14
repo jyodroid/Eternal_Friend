@@ -1,5 +1,6 @@
 package com.jyo.android.eternalfriend.commons;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +9,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
@@ -163,5 +169,35 @@ public class MediaHelper {
         } else {
             throw new Exception("Can't access camera app");
         }
+    }
+
+    /**
+     * Used to blur images using render script. The base blur radius is 7.5
+     * @param context from where is called the function
+     * @param original image to be blur
+     * @return
+     */
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public static Bitmap blurImage(Context context, Bitmap original){
+
+        final float BITMAP_SCALE = 0.4f;
+        final float BLUR_RADIUS = 7.5f;
+
+        int width = Math.round(original.getWidth() * BITMAP_SCALE);
+        int height = Math.round(original.getHeight() * BITMAP_SCALE);
+
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(original, width, height, true);
+        Bitmap blurBitmap = Bitmap.createBitmap(scaledBitmap);
+
+        RenderScript rs = RenderScript.create(context);
+        ScriptIntrinsicBlur intrinsicBlur = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+        Allocation tmpIn = Allocation.createFromBitmap(rs, scaledBitmap);
+        Allocation tmpOut = Allocation.createFromBitmap(rs, blurBitmap);
+        intrinsicBlur.setRadius(BLUR_RADIUS);
+        intrinsicBlur.setInput(tmpIn);
+        intrinsicBlur.forEach(tmpOut);
+        tmpOut.copyTo(blurBitmap);
+
+        return blurBitmap;
     }
 }

@@ -11,5 +11,5 @@
     app:elevation = "@dimen/fab_elevation"
     app:pressedTranslationZ="@dimen/fab_press_translation_z"
     app:fabSize = "normal"
-    app:borderWidth="0dp"
+    app:borderWidth="@dimen/fab_border_with"
     app:rippleColor="@color/colorPrimaryDark"/>

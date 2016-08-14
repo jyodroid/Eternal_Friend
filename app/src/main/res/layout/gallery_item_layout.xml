@@ -2,20 +2,25 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
+    android:paddingBottom="@dimen/activity_padding"
+    android:paddingTop="@dimen/activity_padding"
+    android:elevation="@dimen/card_elevation"
     android:layout_height="wrap_content">
 
     <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gallery_image_item"
-        android:layout_width="180dp"
-        android:layout_height="122dp"
+        android:layout_width="@dimen/gallery_picture_width"
+        android:layout_height="@dimen/gallery_picture_height"
         android:src="@drawable/ic_image_black_48dp"
-        android:scaleType="fitXY"/>
+        android:foreground="?android:attr/selectableItemBackground"
+        android:scaleType="centerCrop"/>
 
     <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/share_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
+        android:layout_gravity="top|start"
+        android:background="@drawable/share_shadow"
         android:src="@drawable/ic_share_white_24dp"/>
 
 </FrameLayout>

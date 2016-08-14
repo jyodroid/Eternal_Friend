@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/profile_container"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/clinical_history_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/list_background"
-    tools:context="com.jyo.android.eternalfriend.profile_summarize.ProfileSummarizeActivity">
+    tools:context="com.jyo.android.eternalfriend.clinical_history.ClinicalHistoryActivity">
+
+    <include layout="@layout/collapsible_toolbar_layout" />
 
     <TextView
         android:id="@+id/empty_message_holder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="@string/no_profiles"
-        android:visibility="gone"/>
+        android:text="@string/no_clinical_history"
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/profile_recycler_view"
+        android:id="@+id/clinical_history_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <include
         layout="@layout/search_fab_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/fab_search_bottom_margin"/>
+        android:layout_marginBottom="@dimen/fab_search_bottom_margin"
+        android:layout_marginEnd="@dimen/fab_margin" />
 
     <include
         layout="@layout/add_fab_layout"

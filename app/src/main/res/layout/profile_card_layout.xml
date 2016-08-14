@@ -7,7 +7,7 @@
     android:layout_marginBottom="@dimen/card_margin"
     android:contentDescription="@string/card_item_description"
     android:foreground="?android:attr/selectableItemBackground"
-    card:cardBackgroundColor="@color/cardColor"
+    card:cardBackgroundColor="@color/card_background_color"
     card:cardCornerRadius="@dimen/card_border_radius"
     card:cardElevation="@dimen/card_elevation"
     android:layout_marginStart="@dimen/card_margin"
@@ -26,7 +26,6 @@
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/card_profile_image_margin"
             android:layout_marginStart="@dimen/card_profile_image_margin"
-            android:background="@drawable/image_holder"
             android:scaleType="centerCrop" />
 
         <LinearLayout
@@ -39,7 +38,7 @@
                 android:id="@+id/profile_pet_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lines="@integer/card__lines"
+                android:lines="@integer/card_lines"
                 android:maxLength="@integer/card_head_max_length"
                 android:textSize="@dimen/card_head_text_size"
                 android:textStyle="bold" />

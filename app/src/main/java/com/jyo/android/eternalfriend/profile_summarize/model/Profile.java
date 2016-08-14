@@ -133,7 +133,7 @@ public class Profile implements Parcelable{
 
                 //Months from moth to december plus months from december to today month.
                 return secondHalf + todayCal.get(Calendar.MONTH) + " months";
-            } else if(todayCal.get(Calendar.MONTH) >= birthDateCal.get(Calendar.YEAR)){
+            } else if(todayCal.get(Calendar.MONTH) >= birthDateCal.get(Calendar.MONTH)){
                 //Just count years
                 int years = todayCal.get(Calendar.YEAR) - birthDateCal.get(Calendar.YEAR);
                 return years + " years";

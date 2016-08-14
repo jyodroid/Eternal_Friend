@@ -3,6 +3,7 @@
     <!-- Application -->
     <string name="app_name">Eternal Friend</string>
     <string name="action_search">Search nearby veterinarian and pet shops</string>
+    <string name="image_not_picked">You haven\'t picked Image</string>
 
     <!-- Maps -->
     <string name="title_activity_maps">Eternal Friend Map</string>
@@ -31,7 +32,12 @@
     <!-- Gallery -->
     <string name="gallery_save_message">Picture successfully added to age %1$s\'s years</string>
     <string name="dismiss">Dismiss</string>
-    <string name="no_Image_in_gallery">Yo haven\'t added any pet\'s image</string>
+    <string name="no_Image_in_gallery">Yo haven\'t added any picture</string>
+    <string name="share_with">Share with</string>
+    <string name="gallery_image_year">%1$d year</string>
+    <string name="gallery_image_years">%1$d years</string>
+    <string name="gallery_image_all_ages">all</string>
+    <string name="menu_age_title">age</string>
 
     <!-- Profile -->
     <string name="profile">Profile</string>
@@ -43,6 +49,9 @@
     <string name="delete_button_delete">Delete</string>
     <string name="delete_button_cancel">Cancel</string>
     <string name="no_profiles">Yo haven\'t added any pet\'s profile</string>
+    <string name="add_profile_cat_radio">Cat</string>
+    <string name="add_profile_dog_radio">Dat</string>
+    <string name="add_profile_other_radio">Other</string>
 
     <!-- Ask for Permission Dialogs-->
     <string name="permission_dialog_tittle">You need additional Permissions</string>
@@ -52,5 +61,9 @@
     <string name="permission_from_settings_ok_button">Go to settings</string>
     <string name="permission_from_activity_ok_button">Grant permissions</string>
     <string name="permission_cancel_button">Maybe later</string>
+
+    <!-- clinical history -->
+    <string name="no_clinical_history">Yo haven\'t added any clinical history</string>
+    no_clinical_history
 
 </resources>

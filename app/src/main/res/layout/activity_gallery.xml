@@ -6,49 +6,32 @@
     android:id="@+id/gallery_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/list_background"
     tools:context="com.jyo.android.eternalfriend.gallery.GalleryActivity">
 
     <include layout="@layout/collapsible_toolbar_layout" />
-
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|start"
-        android:orientation="vertical">
-
-        <Spinner
-            android:id="@+id/age_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_margin="@dimen/activity_margin" />
-
-    </FrameLayout>
 
     <TextView
         android:id="@+id/empty_message_holder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:layout_marginTop="@dimen/margin_empty_message"
         android:text="@string/no_Image_in_gallery"/>
 
     <GridView
         android:id="@+id/grid_view_pictures"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="top"
         android:alwaysDrawnWithCache="true"
-        android:columnWidth="170dp"
-        android:gravity="center_horizontal"
-        android:horizontalSpacing="2dp"
+        android:columnWidth="@dimen/gallery_picture_width"
+        android:horizontalSpacing="@dimen/gallery_item_spacing"
         android:numColumns="auto_fit"
-        android:padding="0dp"
-        android:paddingTop="24dp"
         android:scrollingCache="true"
         android:smoothScrollbar="true"
         android:stretchMode="spacingWidthUniform"
-        android:verticalSpacing="2dp"
+        android:verticalSpacing="@dimen/gallery_item_spacing"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <include
@@ -56,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="@dimen/fab_search_bottom_margin"
         android:layout_marginEnd="@dimen/fab_margin" />
 
     <android.support.design.widget.FloatingActionButton xmlns:android="http://schemas.android.com/apk/res/android"
@@ -69,7 +52,7 @@
         android:contentDescription="@string/action_add_profile"
         android:src="@drawable/ic_photo_camera_white_24dp"
         app:backgroundTint="@color/colorAccent"
-        app:borderWidth="0dp"
+        app:borderWidth="@dimen/fab_margin"
         app:elevation="@dimen/fab_elevation"
         app:fabSize="normal"
         app:pressedTranslationZ="@dimen/fab_press_translation_z"

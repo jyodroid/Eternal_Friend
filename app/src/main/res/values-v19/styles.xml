@@ -1,9 +1,0 @@
-<resources>
-    <style name="AddFabPadding">
-        <item name="android:layout_marginTop">-30dp</item>
-    </style>
-
-    <style name="SearchFabPadding">
-        <item name="android:layout_margin">0dp</item>
-    </style>
-</resources>

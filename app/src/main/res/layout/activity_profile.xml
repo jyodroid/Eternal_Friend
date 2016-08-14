@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/profile_pet_picture"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="@dimen/profile_image_height"
             android:scaleType="centerCrop"
             android:layout_marginBottom="@dimen/fab_margin"
             android:src="@drawable/ic_image_black_48dp" />
@@ -25,23 +25,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="Kevin"
-            android:textSize="24sp" />
+            android:textSize="@dimen/card_head_text_size" />
 
         <TextView
             android:id="@+id/profile_pet_breed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Snauser"
-            android:textSize="18sp" />
+            android:textSize="@dimen/profile_breed_size" />
 
         <TextView
             android:id="@+id/profile_pet_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2 years"
             android:fontFamily="sans-serif-light"
-            android:textSize="15sp" />
+            android:textSize="@dimen/card_second_text_size" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -1,16 +1,20 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="fab_margin">16dp</dimen>
+
+    <!--Activity-->
     <dimen name="activity_padding">8dp</dimen>
     <dimen name="activity_margin">24dp</dimen>
+    <dimen name="collapsible_toolbar_height">256dp</dimen>
 
+    <!--Floating action button-->
+    <dimen name="fab_margin">16dp</dimen>
     <dimen name="fab_elevation">6dp</dimen>
     <dimen name="fab_press_translation_z">12dp</dimen>
-
-    <dimen name="pet_name_size">24sp</dimen>
-    <dimen name="profile_normal_text">18sp</dimen>
+    <dimen name="fab_border_with">0dp</dimen>
+    <dimen name="fab_search_bottom_margin">80dp</dimen>
 
     <!--Profile summarize-->
+    <dimen name="pet_name_size">24sp</dimen>
+    <dimen name="profile_normal_text">18sp</dimen>
     <dimen name="card_height_size">100dp</dimen>
     <dimen name="card_margin">8dp</dimen>
     <dimen name="card_border_radius">2dp</dimen>
@@ -21,7 +25,7 @@
     <dimen name="card_head_text_size">24sp</dimen>
     <dimen name="card_second_text_size">15sp</dimen>
     <dimen name="card_third_text_size">13sp</dimen>
-    <integer name="card__lines">1</integer>
+    <integer name="card_lines">1</integer>
     <integer name="card_head_max_length">10</integer>
 
     <!--Map-->
@@ -30,8 +34,16 @@
     <integer name="zoom">13</integer>
     <dimen name="thumbnail_image_padding">4dp</dimen>
 
+    <!-- Gallery -->
+    <dimen name="gallery_picture_width">170dp</dimen>
+    <dimen name="gallery_picture_height">122dp</dimen>
+    <dimen name="gallery_item_spacing">2dp</dimen>
+    <dimen name="margin_empty_message">250dp</dimen>
+
     <!-- Profile -->
     <dimen name="button_normal_size">56dp</dimen>
     <dimen name="button_image_padding">10dp</dimen>
-
+    <dimen name="add_image_size">180dp</dimen>
+    <dimen name="profile_image_height">200dp</dimen>
+    <dimen name="profile_breed_size">18sp</dimen>
 </resources>

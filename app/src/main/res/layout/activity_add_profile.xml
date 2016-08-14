@@ -27,7 +27,7 @@
                 <ImageView
                     android:id="@+id/profile_pet_picture_set"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
+                    android:layout_height="@dimen/add_image_size"
                     android:layout_gravity="center_horizontal"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
@@ -60,7 +60,7 @@
                     android:focusableInTouchMode="true"
                     android:hint="@string/pet_name_hint"
                     android:imeOptions="actionDone"
-                    android:maxLength="10"
+                    android:maxLength="@integer/card_head_max_length"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
@@ -120,21 +120,21 @@
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:onClick="onRadioButtonClicked"
-                        android:text="Cat" />
+                        android:text="@string/add_profile_cat_radio" />
 
                     <RadioButton
                         android:id="@+id/radio_dog"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:onClick="onRadioButtonClicked"
-                        android:text="Dog" />
+                        android:text="@string/add_profile_dog_radio" />
 
                     <RadioButton
                         android:id="@+id/radio_other"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:onClick="onRadioButtonClicked"
-                        android:text="Other" />
+                        android:text="@string/add_profile_other_radio" />
                 </RadioGroup>
             </LinearLayout>
 

@@ -44,7 +44,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -269,8 +268,34 @@ public class AddProfileActivity extends AppCompatActivity
                     // Create intent to Open Image applications like Gallery, Google Photos
                     Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    // Start the Intent
-                    startActivityForResult(galleryIntent, MediaHelper.REQUEST_OBTAIN_FROM_GALLERY);
+
+                    if (handleMessage == null) {
+                        handleMessage = new PermissionsHelper.HandleMessage();
+                    }
+                    isAskingForPermission = handleMessage.isAskingForPermission();
+                    try {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isAskingForPermission) {
+                            //Obtain permission type required
+                            int requiredPermissionType = PermissionsHelper.obtainPermissionType(activity);
+                            if (requiredPermissionType != PermissionsHelper.MY_PERMISSIONS_UNKNOWN) {
+                                //Prepare Thread to show message and handler to management
+                                handleMessage = new PermissionsHelper.HandleMessage();
+                                handleMessage.isAskingForPermission(true);
+                                PermissionsHelper.requestFeaturePermissions(
+                                        requiredPermissionType, activity, handleMessage);
+                            } else {
+                                // Start the Intent
+                                startActivityForResult(galleryIntent, MediaHelper.REQUEST_OBTAIN_FROM_GALLERY);
+                            }
+                        } else if (!isAskingForPermission) {
+                            // Start the Intent
+                            startActivityForResult(galleryIntent, MediaHelper.REQUEST_OBTAIN_FROM_GALLERY);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        mFilePath = null;
+                        //TODO: snack bar
+                    }
                 }
 
                 dialog.cancel();
@@ -417,8 +442,6 @@ public class AddProfileActivity extends AppCompatActivity
                     cursor.close();
 
                     Bitmap mImage = BitmapFactory.decodeFile(mFilePath);
-                    File pictureFile = new File(mFilePath);
-
                     mViewHolder.petPicture.setImageBitmap(mImage);
                     break;
             }

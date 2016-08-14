@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jyo.android.eternalfriend.R;
+import com.jyo.android.eternalfriend.clinical_history.ClinicalHistoryActivity;
 import com.jyo.android.eternalfriend.gallery.GalleryActivity;
 import com.jyo.android.eternalfriend.map.MapsActivity;
 import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
@@ -62,7 +63,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     @OnClick(R.id.clinical_history_button)
     public void goToClinicalHistory() {
-
+        Intent intent = new Intent(this, ClinicalHistoryActivity.class);
+        intent.putExtra(PROFILE_EXTRA, mProfile);
+        startActivity(intent);
     }
 
     @OnClick(R.id.vaccination_plan_button)
@@ -75,7 +78,6 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
-
 
     static class ViewHolder {
 
