@@ -21,17 +21,9 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/clinical_history_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-    <include
-        layout="@layout/search_fab_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_marginBottom="@dimen/fab_search_bottom_margin"
-        android:layout_marginEnd="@dimen/fab_margin" />
 
     <include
         layout="@layout/add_fab_layout"

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clinical_history_form_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".clinical_history.AddHistoryActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_margin"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/activity_padding">
+
+                <TextView
+                    android:id="@+id/attendance_date_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:text="@string/attendance_date_label"
+                    android:textSize="@dimen/profile_normal_text"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attendance_date_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif"
+                    android:gravity="start"
+                    android:textSize="@dimen/profile_normal_text" />
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="@dimen/activity_padding">
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/hospital_value"
+                    style="@style/input_text_style"
+                    android:layout_marginBottom="@dimen/activity_padding"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/hospital_hint"
+                    android:imeOptions="actionDone"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="@dimen/activity_padding">
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/diagnostic_value"
+                    style="@style/input_text_style"
+                    android:layout_marginBottom="@dimen/activity_padding"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/diagnostic_hint"
+                    android:imeOptions="actionDone"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="@dimen/activity_padding">
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/treatment_value"
+                    style="@style/input_text_style"
+                    android:layout_marginBottom="@dimen/activity_padding"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/treatment_hint"
+                    android:imeOptions="actionDone"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/add_history_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAccent"
+                android:text="@string/add_history" />
+        </LinearLayout>
+    </ScrollView>
+</android.support.design.widget.CoordinatorLayout>

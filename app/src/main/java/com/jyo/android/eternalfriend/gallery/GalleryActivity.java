@@ -36,7 +36,6 @@ import com.jyo.android.eternalfriend.commons.PermissionsHelper;
 import com.jyo.android.eternalfriend.data.EFContract.GalleryEntry;
 import com.jyo.android.eternalfriend.gallery.async.SaveGalleryTask;
 import com.jyo.android.eternalfriend.gallery.model.Gallery;
-import com.jyo.android.eternalfriend.map.MapsActivity;
 import com.jyo.android.eternalfriend.profile.ProfileActivity;
 import com.jyo.android.eternalfriend.profile.model.Profile;
 
@@ -130,12 +129,6 @@ public class GalleryActivity extends AppCompatActivity implements
                 ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_arrow_back_white_24dp);
 
         getSupportActionBar().setHomeAsUpIndicator(backIcon);
-    }
-
-    @OnClick(R.id.search_fab)
-    public void goToMap() {
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
     }
 
     @OnClick(R.id.take_picture_fab)
@@ -295,6 +288,7 @@ public class GalleryActivity extends AppCompatActivity implements
             mAdapter.changeCursor(data);
         }
         if (loader.getId() == AGES_LOADER){
+            ages.clear();
             ages.add(getString(R.string.gallery_image_all_ages));
             while (data.moveToNext()){
                 int years = data.getInt(0);
@@ -312,6 +306,10 @@ public class GalleryActivity extends AppCompatActivity implements
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.changeCursor(null);
+        if (ages != null){
+            ages.clear();
+        }
+        getSupportLoaderManager().restartLoader(AGES_LOADER, null, this);
     }
 
     static class ViewHolder {
@@ -348,6 +346,7 @@ public class GalleryActivity extends AppCompatActivity implements
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.age_spinner);
         SubMenu ageMenu = item.getSubMenu();
+        ageMenu.clear();
 
         for (String age:ages) {
             ageMenu.add(age);

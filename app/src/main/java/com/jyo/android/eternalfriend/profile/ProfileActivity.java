@@ -3,7 +3,6 @@ package com.jyo.android.eternalfriend.profile;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,12 +45,8 @@ public class ProfileActivity extends AppCompatActivity {
                 .into(viewHolder.profilePicture);
 
         viewHolder.name.setText(mProfile.getName());
-        try {
-            viewHolder.age.setText(mProfile.getAge());
-        } catch (Exception e) {
-            Log.e(LOG_TAG, "Invalid age", e);
-        }
         viewHolder.breed.setText(mProfile .getBreed());
+        viewHolder.age.setText(String.format(getString(R.string.birth_date_format), mProfile.getBirthDate()));
     }
 
     @OnClick(R.id.gallery_button)

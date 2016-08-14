@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/profile_form_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".profile.AddProfileActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -12,9 +13,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:orientation="vertical"
-            tools:context=".profile.profile_summarize.AddProfileActivity">
+            android:layout_marginStart="@dimen/activity_margin"
+            android:layout_marginEnd="@dimen/activity_margin"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,7 +69,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-
                 android:paddingBottom="@dimen/activity_padding">
 
                 <TextView
@@ -174,15 +174,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
-                android:text="@string/add_profile" />
+                android:text="@string/add_profile"
+                android:layout_marginBottom="@dimen/activity_margin"/>
         </LinearLayout>
     </ScrollView>
-
-    <include
-        layout="@layout/search_fab_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_marginBottom="@dimen/fab_margin"
-        android:layout_marginEnd="@dimen/fab_margin" />
 </android.support.design.widget.CoordinatorLayout>

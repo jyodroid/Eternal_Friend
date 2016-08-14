@@ -51,7 +51,7 @@ public class ClinicalHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         clinicalHolder.date.setText(history.getDate());
         clinicalHolder.hospital.setText(history.getHospital());
         clinicalHolder.diagnostic.setText(history.getDiagnostic());
-        clinicalHolder.treatment.setText(history.getDiagnostic());
+        clinicalHolder.treatment.setText(history.getTreatment());
     }
 
     @Override

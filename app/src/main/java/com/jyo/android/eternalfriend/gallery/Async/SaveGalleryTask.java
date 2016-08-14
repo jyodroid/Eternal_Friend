@@ -20,6 +20,7 @@ import com.jyo.android.eternalfriend.gallery.model.Gallery;
 public class SaveGalleryTask extends AsyncTask<Void, Void, Long> {
 
     public static final String LOG_TAG = SaveGalleryTask.class.getSimpleName();
+    private static final Long ERROR_SAVING = -1L;
 
     private Context mContext;
     private Gallery mGallery;
@@ -41,22 +42,39 @@ public class SaveGalleryTask extends AsyncTask<Void, Void, Long> {
         galleryValues.put(GalleryEntry.COLUMN_GALLERY_IMAGE, mGallery.getImagePath());
         galleryValues.put(GalleryEntry.COLUMN_GALLERY_AGE_RANGE, mGallery.getRangeAge());
 
-        Uri insertedUri =
-                resolver.insert(GalleryEntry.CONTENT_URI, galleryValues);
+        Uri insertedUri;
+        try {
+            insertedUri = resolver.insert(GalleryEntry.CONTENT_URI, galleryValues);
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Error saving on database", e);
+            return ERROR_SAVING;
+        }
         return ContentUris.parseId(insertedUri);
     }
 
     protected void onPostExecute(Long insertedUri) {
-        Snackbar.make(
-                mSnackBarContainer,
-                String.format(
-                        mContext.getString(R.string.gallery_save_message), mGallery.getRangeAge()),
-                Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.dismiss, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                    }
-                }).show();
+        if (insertedUri == ERROR_SAVING) {
+            Snackbar.make(
+                    mSnackBarContainer,
+                    mContext.getString(R.string.error_saving),
+                    Snackbar.LENGTH_LONG)
+                    .setAction(R.string.dismiss, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                        }
+                    }).show();
+        } else {
+            Snackbar.make(
+                    mSnackBarContainer,
+                    String.format(
+                            mContext.getString(R.string.gallery_save_message), mGallery.getRangeAge()),
+                    Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.dismiss, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                        }
+                    }).show();
+        }
         Log.d(LOG_TAG, "Inserted URI: " + insertedUri);
     }
 

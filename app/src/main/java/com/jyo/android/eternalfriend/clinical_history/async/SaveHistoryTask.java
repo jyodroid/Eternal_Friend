@@ -1,4 +1,4 @@
-package com.jyo.android.eternalfriend.profile.async;
+package com.jyo.android.eternalfriend.clinical_history.async;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -12,25 +12,25 @@ import android.util.Log;
 import android.view.View;
 
 import com.jyo.android.eternalfriend.R;
-import com.jyo.android.eternalfriend.data.EFContract.ProfileEntry;
-import com.jyo.android.eternalfriend.profile.ProfileSummarizeActivity;
-import com.jyo.android.eternalfriend.profile.model.Profile;
+import com.jyo.android.eternalfriend.clinical_history.ClinicalHistoryActivity;
+import com.jyo.android.eternalfriend.clinical_history.model.ClinicalHistory;
+import com.jyo.android.eternalfriend.data.EFContract.ClinicalHistoryEntry;
 
 /**
  * Created by JohnTangarife on 10/08/16.
  */
-public class SaveProfileTask extends AsyncTask<Void, Void, Long> {
+public class SaveHistoryTask extends AsyncTask<Void, Void, Long> {
 
-    public static final String LOG_TAG = SaveProfileTask.class.getSimpleName();
+    public static final String LOG_TAG = SaveHistoryTask.class.getSimpleName();
     private static final Long ERROR_SAVING = -1L;
 
     private Context mContext;
-    private Profile mProfile;
+    private ClinicalHistory mHistory;
     private View mSnackBarContainer;
 
-    public SaveProfileTask(Context context, Profile profile, View snackBarContainer) {
+    public SaveHistoryTask(Context context, ClinicalHistory history, View snackBarContainer) {
         mContext = context;
-        mProfile = profile;
+        mHistory = history;
         mSnackBarContainer = snackBarContainer;
     }
 
@@ -40,15 +40,16 @@ public class SaveProfileTask extends AsyncTask<Void, Void, Long> {
 
         ContentValues profileValues = new ContentValues();
 
-        profileValues.put(ProfileEntry.COLUMN_PROFILE_NAME, mProfile.getName());
-        profileValues.put(ProfileEntry.COLUMN_PROFILE_BIRTH_DATE, mProfile.getBirthDate());
-        profileValues.put(ProfileEntry.COLUMN_PROFILE_BREED, mProfile.getBreed());
-        profileValues.put(ProfileEntry.COLUMN_PROFILE_IMAGE, mProfile.getPicture());
+        profileValues.put(ClinicalHistoryEntry.COLUMN_PROFILE_ID, mHistory.getProfileId());
+        profileValues.put(ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_DATE, mHistory.getDate());
+        profileValues.put(ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_HOSPITAL, mHistory.getHospital());
+        profileValues.put(ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_DIAGNOSTIC, mHistory.getDiagnostic());
+        profileValues.put(ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_TREATMENT, mHistory.getTreatment());
 
         Uri insertedUri = null;
         try {
             insertedUri =
-                    resolver.insert(ProfileEntry.CONTENT_URI, profileValues);
+                    resolver.insert(ClinicalHistoryEntry.CONTENT_URI, profileValues);
         }catch (Exception e){
             Log.e(LOG_TAG, "Can't save on database", e);
         }
@@ -72,13 +73,12 @@ public class SaveProfileTask extends AsyncTask<Void, Void, Long> {
         }else {
             Snackbar.make(
                     mSnackBarContainer,
-                    String.format(
-                            mContext.getString(R.string.save_message), mProfile.getName()),
+                    mContext.getString(R.string.clinical_history_added),
                     Snackbar.LENGTH_LONG)
-                    .setAction(R.string.go_to_profiles, new View.OnClickListener() {
+                    .setAction(R.string.go_to_histories, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(mContext, ProfileSummarizeActivity.class);
+                            Intent intent = new Intent(mContext, ClinicalHistoryActivity.class);
                             mContext.startActivity(intent);
                         }
                     }).show();

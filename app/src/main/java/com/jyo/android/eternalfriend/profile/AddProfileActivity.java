@@ -36,7 +36,6 @@ import android.widget.Toast;
 import com.jyo.android.eternalfriend.R;
 import com.jyo.android.eternalfriend.commons.MediaHelper;
 import com.jyo.android.eternalfriend.commons.PermissionsHelper;
-import com.jyo.android.eternalfriend.map.MapsActivity;
 import com.jyo.android.eternalfriend.profile.async.SaveProfileTask;
 import com.jyo.android.eternalfriend.profile.model.Profile;
 
@@ -131,19 +130,19 @@ public class AddProfileActivity extends AppCompatActivity
         if (null != mFilePath) {
             profile.setPicture(mFilePath);
         } else {
-            mViewHolder.petPictureLabel.setError("No picture selected");
+            mViewHolder.petPictureLabel.setError(getString(R.string.invalid_pet_picture));
             validImage = false;
         }
 
         if (EMPTY.equals(mViewHolder.petName.getText().toString())) {
-            mViewHolder.petName.setError("Empty pet name");
+            mViewHolder.petName.setError(getString(R.string.invalid_pet_name));
             validName = false;
         } else {
             profile.setName(mViewHolder.petName.getText().toString());
         }
 
         if (getString(R.string.pet_birth_value).equals(mViewHolder.birdDate.getText().toString())) {
-            mViewHolder.birdDate.setError("Select a date");
+            mViewHolder.birdDate.setError(getString(R.string.invalid_pet_birth_date));
             validBirthDate = false;
         } else {
             SimpleDateFormat simpleDateFormat =
@@ -163,7 +162,7 @@ public class AddProfileActivity extends AppCompatActivity
         }
 
         if (EMPTY.equals(mViewHolder.breed.getText().toString())) {
-            mViewHolder.breed.setError("Empty pet breed");
+            mViewHolder.breed.setError(getString(R.string.invalid_pet_breed));
             validBreed = false;
         } else {
             profile.setBreed(mViewHolder.breed.getText().toString());
@@ -184,7 +183,6 @@ public class AddProfileActivity extends AppCompatActivity
                     Snackbar.LENGTH_LONG)
                     .show();
         }
-
     }
 
     private Spanned getInitialDateText() {
@@ -219,19 +217,13 @@ public class AddProfileActivity extends AppCompatActivity
         mDatePickerDialog.show();
     }
 
-    @OnClick(R.id.search_fab)
-    public void goToMap() {
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
-    }
-
     @OnClick(R.id.profile_pet_picture_set)
     public void obtainImage() {
-        final String[] items = new String[]{"Take a picture", "Choose from Gallery"};
+        final String[] items = new String[]{getString(R.string.option_camera), getString(R.string.option_gallery)};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, items);
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
 
-        builder.setTitle("Profile Image");
+        builder.setTitle(getString(R.string.image_picker_title));
         final Activity activity = this;
 
         builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
@@ -313,10 +305,10 @@ public class AddProfileActivity extends AppCompatActivity
         String dialogTitle;
         if (isCatsSelected) {
             breedList = obtainBreedList(CATS_BREED_LIST_NAME);
-            dialogTitle = "Cat Breeds";
+            dialogTitle = getString(R.string.cat_dialog_title);
         } else {
             breedList = obtainBreedList(DOGS_BREED_LIST_NAME);
-            dialogTitle = "Dog Breeds";
+            dialogTitle = getString(R.string.cat_dialog_title);
         }
         dialogBuilder.setTitle(dialogTitle);
         dialogBuilder.setItems(breedList, new DialogInterface.OnClickListener() {
@@ -410,7 +402,7 @@ public class AddProfileActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != Activity.RESULT_OK
                 || null == data) {
-            Toast.makeText(context, "You haven't picked Image",
+            Toast.makeText(context, getString(R.string.no_image_picked),
                     Toast.LENGTH_LONG).show();
             return;
 

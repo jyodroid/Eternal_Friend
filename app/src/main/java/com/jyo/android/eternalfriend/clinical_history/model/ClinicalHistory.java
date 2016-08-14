@@ -11,6 +11,7 @@ public class ClinicalHistory {
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
     private int clinicalHistoryId;
+    private int profileId;
     private String hospital;
     private String date;
     private String diagnostic;
@@ -22,6 +23,14 @@ public class ClinicalHistory {
 
     public void setClinicalHistoryId(int clinicalHistoryId) {
         this.clinicalHistoryId = clinicalHistoryId;
+    }
+
+    public int getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(int profileId) {
+        this.profileId = profileId;
     }
 
     public String getHospital() {
