@@ -1,4 +1,4 @@
-package com.jyo.android.eternalfriend.profile_summarize;
+package com.jyo.android.eternalfriend.profile;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -37,8 +37,8 @@ import com.jyo.android.eternalfriend.R;
 import com.jyo.android.eternalfriend.commons.MediaHelper;
 import com.jyo.android.eternalfriend.commons.PermissionsHelper;
 import com.jyo.android.eternalfriend.map.MapsActivity;
-import com.jyo.android.eternalfriend.profile_summarize.async.SaveProfileTask;
-import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
+import com.jyo.android.eternalfriend.profile.async.SaveProfileTask;
+import com.jyo.android.eternalfriend.profile.model.Profile;
 
 import org.json.JSONArray;
 import org.json.JSONException;

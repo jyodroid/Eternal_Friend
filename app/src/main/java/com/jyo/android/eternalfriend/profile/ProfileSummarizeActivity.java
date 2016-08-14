@@ -1,4 +1,4 @@
-package com.jyo.android.eternalfriend.profile_summarize;
+package com.jyo.android.eternalfriend.profile;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,8 +16,8 @@ import android.widget.TextView;
 import com.jyo.android.eternalfriend.R;
 import com.jyo.android.eternalfriend.data.EFContract.ProfileEntry;
 import com.jyo.android.eternalfriend.map.MapsActivity;
-import com.jyo.android.eternalfriend.profile_summarize.adapter.ProfileAdapter;
-import com.jyo.android.eternalfriend.profile_summarize.adapter.TouchHelperCallback;
+import com.jyo.android.eternalfriend.profile.adapter.ProfileAdapter;
+import com.jyo.android.eternalfriend.profile.adapter.TouchHelperCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

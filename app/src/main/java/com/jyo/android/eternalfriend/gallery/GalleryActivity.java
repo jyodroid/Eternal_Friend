@@ -38,7 +38,7 @@ import com.jyo.android.eternalfriend.gallery.async.SaveGalleryTask;
 import com.jyo.android.eternalfriend.gallery.model.Gallery;
 import com.jyo.android.eternalfriend.map.MapsActivity;
 import com.jyo.android.eternalfriend.profile.ProfileActivity;
-import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
+import com.jyo.android.eternalfriend.profile.model.Profile;
 
 import java.util.ArrayList;
 import java.util.List;

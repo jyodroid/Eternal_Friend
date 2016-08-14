@@ -50,7 +50,7 @@
     <string name="delete_button_cancel">Cancel</string>
     <string name="no_profiles">Yo haven\'t added any pet\'s profile</string>
     <string name="add_profile_cat_radio">Cat</string>
-    <string name="add_profile_dog_radio">Dat</string>
+    <string name="add_profile_dog_radio">Dog</string>
     <string name="add_profile_other_radio">Other</string>
 
     <!-- Ask for Permission Dialogs-->
@@ -64,6 +64,10 @@
 
     <!-- clinical history -->
     <string name="no_clinical_history">Yo haven\'t added any clinical history</string>
-    no_clinical_history
+    <string name="clinical_history_card_item_description">Pet clinical history</string>
+    <string name="clinical_history_hospital_label">Hospital</string>
+    <string name="clinical_history_date_label">Date</string>
+    <string name="clinical_history_diagnostic_label">Diagnostic</string>
+    <string name="clinical_history_treatment_label">Treatment</string>
 
 </resources>

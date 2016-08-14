@@ -37,7 +37,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".profile_summarize.ProfileSummarizeActivity"
+            android:name=".profile.ProfileSummarizeActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,22 +49,22 @@
             android:name=".map.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity
-            android:name=".profile_summarize.AddProfileActivity"
+            android:name=".profile.AddProfileActivity"
             android:label="@string/add_profile"
-            android:parentActivityName=".profile_summarize.ProfileSummarizeActivity"
+            android:parentActivityName=".profile.ProfileSummarizeActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".profile_summarize.ProfileSummarizeActivity" />
+                android:value=".profile.ProfileSummarizeActivity" />
         </activity>
         <activity
             android:name=".profile.ProfileActivity"
             android:label="@string/profile"
-            android:parentActivityName=".profile_summarize.ProfileSummarizeActivity"
+            android:parentActivityName=".profile.ProfileSummarizeActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".profile_summarize.ProfileSummarizeActivity" />
+                android:value=".profile.ProfileSummarizeActivity" />
         </activity>
 
         <provider

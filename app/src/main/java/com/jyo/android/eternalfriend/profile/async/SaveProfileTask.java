@@ -1,4 +1,4 @@
-package com.jyo.android.eternalfriend.profile_summarize.async;
+package com.jyo.android.eternalfriend.profile.async;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -13,8 +13,8 @@ import android.view.View;
 
 import com.jyo.android.eternalfriend.R;
 import com.jyo.android.eternalfriend.data.EFContract.ProfileEntry;
-import com.jyo.android.eternalfriend.profile_summarize.ProfileSummarizeActivity;
-import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
+import com.jyo.android.eternalfriend.profile.ProfileSummarizeActivity;
+import com.jyo.android.eternalfriend.profile.model.Profile;
 
 /**
  * Created by JohnTangarife on 10/08/16.

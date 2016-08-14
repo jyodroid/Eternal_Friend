@@ -1,4 +1,4 @@
-package com.jyo.android.eternalfriend.profile_summarize.adapter;
+package com.jyo.android.eternalfriend.profile.adapter;
 
 /**
  * Interface to listen for a move or dismissal event from a

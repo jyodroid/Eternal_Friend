@@ -269,7 +269,11 @@ public class EFContentProvider extends ContentProvider {
 
     private Cursor getClinicalHistoryForProfile(Uri uri, String[] projection, String sortOrder) {
 
-        sQueryBuilder.setTables(PROFILE_TABLE_NAME);
+        sQueryBuilder.setTables(CLINICAL_HISTORY_TABLE_NAME);
+
+        if (sortOrder == null){
+            sortOrder = CLINICAL_HISTORY_TABLE_NAME + "." + ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_DATE + " DESC";
+        }
 
         String profileId = EFContract.getProfileIdFromUri(uri);
 

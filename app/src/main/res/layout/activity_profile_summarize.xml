@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/list_background"
-    tools:context="com.jyo.android.eternalfriend.profile_summarize.ProfileSummarizeActivity">
+    tools:context=".profile.profile_summarize.ProfileSummarizeActivity">
 
     <TextView
         android:id="@+id/empty_message_holder"

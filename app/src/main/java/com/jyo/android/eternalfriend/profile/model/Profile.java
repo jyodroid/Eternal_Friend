@@ -1,4 +1,4 @@
-package com.jyo.android.eternalfriend.profile_summarize.model;
+package com.jyo.android.eternalfriend.profile.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

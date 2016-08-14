@@ -13,7 +13,7 @@ import com.jyo.android.eternalfriend.R;
 import com.jyo.android.eternalfriend.clinical_history.ClinicalHistoryActivity;
 import com.jyo.android.eternalfriend.gallery.GalleryActivity;
 import com.jyo.android.eternalfriend.map.MapsActivity;
-import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
+import com.jyo.android.eternalfriend.profile.model.Profile;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

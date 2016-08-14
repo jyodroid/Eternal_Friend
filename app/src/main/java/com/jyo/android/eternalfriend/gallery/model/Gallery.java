@@ -1,8 +1,7 @@
 package com.jyo.android.eternalfriend.gallery.model;
 
-import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
+import com.jyo.android.eternalfriend.profile.model.Profile;
 
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 

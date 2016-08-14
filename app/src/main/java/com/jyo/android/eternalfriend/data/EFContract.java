@@ -75,7 +75,8 @@ public class EFContract {
         public static final String COLUMN_CLINICAL_HISTORY_ID = "clinical_history_id";
         public static final String COLUMN_CLINICAL_HISTORY_DATE = "clinical_history_date";
         public static final String COLUMN_CLINICAL_HISTORY_HOSPITAL = "clinical_history_hospital";
-        public static final String COLUMN_CLINICAL_HISTORY_PROGNOSTIC = "clinical_history_prognostic";
+        public static final String COLUMN_CLINICAL_HISTORY_DIAGNOSTIC = "clinical_history_diagnostic";
+        public static final String COLUMN_CLINICAL_HISTORY_TREATMENT = "clinical_history_treatment";
 
         public static Uri buildUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);

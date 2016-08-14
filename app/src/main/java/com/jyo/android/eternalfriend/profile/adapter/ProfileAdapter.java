@@ -1,4 +1,4 @@
-package com.jyo.android.eternalfriend.profile_summarize.adapter;
+package com.jyo.android.eternalfriend.profile.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,8 +14,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jyo.android.eternalfriend.R;
 import com.jyo.android.eternalfriend.profile.ProfileActivity;
-import com.jyo.android.eternalfriend.profile_summarize.async.DeleteProfileTask;
-import com.jyo.android.eternalfriend.profile_summarize.model.Profile;
+import com.jyo.android.eternalfriend.profile.async.DeleteProfileTask;
+import com.jyo.android.eternalfriend.profile.model.Profile;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
