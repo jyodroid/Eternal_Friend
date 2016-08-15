@@ -34,9 +34,9 @@ import com.google.gson.GsonBuilder;
 import com.jyo.android.eternalfriend.R;
 import com.jyo.android.eternalfriend.commons.NetworkHelper;
 import com.jyo.android.eternalfriend.commons.PermissionsHelper;
-import com.jyo.android.eternalfriend.places.PlacesConnection;
-import com.jyo.android.eternalfriend.places.model.Place;
-import com.jyo.android.eternalfriend.places.model.PlacesResponse;
+import com.jyo.android.eternalfriend.map.places.PlacesConnection;
+import com.jyo.android.eternalfriend.map.places.model.Place;
+import com.jyo.android.eternalfriend.map.places.model.PlacesResponse;
 
 import org.json.JSONObject;
 

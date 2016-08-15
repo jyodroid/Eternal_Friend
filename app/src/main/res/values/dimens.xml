@@ -46,4 +46,5 @@
     <dimen name="add_image_size">180dp</dimen>
     <dimen name="profile_image_height">200dp</dimen>
     <dimen name="profile_breed_size">18sp</dimen>
+
 </resources>

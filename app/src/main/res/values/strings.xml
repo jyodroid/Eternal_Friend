@@ -93,7 +93,16 @@
     <string name="clinical_history_added">Clinical history added successfully</string>
     <string name="add_clinical_history">Add Clinical history</string>
     <string name="history_invalid_values">Your clinical history is incomplete</string>
-    <string name="go_to_histories">See Histories</string>
 
+    <!-- Vaccination plan -->
+    <string name="no_vaccination_plan">Yo haven\'t added any vaccination plan</string>
+    <string name="vaccination_date_label">Programmed date</string>
+    <string name="vaccination_name_label">name</string>
+    <string name="planned_date_label">Planned date</string>
+    <string name="add_vaccination">Add vaccination</string>
+    <string name="vaccination_invalid_values">Your vaccination is incomplete</string>
+    <string name="vaccination_added">Vaccination added successfully</string>
+    <string name="add_vaccination_plan">Add vaccination plan</string>
+    <string name="vaccination_name_hint">Vaccination name</string>
 
 </resources>

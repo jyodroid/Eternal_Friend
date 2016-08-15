@@ -272,7 +272,7 @@ public class EFContentProvider extends ContentProvider {
         sQueryBuilder.setTables(CLINICAL_HISTORY_TABLE_NAME);
 
         if (sortOrder == null){
-            sortOrder = CLINICAL_HISTORY_TABLE_NAME + "." + ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_DATE + " DESC";
+            sortOrder = CLINICAL_HISTORY_TABLE_NAME + "." + ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_DATE + " ASC";
         }
 
         String profileId = EFContract.getProfileIdFromUri(uri);

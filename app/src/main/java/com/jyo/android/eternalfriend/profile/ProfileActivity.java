@@ -13,6 +13,7 @@ import com.jyo.android.eternalfriend.clinical_history.ClinicalHistoryActivity;
 import com.jyo.android.eternalfriend.gallery.GalleryActivity;
 import com.jyo.android.eternalfriend.map.MapsActivity;
 import com.jyo.android.eternalfriend.profile.model.Profile;
+import com.jyo.android.eternalfriend.vaccination_plan.VaccinationActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,7 +66,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     @OnClick(R.id.vaccination_plan_button)
     public void goToVaccinationPlan() {
-
+        Intent intent = new Intent(this, VaccinationActivity.class);
+        intent.putExtra(PROFILE_EXTRA, mProfile);
+        startActivity(intent);
     }
 
     @OnClick(R.id.search_fab)

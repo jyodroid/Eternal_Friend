@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/vaccination_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/card_margin"
+    android:layout_marginEnd="@dimen/card_margin"
+    android:layout_marginStart="@dimen/card_margin"
+    android:contentDescription="@string/clinical_history_card_item_description"
+    card:cardBackgroundColor="@color/card_background_color"
+    card:cardCornerRadius="@dimen/card_border_radius"
+    card:cardElevation="@dimen/card_elevation"
+    card:cardMaxElevation="@dimen/card_elevation_selected">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_margin="@dimen/card_margin"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/vaccination_date_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/vaccination_date_label"
+                    android:textSize="@dimen/card_second_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/vaccination_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:textSize="@dimen/card_second_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/vaccination_name_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/vaccination_name_label"
+                    android:textSize="@dimen/card_second_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/vaccination_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:textSize="@dimen/card_second_text_size" />
+            </LinearLayout>
+        </LinearLayout>
+        <CheckBox
+            android:id="@+id/vaccination_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -31,11 +31,17 @@ public class DeleteProfileTask extends AsyncTask<Void, Void, Integer> {
     @Override
     protected Integer doInBackground(Void... voids) {
         ContentResolver resolver = mContext.getContentResolver();
-        return resolver
-                .delete(
-                        ProfileEntry.CONTENT_URI,
-                        ProfileEntry.COLUMN_PROFILE_ID + "= ?",
-                        new String[]{String.valueOf(mProfile.getProfileId())});
+
+        try {
+            return resolver
+                    .delete(
+                            ProfileEntry.CONTENT_URI,
+                            ProfileEntry.COLUMN_PROFILE_ID + "= ?",
+                            new String[]{String.valueOf(mProfile.getProfileId())});
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Error deleting", e);
+            return 0;
+        }
     }
 
     protected void onPostExecute(Integer deletedRows) {

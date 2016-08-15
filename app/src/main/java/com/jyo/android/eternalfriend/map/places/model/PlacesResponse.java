@@ -1,4 +1,4 @@
-package com.jyo.android.eternalfriend.places.model;
+package com.jyo.android.eternalfriend.map.places.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

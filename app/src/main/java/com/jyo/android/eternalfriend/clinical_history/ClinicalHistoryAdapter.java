@@ -19,8 +19,6 @@ import butterknife.ButterKnife;
  */
 public class ClinicalHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private static final String LOG_TAG = ClinicalHistoryAdapter.class.getSimpleName();
-
     private static int COLUMN_CLINICAL_ID_INDEX = 0;
     private static int COLUMN_CLINICAL_DATE_INDEX = 1;
     private static int COLUMN_CLINICAL_HOSPITAL_INDEX = 2;

@@ -1,4 +1,4 @@
-package com.jyo.android.eternalfriend.clinical_history;
+package com.jyo.android.eternalfriend.vaccination_plan;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jyo.android.eternalfriend.R;
-import com.jyo.android.eternalfriend.data.EFContract.ClinicalHistoryEntry;
+import com.jyo.android.eternalfriend.data.EFContract.VacccinationPlanEntry;
 import com.jyo.android.eternalfriend.profile.ProfileActivity;
 import com.jyo.android.eternalfriend.profile.model.Profile;
 
@@ -31,41 +31,43 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ClinicalHistoryActivity extends AppCompatActivity implements
+public class VaccinationActivity extends AppCompatActivity
+        implements
         LoaderManager.LoaderCallbacks<Cursor>{
+
+    // Identifies a particular Loader being used in this component
+    private static final int VACCINATION_LOADER = 4;
 
     ViewHolder mViewHolder;
     Profile mProfile;
-
-    // Identifies a particular Loader being used in this component
-    private static final int HISTORY_LOADER = 3;
-    private ClinicalHistoryAdapter mHistoryAdapter;
+    private VaccinationAdapter mVaccinationAdapter;
 
     //Query projection
-    String[] HISTORY_COLUMNS = {
-            ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_ID,
-            ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_DATE,
-            ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_HOSPITAL,
-            ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_DIAGNOSTIC,
-            ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_TREATMENT
+    String[] VACCINATION_COLUMNS = {
+            VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_ID,
+            VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_DATE,
+            VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_NAME,
+            VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_STATUS,
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clinical_history);
+        setContentView(R.layout.activity_vaccination);
+
         ButterKnife.bind(this);
-        View rootView = findViewById(R.id.clinical_history_container);
+        View rootView = findViewById(R.id.vaccination_plan_container);
         mViewHolder = new ViewHolder(rootView);
 
         Intent incoming = getIntent();
         mProfile = incoming.getParcelableExtra(ProfileActivity.PROFILE_EXTRA);
 
-        mHistoryAdapter = new ClinicalHistoryAdapter(this);
+        //RecyclerView setup
+        mVaccinationAdapter = new VaccinationAdapter(this);
         //Design manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mViewHolder.recyclerView.setLayoutManager(layoutManager);
-        mViewHolder.recyclerView.setAdapter(mHistoryAdapter);
+        mViewHolder.recyclerView.setAdapter(mVaccinationAdapter);
 
         //Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.gallery_toolbar);
@@ -90,28 +92,28 @@ public class ClinicalHistoryActivity extends AppCompatActivity implements
          * Initializes the CursorLoader. The URL_LOADER value is eventually passed
          * to onCreateLoader().
          */
-        getSupportLoaderManager().initLoader(HISTORY_LOADER, null, this);
+        getSupportLoaderManager().initLoader(VACCINATION_LOADER, null, this);
     }
 
     @OnClick(R.id.add_fab)
-    public void goToAddHistory() {
-        Intent intent = new Intent(this, AddHistoryActivity.class);
+    public void goToAddVaccination() {
+        Intent intent = new Intent(this, AddVaccinationActivity.class);
         intent.putExtra(ProfileActivity.PROFILE_EXTRA, mProfile);
         startActivity(intent);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int loaderID, Bundle args) {
-        /*
+                /*
         * Takes action based on the ID of the Loader that's being created
         */
         switch (loaderID) {
-            case HISTORY_LOADER:
+            case VACCINATION_LOADER:
                 // Returns a new CursorLoader
                 return new CursorLoader(
                         this,   // Parent activity context
-                        Uri.withAppendedPath(ClinicalHistoryEntry.CONTENT_URI, String.valueOf(mProfile.getProfileId())),    // Table to query
-                        HISTORY_COLUMNS,     // Projection to return
+                        Uri.withAppendedPath(VacccinationPlanEntry.CONTENT_URI, String.valueOf(mProfile.getProfileId())),    // Table to query
+                        VACCINATION_COLUMNS,     // Projection to return
                         null,            // No selection clause
                         null,            // No selection arguments
                         null             // Default sort order
@@ -124,29 +126,25 @@ public class ClinicalHistoryActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-             /*
-     * Moves the query results into the adapter, causing the
-     * ListView fronting this adapter to re-display
-     */
         if (data.getCount() == 0){
             mViewHolder.emptyMessage.setVisibility(View.VISIBLE);
         }else {
             mViewHolder.emptyMessage.setVisibility(View.GONE);
         }
-        mHistoryAdapter.swapCursor(data);
+        mVaccinationAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mHistoryAdapter.swapCursor(null);
+        mVaccinationAdapter.swapCursor(null);
     }
 
     static class ViewHolder {
 
-        @BindView(R.id.clinical_history_recycler_view)
+        @BindView(R.id.vaccination_plan_recycler_view)
         RecyclerView recyclerView;
 
-        @BindView(R.id.clinical_history_container)
+        @BindView(R.id.vaccination_plan_container)
         CoordinatorLayout containerView;
 
         @BindView(R.id.profile_image)

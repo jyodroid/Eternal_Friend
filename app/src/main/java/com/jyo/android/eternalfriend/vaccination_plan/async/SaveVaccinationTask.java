@@ -1,10 +1,9 @@
-package com.jyo.android.eternalfriend.profile.async;
+package com.jyo.android.eternalfriend.vaccination_plan.async;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
@@ -12,25 +11,24 @@ import android.util.Log;
 import android.view.View;
 
 import com.jyo.android.eternalfriend.R;
-import com.jyo.android.eternalfriend.data.EFContract.ProfileEntry;
-import com.jyo.android.eternalfriend.profile.ProfileSummarizeActivity;
-import com.jyo.android.eternalfriend.profile.model.Profile;
+import com.jyo.android.eternalfriend.data.EFContract.VacccinationPlanEntry;
+import com.jyo.android.eternalfriend.vaccination_plan.model.Vaccination;
 
 /**
  * Created by JohnTangarife on 10/08/16.
  */
-public class SaveProfileTask extends AsyncTask<Void, Void, Long> {
+public class SaveVaccinationTask extends AsyncTask<Void, Void, Long> {
 
-    public static final String LOG_TAG = SaveProfileTask.class.getSimpleName();
+    public static final String LOG_TAG = SaveVaccinationTask.class.getSimpleName();
     private static final Long ERROR_SAVING = -1L;
 
     private Context mContext;
-    private Profile mProfile;
+    private Vaccination mVaccination;
     private View mSnackBarContainer;
 
-    public SaveProfileTask(Context context, Profile profile, View snackBarContainer) {
+    public SaveVaccinationTask(Context context, Vaccination vaccination, View snackBarContainer) {
         mContext = context;
-        mProfile = profile;
+        mVaccination = vaccination;
         mSnackBarContainer = snackBarContainer;
     }
 
@@ -40,15 +38,15 @@ public class SaveProfileTask extends AsyncTask<Void, Void, Long> {
 
         ContentValues profileValues = new ContentValues();
 
-        profileValues.put(ProfileEntry.COLUMN_PROFILE_NAME, mProfile.getName());
-        profileValues.put(ProfileEntry.COLUMN_PROFILE_BIRTH_DATE, mProfile.getBirthDate());
-        profileValues.put(ProfileEntry.COLUMN_PROFILE_BREED, mProfile.getBreed());
-        profileValues.put(ProfileEntry.COLUMN_PROFILE_IMAGE, mProfile.getPicture());
+        profileValues.put(VacccinationPlanEntry.COLUMN_PROFILE_ID, mVaccination.getProfileId());
+        profileValues.put(VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_DATE, mVaccination.getDate());
+        profileValues.put(VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_NAME, mVaccination.getName());
+        profileValues.put(VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_STATUS, mVaccination.getStatus());
 
         Uri insertedUri = null;
         try {
             insertedUri =
-                    resolver.insert(ProfileEntry.CONTENT_URI, profileValues);
+                    resolver.insert(VacccinationPlanEntry.CONTENT_URI, profileValues);
         }catch (Exception e){
             Log.e(LOG_TAG, "Can't save on database", e);
         }
@@ -72,16 +70,8 @@ public class SaveProfileTask extends AsyncTask<Void, Void, Long> {
         }else {
             Snackbar.make(
                     mSnackBarContainer,
-                    String.format(
-                            mContext.getString(R.string.save_message), mProfile.getName()),
-                    Snackbar.LENGTH_LONG)
-                    .setAction(R.string.go_to_profiles, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(mContext, ProfileSummarizeActivity.class);
-                            mContext.startActivity(intent);
-                        }
-                    }).show();
+                    mContext.getString(R.string.vaccination_added),
+                    Snackbar.LENGTH_LONG).show();
         }
         Log.d(LOG_TAG, "Inserted URI: " + insertedUri);
     }

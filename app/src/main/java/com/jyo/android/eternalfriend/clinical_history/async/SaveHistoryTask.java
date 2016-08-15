@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.jyo.android.eternalfriend.R;
-import com.jyo.android.eternalfriend.clinical_history.ClinicalHistoryActivity;
 import com.jyo.android.eternalfriend.clinical_history.model.ClinicalHistory;
 import com.jyo.android.eternalfriend.data.EFContract.ClinicalHistoryEntry;
 
@@ -75,13 +73,7 @@ public class SaveHistoryTask extends AsyncTask<Void, Void, Long> {
                     mSnackBarContainer,
                     mContext.getString(R.string.clinical_history_added),
                     Snackbar.LENGTH_LONG)
-                    .setAction(R.string.go_to_histories, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(mContext, ClinicalHistoryActivity.class);
-                            mContext.startActivity(intent);
-                        }
-                    }).show();
+                    .show();
         }
         Log.d(LOG_TAG, "Inserted URI: " + insertedUri);
     }

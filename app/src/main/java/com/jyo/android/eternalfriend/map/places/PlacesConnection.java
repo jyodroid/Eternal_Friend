@@ -1,4 +1,4 @@
-package com.jyo.android.eternalfriend.places;
+package com.jyo.android.eternalfriend.map.places;
 
 import android.content.Context;
 import android.net.Uri;
