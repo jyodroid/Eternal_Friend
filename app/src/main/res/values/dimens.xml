@@ -47,4 +47,11 @@
     <dimen name="profile_image_height">200dp</dimen>
     <dimen name="profile_breed_size">18sp</dimen>
 
+
+    <!-- Widget dimens-->
+    <dimen name="widget_padding">2dp</dimen>
+    <dimen name="widget_next_match_default_height">80dp</dimen>
+    <dimen name="widget_next_match_default_width">160dp</dimen>
+    <dimen name="widget_image_height">500dp</dimen>
+
 </resources>

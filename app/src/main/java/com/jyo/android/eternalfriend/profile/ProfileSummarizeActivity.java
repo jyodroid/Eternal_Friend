@@ -21,6 +21,7 @@ import com.jyo.android.eternalfriend.map.MapsActivity;
 import com.jyo.android.eternalfriend.profile.adapter.ProfileAdapter;
 import com.jyo.android.eternalfriend.profile.adapter.TouchHelperCallback;
 import com.jyo.android.eternalfriend.profile.settings.SettingsActivity;
+import com.jyo.android.eternalfriend.widget.sync.NewsSyncAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,6 +73,7 @@ public class ProfileSummarizeActivity extends AppCompatActivity implements
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mViewHolder.recyclerView);
         mViewHolder.recyclerView.setAdapter(mProfileAdapter);
+        NewsSyncAdapter.initializeSyncAdapter(this);
 
     }
 

@@ -38,6 +38,7 @@ import com.jyo.android.eternalfriend.commons.MediaHelper;
 import com.jyo.android.eternalfriend.commons.PermissionsHelper;
 import com.jyo.android.eternalfriend.profile.async.SaveProfileTask;
 import com.jyo.android.eternalfriend.profile.model.Profile;
+import com.jyo.android.eternalfriend.widget.NewsWidgetProvider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -571,5 +572,14 @@ public class AddProfileActivity extends AppCompatActivity
             }
             isAskingForPermission = false;
         }
+    }
+
+    private void updateWidgets() {
+        Context context = getBaseContext();
+        // Setting the package ensures that only components in our app will receive the broadcast
+        Intent dataUpdatedIntent = new Intent(NewsWidgetProvider.ACTION_DATA_UPDATED)
+                .setPackage(context.getPackageName());
+
+        context.sendBroadcast(dataUpdatedIntent);
     }
 }

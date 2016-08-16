@@ -10,7 +10,7 @@ import com.jyo.android.eternalfriend.data.EFContract.*;
  */
 public class EFDBHelper extends SQLiteOpenHelper{
 
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 11;
     static final String DATABASE_NAME = "eternal_friend.db";
 
     public EFDBHelper(Context context) {
@@ -62,21 +62,48 @@ public class EFDBHelper extends SQLiteOpenHelper{
                 ProfileEntry.TABLE_NAME + "(" + ProfileEntry.COLUMN_PROFILE_ID + ") ON DELETE CASCADE" +
                 " );";
 
+        // Create a table to hold news.
+        final String SQL_CREATE_NEWS_TABLE = "CREATE TABLE " + NewsEntry.TABLE_NAME + " (" +
+                NewsEntry.COLUMN_NEWS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                NewsEntry.COLUMN_NEWS_IMAGE_URL + " TEXT, " +
+                NewsEntry.COLUMN_NEWS_ARTICLE_URL + " TEXT, " +
+                NewsEntry.COLUMN_NEWS_TITLE + " TEXT, " +
+                NewsEntry.COLUMN_NEWS_BY_LINE + " TEXT, " +
+                NewsEntry.COLUMN_NEWS_DATE + " TEXT, " +
+                NewsEntry.COLUMN_NEWS_EXTRACT + " TEXT " +
+                " );";
+
         sqLiteDatabase.execSQL(SQL_CREATE_PROFILE_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_CLINICAL_HISTORY_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_GALLERY_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_VACCINATION_PLAN_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_NEWS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        // Version 1, no needs yet to implement database migration
         // Note that this only fires if you change the version number for your database.
         // It does NOT depend on the version number for your application.
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ProfileEntry.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + GalleryEntry.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ClinicalHistoryEntry.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + VaccinationPlanEntry.TABLE_NAME);
-        onCreate(sqLiteDatabase);
+        if (oldVersion == 10){
+            // Create a table to hold news.
+            final String SQL_CREATE_NEWS_TABLE = "CREATE TABLE " + NewsEntry.TABLE_NAME + " (" +
+                    NewsEntry.COLUMN_NEWS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    NewsEntry.COLUMN_NEWS_IMAGE_URL + " TEXT, " +
+                    NewsEntry.COLUMN_NEWS_ARTICLE_URL + " TEXT, " +
+                    NewsEntry.COLUMN_NEWS_TITLE + " TEXT, " +
+                    NewsEntry.COLUMN_NEWS_BY_LINE + " TEXT, " +
+                    NewsEntry.COLUMN_NEWS_DATE + " TEXT, " +
+                    NewsEntry.COLUMN_NEWS_EXTRACT + " TEXT " +
+                    " );";
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + NewsEntry.TABLE_NAME);
+            sqLiteDatabase.execSQL(SQL_CREATE_NEWS_TABLE);
+        }else {
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ProfileEntry.TABLE_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + GalleryEntry.TABLE_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ClinicalHistoryEntry.TABLE_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + VaccinationPlanEntry.TABLE_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + NewsEntry.TABLE_NAME);
+            onCreate(sqLiteDatabase);
+        }
     }
 }

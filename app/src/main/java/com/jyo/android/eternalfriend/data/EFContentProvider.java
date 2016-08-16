@@ -9,10 +9,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.jyo.android.eternalfriend.data.EFContract.ClinicalHistoryEntry;
-import com.jyo.android.eternalfriend.data.EFContract.GalleryEntry;
-import com.jyo.android.eternalfriend.data.EFContract.ProfileEntry;
-import com.jyo.android.eternalfriend.data.EFContract.VaccinationPlanEntry;
+import com.jyo.android.eternalfriend.data.EFContract.*;
 
 public class EFContentProvider extends ContentProvider {
 
@@ -30,11 +27,13 @@ public class EFContentProvider extends ContentProvider {
     private static final int GALLERY_FOR_PROFILE_AND_AGE = 302;
     private static final int VACCINATION_PLAN = 400;
     private static final int VACCINATION_PLAN_FOR_PROFILE = 401;
+    private static final int NEWS = 500;
 
     private static final String PROFILE_TABLE_NAME = ProfileEntry.TABLE_NAME;
     private static final String CLINICAL_HISTORY_TABLE_NAME = ClinicalHistoryEntry.TABLE_NAME;
     private static final String GALLERY_TABLE_NAME = GalleryEntry.TABLE_NAME;
     private static final String VACCINATION_PLAN_TABLE_NAME = VaccinationPlanEntry.TABLE_NAME;
+    private static final String NEWS_TABLE_NAME = NewsEntry.TABLE_NAME;
 
     private static final String sProfileSelection =
             PROFILE_TABLE_NAME + "." +
@@ -78,6 +77,10 @@ public class EFContentProvider extends ContentProvider {
                 rowsDeleted = db.delete(
                         PROFILE_TABLE_NAME, selection, selectionArgs);
                 break;
+            case NEWS:
+                rowsDeleted = db.delete(
+                        NEWS_TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -112,6 +115,8 @@ public class EFContentProvider extends ContentProvider {
                 return VaccinationPlanEntry.CONTENT_TYPE;
             case VACCINATION_PLAN_FOR_PROFILE:
                 return VaccinationPlanEntry.CONTENT_TYPE;
+            case NEWS:
+                return NewsEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -152,6 +157,14 @@ public class EFContentProvider extends ContentProvider {
                 long _id = db.insert(VACCINATION_PLAN_TABLE_NAME, null, values);
                 if (_id > 0)
                     returnUri = VaccinationPlanEntry.buildUri(_id);
+                else
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                break;
+            }
+            case NEWS: {
+                long _id = db.insert(NEWS_TABLE_NAME, null, values);
+                if (_id > 0)
+                    returnUri = NewsEntry.buildUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
@@ -207,6 +220,18 @@ public class EFContentProvider extends ContentProvider {
                 retCursor = getVaccinationPlanForProfile(uri, projection, sortOrder);
                 break;
             }
+            case NEWS: {
+                retCursor = mEFHelper.getReadableDatabase().query(
+                        NEWS_TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
 
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -224,19 +249,23 @@ public class EFContentProvider extends ContentProvider {
 
         switch (match) {
             case PROFILE:
-                rowsUpdated = db.update(EFContract.ProfileEntry.TABLE_NAME, values, selection,
+                rowsUpdated = db.update(PROFILE_TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             case GALLERY:
-                rowsUpdated = db.update(EFContract.GalleryEntry.TABLE_NAME, values, selection,
+                rowsUpdated = db.update(GALLERY_TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             case CLINICAL_HISTORY:
-                rowsUpdated = db.update(EFContract.ClinicalHistoryEntry.TABLE_NAME, values, selection,
+                rowsUpdated = db.update(CLINICAL_HISTORY_TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             case VACCINATION_PLAN:
-                rowsUpdated = db.update(EFContract.VaccinationPlanEntry.TABLE_NAME, values, selection,
+                rowsUpdated = db.update(VACCINATION_PLAN_TABLE_NAME, values, selection,
+                        selectionArgs);
+                break;
+            case NEWS:
+                rowsUpdated = db.update(NEWS_TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             default:
@@ -273,6 +302,8 @@ public class EFContentProvider extends ContentProvider {
         matcher.addURI(authority, EFContract.PATH_VACCINATION_PLAN, VACCINATION_PLAN);
         matcher.addURI(authority, EFContract.PATH_VACCINATION_PLAN + "/#", VACCINATION_PLAN_FOR_PROFILE);
 
+        matcher.addURI(authority, EFContract.PATH_NEWS, NEWS);
+
         return matcher;
     }
 
@@ -298,7 +329,7 @@ public class EFContentProvider extends ContentProvider {
 
         sQueryBuilder.setTables(CLINICAL_HISTORY_TABLE_NAME);
 
-        if (sortOrder == null){
+        if (sortOrder == null) {
             sortOrder = CLINICAL_HISTORY_TABLE_NAME + "." + ClinicalHistoryEntry.COLUMN_CLINICAL_HISTORY_DATE + " ASC";
         }
 
@@ -321,7 +352,7 @@ public class EFContentProvider extends ContentProvider {
         sQueryBuilder.setTables(GALLERY_TABLE_NAME);
 
         String profileId = EFContract.getProfileIdFromUri(uri);
-        if (sortOrder == null){
+        if (sortOrder == null) {
             sortOrder = GALLERY_TABLE_NAME + "." + GalleryEntry.COLUMN_GALLERY_AGE_RANGE + " ASC";
         }
 

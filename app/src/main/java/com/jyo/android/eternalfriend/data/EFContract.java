@@ -16,6 +16,7 @@ public class EFContract {
     public static final String PATH_GALLERY = "gallery";
     public static final String PATH_CLINICAL_HISTORY = "clinical_history";
     public static final String PATH_VACCINATION_PLAN = "vaccination_plan";
+    public static final String PATH_NEWS = "news";
 
     public static final class ProfileEntry implements BaseColumns {
         public static final Uri CONTENT_URI =
@@ -99,6 +100,30 @@ public class EFContract {
         public static final String COLUMN_VACCINATION_PLAN_DATE = "vaccination_plan_date";
         public static final String COLUMN_VACCINATION_PLAN_NAME = "vaccination_plan_name";
         public static final String COLUMN_VACCINATION_PLAN_STATUS = "vaccination_plan_status";
+
+        public static Uri buildUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+    }
+
+    public static final class NewsEntry implements BaseColumns {
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_NEWS).build();
+
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_NEWS;
+
+        // Table name
+        public static final String TABLE_NAME = "news";
+
+        //Columns
+        public static final String COLUMN_NEWS_ID = "news_id";
+        public static final String COLUMN_NEWS_IMAGE_URL = "news_image_url";
+        public static final String COLUMN_NEWS_ARTICLE_URL = "news_article_url";
+        public static final String COLUMN_NEWS_TITLE= "news_title";
+        public static final String COLUMN_NEWS_BY_LINE = "news_by_line";
+        public static final String COLUMN_NEWS_DATE = "news_date";
+        public static final String COLUMN_NEWS_EXTRACT = "news_extract";
 
         public static Uri buildUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
