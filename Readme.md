@@ -123,6 +123,7 @@ Widget
  - Add support to pre - lollipop devices
  - Add support for other screen devices
  - add phone number on points in map
+
 License
 ----
 
