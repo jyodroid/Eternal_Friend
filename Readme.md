@@ -8,7 +8,7 @@ Eternal Friend is a tool to keep your pets closer and take care about their need
   - Create a list of your pets vaccinations. 
   - Check Vaccination that already are applied.
   - Receive a daily reminder of pending vaccinations. 
-  - Using a widget to se latest news about pets in The New York Times.
+  - Using a widget to see latest news about pets in The New York Times.
   - See nearest pet shops and veterinarian in a map.
 
 ### Tech
@@ -34,9 +34,6 @@ Besides Android dependencies, this app uses different libraries that are defined
 * [Gson] - used for serialize data form server.
 * [Glide] - Image loader.
 * [Wasabeef glide-transformation] - Transformations to complement glide.
-
-And of course Dillinger itself is open source with a [public repository][dill]
- on GitHub.
 
 ### Installation
 
