@@ -11,4 +11,5 @@
     <color name="delete_color">#ecc6bc</color>
     <color name="delete_button_color">#b71c1c</color>
     <color name="share_shadow">#42000000</color>
+    <color name="widget_color">#EFEFEF</color>
 </resources>

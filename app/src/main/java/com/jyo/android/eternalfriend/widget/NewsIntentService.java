@@ -60,7 +60,7 @@ public class NewsIntentService extends IntentService {
         }
 
         News news = null;
-        if (data.getCount() >0){
+        if (data.getCount() > 0) {
             news = new News();
             data.moveToFirst();
 
@@ -94,12 +94,14 @@ public class NewsIntentService extends IntentService {
             if (null != news) {
                 try {
                     Bitmap imageBitmap =
-                            Glide.
-                                    with(getBaseContext()).
-                                    load(news.getImageUrl()).
-                                    asBitmap().
-                                    into(100, 100). // Width and height
-                                    get();
+                            Glide
+                                    .with(getBaseContext())
+                                    .load(news.getImageUrl())
+                                    .asBitmap()
+                                    .into(100, 100)
+                                    .get();
+
+
                     remoteViews.setImageViewBitmap(R.id.widget_image, imageBitmap);
                 } catch (InterruptedException e) {
                     Log.e(LOG_TAG, "interrupted", e);
@@ -108,7 +110,7 @@ public class NewsIntentService extends IntentService {
                 }
 
                 remoteViews.setTextViewText(R.id.widget_title, news.getTitle());
-                remoteViews.setTextViewText(R.id.widget_byline, news.getByLine());
+//                remoteViews.setTextViewText(R.id.widget_byline, news.getByLine());
                 remoteViews.setTextViewText(R.id.widget_date, news.getDate());
                 remoteViews.setTextViewText(R.id.widget_extract, news.getExtract());
 
@@ -125,12 +127,14 @@ public class NewsIntentService extends IntentService {
 
     }
 
-    private String formatDate(String oldFormatdate) throws ParseException {
+    private String formatDate(String oldFormatDate) throws ParseException {
 
-        SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");//2016-07-11T00:00:00Z
+        String oldFormatDateSub = oldFormatDate.substring(0, oldFormatDate.length());
+
+        SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");//2016-07-11T00:00:00Z
         SimpleDateFormat newDateFormat = new SimpleDateFormat(getString(R.string.date_format));
 
-        Date date = oldDateFormat.parse(oldFormatdate);
+        Date date = oldDateFormat.parse(oldFormatDateSub);
         return newDateFormat.format(date);
     }
 }

@@ -50,8 +50,8 @@
 
     <!-- Widget dimens-->
     <dimen name="widget_padding">2dp</dimen>
-    <dimen name="widget_next_match_default_height">160dp</dimen>
-    <dimen name="widget_next_match_default_width">160dp</dimen>
+    <dimen name="widget_next_match_default_height">110dp</dimen>
+    <dimen name="widget_next_match_default_width">250dp</dimen>
     <dimen name="widget_image_height">100dp</dimen>
 
 </resources>
