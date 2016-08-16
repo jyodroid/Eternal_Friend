@@ -16,8 +16,9 @@ public class Doc implements Parcelable{
     private List<MultiMedia> multimedia;
     @SerializedName("web_url")
     private String webUrl;
-    @SerializedName("byline")
-    private ByLine byLine;
+//    I cant use this value because odd results: sometimes as an object and sometimes as an array
+//    @SerializedName("byline")
+//    private ByLine byLine;
     @SerializedName("pub_date")
     private String pubDate;
     private String snippet;
@@ -26,7 +27,7 @@ public class Doc implements Parcelable{
         headline = in.readParcelable(HeadLine.class.getClassLoader());
         multimedia = in.createTypedArrayList(MultiMedia.CREATOR);
         webUrl = in.readString();
-        byLine = in.readParcelable(ByLine.class.getClassLoader());
+//        byLine = in.readParcelable(ByLine.class.getClassLoader());
         pubDate = in.readString();
         snippet = in.readString();
     }
@@ -36,7 +37,7 @@ public class Doc implements Parcelable{
         dest.writeParcelable(headline, flags);
         dest.writeTypedList(multimedia);
         dest.writeString(webUrl);
-        dest.writeParcelable(byLine, flags);
+//        dest.writeParcelable(byLine, flags);
         dest.writeString(pubDate);
         dest.writeString(snippet);
     }
@@ -82,13 +83,13 @@ public class Doc implements Parcelable{
         this.webUrl = webUrl;
     }
 
-    public ByLine getByLine() {
-        return byLine;
-    }
+//    public ByLine getByLine() {
+//        return byLine;
+//    }
 
-    public void setByLine(ByLine byLine) {
-        this.byLine = byLine;
-    }
+//    public void setByLine(ByLine byLine) {
+//        this.byLine = byLine;
+//    }
 
     public String getPubDate() {
         return pubDate;

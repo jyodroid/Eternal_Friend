@@ -43,7 +43,7 @@ public class NewsSyncAdapter extends AbstractThreadedSyncAdapter {
     // Interval at which to sync with the news, in seconds.
     // 60 seconds (1 minute) * 180 = 3 hours
     public static final int SYNC_INTERVAL = 60 * 180;
-    public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
+    public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
     private Response.Listener<JSONObject> mOnSuccessHandler = new Response.Listener<JSONObject>() {
         @Override
@@ -53,20 +53,26 @@ public class NewsSyncAdapter extends AbstractThreadedSyncAdapter {
                     gson.fromJson(response.toString(), NewsResponse.class);
 
             if (newsResponse != null && newsResponse.getResponseObject() != null) {
-                Doc firstArticle = newsResponse.getResponseObject().getDocs().get(0);
+                if (newsResponse.getResponseObject().getDocs() != null &&
+                        newsResponse.getResponseObject().getDocs().size() > 0) {
 
-                News news = new News();
+                    Doc firstArticle = newsResponse.getResponseObject().getDocs().get(0);
+                    News news = new News();
 
-                news.setTitle(firstArticle.getHeadline().getMain());
-                news.setArticleUrl(firstArticle.getWebUrl());
-                news.setImageUrl(IMAGE_URL_BASE + firstArticle.getMultimedia().get(0).getUrl());
-                news.setByLine(firstArticle.getByLine().getOriginal());
-                news.setDate(firstArticle.getPubDate());
-                news.setExtract(firstArticle.getSnippet());
+                    news.setTitle(firstArticle.getHeadline().getMain());
+                    news.setArticleUrl(firstArticle.getWebUrl());
+                    if (firstArticle.getMultimedia().size() > 0) {
+                        news.setImageUrl(IMAGE_URL_BASE + firstArticle.getMultimedia().get(0).getUrl());
+                    }
+//                news.setByLine(firstArticle.getByLine().getOriginal());
+                    news.setDate(firstArticle.getPubDate());
+                    news.setExtract(firstArticle.getSnippet());
 
-                deleteNewsData();
-                saveNews(news);
-                updateWidgets();
+                    deleteNewsData();
+                    saveNews(news);
+                    updateWidgets();
+                }
+
             }
         }
     };
@@ -105,11 +111,11 @@ public class NewsSyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-    private void deleteNewsData(){
+    private void deleteNewsData() {
         mContentResolver.delete(EFContract.NewsEntry.CONTENT_URI, null, null);
     }
 
-    private void saveNews(News news){
+    private void saveNews(News news) {
 
         ContentValues newsValues = new ContentValues();
 
@@ -168,7 +174,7 @@ public class NewsSyncAdapter extends AbstractThreadedSyncAdapter {
                 context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
 
         // If the password doesn't exist, the account doesn't exist
-        if ( null == accountManager.getPassword(newAccount) ) {
+        if (null == accountManager.getPassword(newAccount)) {
 
         /*
          * Add the account and account type, no password or user data
@@ -208,6 +214,7 @@ public class NewsSyncAdapter extends AbstractThreadedSyncAdapter {
 
     /**
      * Helper method to have the sync adapter sync immediately
+     *
      * @param context The context used to access the account service
      */
     public static void syncImmediately(Context context) {
