@@ -58,17 +58,28 @@ $gradle installRelese
 And ensures you have the current signature for the application.
 
 ### Screenshots
-Profile view
+Profiles view
 ![profile][profile]
 
-[profile]: /screenshots/profile.png
+Delete Profile
+![delete swipe][swipe]
+![delete swipe][delete]
 
+Profile details
+![profile details][profile_details]
+
+
+
+[profile]: /screenshots/profile.png
+[swipe]: /screenshots/profile_swipe.png
+[delete]: /screenshots/delete_profile.png
+[profile_details]: /screenshots/profile_details.png
 
 ### Todos
 
  - Add support to pre - lollipop devices
  - Add support for other screen devices
- - 
+ - add phone number on points in map
 License
 ----
 
