@@ -117,7 +117,7 @@ Widget
 [add_vaccination_plan]: /screenshots/add_vaccination.png
 [map]: /screenshots/map.png
 [settings]: /screenshots/settings.png
-[settings_notifications]: /screenshots/settings_notifications.png
+[settings_notifications]: /screenshots/notifications.png
 [notifications_alert]: /screenshots/notifications_alert.png
 [widget]: /screenshots/widget.png
 
