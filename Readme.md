@@ -57,6 +57,12 @@ $gradle installRelese
 ```
 And ensures you have the current signature for the application.
 
+if you prevously have a version of the app in the device use
+```sh
+$adb uninstall com.jyo.android.eternalfriend
+```
+
+
 ### Screenshots
 Profiles view
 ![profile][profile]
