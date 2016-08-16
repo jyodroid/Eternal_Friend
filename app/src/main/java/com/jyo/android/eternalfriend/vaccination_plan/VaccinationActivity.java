@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jyo.android.eternalfriend.R;
-import com.jyo.android.eternalfriend.data.EFContract.VacccinationPlanEntry;
+import com.jyo.android.eternalfriend.data.EFContract.VaccinationPlanEntry;
 import com.jyo.android.eternalfriend.profile.ProfileActivity;
 import com.jyo.android.eternalfriend.profile.model.Profile;
 
@@ -33,7 +33,7 @@ import butterknife.OnClick;
 
 public class VaccinationActivity extends AppCompatActivity
         implements
-        LoaderManager.LoaderCallbacks<Cursor>{
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     // Identifies a particular Loader being used in this component
     private static final int VACCINATION_LOADER = 4;
@@ -44,10 +44,11 @@ public class VaccinationActivity extends AppCompatActivity
 
     //Query projection
     String[] VACCINATION_COLUMNS = {
-            VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_ID,
-            VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_DATE,
-            VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_NAME,
-            VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_STATUS,
+            VaccinationPlanEntry.COLUMN_PROFILE_ID,
+            VaccinationPlanEntry.COLUMN_VACCINATION_PLAN_ID,
+            VaccinationPlanEntry.COLUMN_VACCINATION_PLAN_DATE,
+            VaccinationPlanEntry.COLUMN_VACCINATION_PLAN_NAME,
+            VaccinationPlanEntry.COLUMN_VACCINATION_PLAN_STATUS,
     };
 
     @Override
@@ -75,7 +76,12 @@ public class VaccinationActivity extends AppCompatActivity
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mViewHolder.collapsingToolbarLayout.setTitle(mProfile.getName());
+        mViewHolder
+                .collapsingToolbarLayout
+                .setTitle(
+                        String.format(
+                                getString(R.string.vaccination_bar_title_format),
+                                mProfile.getName()));
 
         Glide
                 .with(this)
@@ -112,7 +118,7 @@ public class VaccinationActivity extends AppCompatActivity
                 // Returns a new CursorLoader
                 return new CursorLoader(
                         this,   // Parent activity context
-                        Uri.withAppendedPath(VacccinationPlanEntry.CONTENT_URI, String.valueOf(mProfile.getProfileId())),    // Table to query
+                        Uri.withAppendedPath(VaccinationPlanEntry.CONTENT_URI, String.valueOf(mProfile.getProfileId())),    // Table to query
                         VACCINATION_COLUMNS,     // Projection to return
                         null,            // No selection clause
                         null,            // No selection arguments
@@ -126,9 +132,9 @@ public class VaccinationActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data.getCount() == 0){
+        if (data.getCount() == 0) {
             mViewHolder.emptyMessage.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             mViewHolder.emptyMessage.setVisibility(View.GONE);
         }
         mVaccinationAdapter.swapCursor(data);
@@ -165,6 +171,9 @@ public class VaccinationActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(this, ProfileActivity.class);
+            intent.putExtra(ProfileActivity.PROFILE_EXTRA, mProfile);
+            startActivity(intent);
             finish();
         }
 

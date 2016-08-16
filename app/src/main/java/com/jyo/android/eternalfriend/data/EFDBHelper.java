@@ -52,13 +52,13 @@ public class EFDBHelper extends SQLiteOpenHelper{
                 " );";
 
         // Create a table to hold clinical history.
-        final String SQL_CREATE_VACCINATION_PLAN_TABLE = "CREATE TABLE " + VacccinationPlanEntry.TABLE_NAME + " (" +
-                VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                VacccinationPlanEntry.COLUMN_PROFILE_ID + " INTEGER NOT NULL, " +
-                VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_DATE + " TEXT NOT NULL, " +
-                VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_NAME + " TEXT NOT NULL, " +
-                VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_STATUS + " INTEGER NOT NULL, " +
-                "FOREIGN KEY(" + VacccinationPlanEntry.COLUMN_PROFILE_ID + ") REFERENCES " +
+        final String SQL_CREATE_VACCINATION_PLAN_TABLE = "CREATE TABLE " + VaccinationPlanEntry.TABLE_NAME + " (" +
+                VaccinationPlanEntry.COLUMN_VACCINATION_PLAN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                VaccinationPlanEntry.COLUMN_PROFILE_ID + " INTEGER NOT NULL, " +
+                VaccinationPlanEntry.COLUMN_VACCINATION_PLAN_DATE + " TEXT NOT NULL, " +
+                VaccinationPlanEntry.COLUMN_VACCINATION_PLAN_NAME + " TEXT NOT NULL, " +
+                VaccinationPlanEntry.COLUMN_VACCINATION_PLAN_STATUS + " INTEGER NOT NULL, " +
+                "FOREIGN KEY(" + VaccinationPlanEntry.COLUMN_PROFILE_ID + ") REFERENCES " +
                 ProfileEntry.TABLE_NAME + "(" + ProfileEntry.COLUMN_PROFILE_ID + ") ON DELETE CASCADE" +
                 " );";
 
@@ -76,7 +76,7 @@ public class EFDBHelper extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ProfileEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + GalleryEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ClinicalHistoryEntry.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + VacccinationPlanEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + VaccinationPlanEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }

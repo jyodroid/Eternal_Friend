@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 import com.jyo.android.eternalfriend.data.EFContract.ClinicalHistoryEntry;
 import com.jyo.android.eternalfriend.data.EFContract.GalleryEntry;
 import com.jyo.android.eternalfriend.data.EFContract.ProfileEntry;
-import com.jyo.android.eternalfriend.data.EFContract.VacccinationPlanEntry;
+import com.jyo.android.eternalfriend.data.EFContract.VaccinationPlanEntry;
 
 public class EFContentProvider extends ContentProvider {
 
@@ -34,7 +34,7 @@ public class EFContentProvider extends ContentProvider {
     private static final String PROFILE_TABLE_NAME = ProfileEntry.TABLE_NAME;
     private static final String CLINICAL_HISTORY_TABLE_NAME = ClinicalHistoryEntry.TABLE_NAME;
     private static final String GALLERY_TABLE_NAME = GalleryEntry.TABLE_NAME;
-    private static final String VACCINATION_PLAN_TABLE_NAME = VacccinationPlanEntry.TABLE_NAME;
+    private static final String VACCINATION_PLAN_TABLE_NAME = VaccinationPlanEntry.TABLE_NAME;
 
     private static final String sProfileSelection =
             PROFILE_TABLE_NAME + "." +
@@ -56,7 +56,7 @@ public class EFContentProvider extends ContentProvider {
 
     private static final String sVaccinationPlanSelection =
             VACCINATION_PLAN_TABLE_NAME + "." +
-                    VacccinationPlanEntry.COLUMN_PROFILE_ID + " = ?";
+                    VaccinationPlanEntry.COLUMN_PROFILE_ID + " = ?";
 
     static {
         sQueryBuilder = new SQLiteQueryBuilder();
@@ -109,9 +109,9 @@ public class EFContentProvider extends ContentProvider {
             case GALLERY_FOR_PROFILE_AND_AGE:
                 return GalleryEntry.CONTENT_TYPE;
             case VACCINATION_PLAN:
-                return VacccinationPlanEntry.CONTENT_TYPE;
+                return VaccinationPlanEntry.CONTENT_TYPE;
             case VACCINATION_PLAN_FOR_PROFILE:
-                return VacccinationPlanEntry.CONTENT_TYPE;
+                return VaccinationPlanEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -151,7 +151,7 @@ public class EFContentProvider extends ContentProvider {
             case VACCINATION_PLAN: {
                 long _id = db.insert(VACCINATION_PLAN_TABLE_NAME, null, values);
                 if (_id > 0)
-                    returnUri = VacccinationPlanEntry.buildUri(_id);
+                    returnUri = VaccinationPlanEntry.buildUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
@@ -218,8 +218,35 @@ public class EFContentProvider extends ContentProvider {
     @Override
     public int update(@NonNull Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
-        // TODO: Implement this to handle requests to update one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
+        final SQLiteDatabase db = mEFHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+        int rowsUpdated;
+
+        switch (match) {
+            case PROFILE:
+                rowsUpdated = db.update(EFContract.ProfileEntry.TABLE_NAME, values, selection,
+                        selectionArgs);
+                break;
+            case GALLERY:
+                rowsUpdated = db.update(EFContract.GalleryEntry.TABLE_NAME, values, selection,
+                        selectionArgs);
+                break;
+            case CLINICAL_HISTORY:
+                rowsUpdated = db.update(EFContract.ClinicalHistoryEntry.TABLE_NAME, values, selection,
+                        selectionArgs);
+                break;
+            case VACCINATION_PLAN:
+                rowsUpdated = db.update(EFContract.VaccinationPlanEntry.TABLE_NAME, values, selection,
+                        selectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+        if (rowsUpdated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        db.close();
+        return rowsUpdated;
     }
 
     static UriMatcher buildUriMatcher() {

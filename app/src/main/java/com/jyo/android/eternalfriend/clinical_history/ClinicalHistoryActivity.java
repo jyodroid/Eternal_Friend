@@ -73,7 +73,12 @@ public class ClinicalHistoryActivity extends AppCompatActivity implements
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mViewHolder.collapsingToolbarLayout.setTitle(mProfile.getName());
+        mViewHolder
+                .collapsingToolbarLayout
+                .setTitle(
+                        String.format(
+                                getString(R.string.clinical_bar_title_format),
+                                mProfile.getName()));
 
         Glide
                 .with(this)

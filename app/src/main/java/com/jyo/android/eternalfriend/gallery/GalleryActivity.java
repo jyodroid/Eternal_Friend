@@ -105,7 +105,12 @@ public class GalleryActivity extends AppCompatActivity implements
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mViewHolder.collapsingToolbarLayout.setTitle(mProfile.getName());
+        mViewHolder
+                .collapsingToolbarLayout
+                .setTitle(
+                        String.format(
+                                getString(R.string.gallery_bar_title_format),
+                                mProfile.getName()));
 
         Glide
                 .with(this)

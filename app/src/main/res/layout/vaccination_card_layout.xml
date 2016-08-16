@@ -18,12 +18,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <CheckBox
+            android:id="@+id/vaccination_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1" />
+        
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="5"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
             android:layout_margin="@dimen/card_margin"
+            android:layout_weight="5"
             android:orientation="vertical">
 
             <LinearLayout
@@ -74,11 +81,5 @@
                     android:textSize="@dimen/card_second_text_size" />
             </LinearLayout>
         </LinearLayout>
-        <CheckBox
-            android:id="@+id/vaccination_status"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="center"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>

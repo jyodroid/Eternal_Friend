@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.jyo.android.eternalfriend.R;
-import com.jyo.android.eternalfriend.data.EFContract.VacccinationPlanEntry;
+import com.jyo.android.eternalfriend.data.EFContract.VaccinationPlanEntry;
 import com.jyo.android.eternalfriend.vaccination_plan.model.Vaccination;
 
 /**
@@ -38,15 +38,15 @@ public class SaveVaccinationTask extends AsyncTask<Void, Void, Long> {
 
         ContentValues profileValues = new ContentValues();
 
-        profileValues.put(VacccinationPlanEntry.COLUMN_PROFILE_ID, mVaccination.getProfileId());
-        profileValues.put(VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_DATE, mVaccination.getDate());
-        profileValues.put(VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_NAME, mVaccination.getName());
-        profileValues.put(VacccinationPlanEntry.COLUMN_VACCINATION_PLAN_STATUS, mVaccination.getStatus());
+        profileValues.put(VaccinationPlanEntry.COLUMN_PROFILE_ID, mVaccination.getProfileId());
+        profileValues.put(VaccinationPlanEntry.COLUMN_VACCINATION_PLAN_DATE, mVaccination.getDate());
+        profileValues.put(VaccinationPlanEntry.COLUMN_VACCINATION_PLAN_NAME, mVaccination.getName());
+        profileValues.put(VaccinationPlanEntry.COLUMN_VACCINATION_PLAN_STATUS, mVaccination.getStatus());
 
         Uri insertedUri = null;
         try {
             insertedUri =
-                    resolver.insert(VacccinationPlanEntry.CONTENT_URI, profileValues);
+                    resolver.insert(VaccinationPlanEntry.CONTENT_URI, profileValues);
         }catch (Exception e){
             Log.e(LOG_TAG, "Can't save on database", e);
         }

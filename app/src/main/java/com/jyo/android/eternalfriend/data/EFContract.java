@@ -83,7 +83,7 @@ public class EFContract {
         }
     }
 
-    public static final class VacccinationPlanEntry implements BaseColumns {
+    public static final class VaccinationPlanEntry implements BaseColumns {
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_VACCINATION_PLAN).build();
 
