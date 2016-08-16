@@ -18,12 +18,13 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
-import android.widget.Toast;
 
 import com.jyo.android.eternalfriend.R;
 import com.jyo.android.eternalfriend.data.EFContract;
-import com.jyo.android.eternalfriend.profile.ProfileSummarizeActivity;
+import com.jyo.android.eternalfriend.data.EFContract.ProfileEntry;
+import com.jyo.android.eternalfriend.profile.ProfileActivity;
 import com.jyo.android.eternalfriend.profile.model.Profile;
+import com.jyo.android.eternalfriend.vaccination_plan.VaccinationActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +67,7 @@ public class NotificationService extends Service {
                 }
 
                 if (namesBuilder.length() != 0){
-                    createNotification(namesBuilder.toString());
+                    createNotification(namesBuilder.toString(), profiles.get(0));
                 }
             } catch (Exception e) {
                 // Restore interrupt status.
@@ -97,8 +98,6 @@ public class NotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
-
         // For each start request, send a message to start a job and deliver the
         // start ID so we know which request we're stopping when we finish the job
         Message msg = mServiceHandler.obtainMessage();
@@ -115,28 +114,29 @@ public class NotificationService extends Service {
         return null;
     }
 
-    @Override
-    public void onDestroy() {
-        Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
-    }
-
     private List<Profile> obtainProfiles(){
         List<Profile> profiles = new ArrayList<>();
 
         ContentResolver resolver = mContext.getContentResolver();
         Cursor cursor =
-                resolver.query(EFContract.ProfileEntry.CONTENT_URI, null, null, null, null);
+                resolver.query(ProfileEntry.CONTENT_URI, null, null, null, null);
 
         //Obtain favorite movies
         try {
-            int profileIdIndx = cursor.getColumnIndex(EFContract.ProfileEntry.COLUMN_PROFILE_ID);
-            int profileNameIndx = cursor.getColumnIndex(EFContract.ProfileEntry.COLUMN_PROFILE_NAME);
+            int profileIdIndx = cursor.getColumnIndex(ProfileEntry.COLUMN_PROFILE_ID);
+            int profileNameIndx = cursor.getColumnIndex(ProfileEntry.COLUMN_PROFILE_NAME);
+            int profilePictureIndx = cursor.getColumnIndex(ProfileEntry.COLUMN_PROFILE_IMAGE);
+            int profileBreedIndx = cursor.getColumnIndex(ProfileEntry.COLUMN_PROFILE_BREED);
+            int profileBDIndx = cursor.getColumnIndex(ProfileEntry.COLUMN_PROFILE_BIRTH_DATE);
 
             while(cursor.moveToNext()){
 
                 Profile profile = new Profile();
                 profile.setProfileId(cursor.getInt(profileIdIndx));
                 profile.setName(cursor.getString(profileNameIndx));
+                profile.setPicture(cursor.getString(profilePictureIndx));
+                profile.setBreed(cursor.getString(profileBreedIndx));
+                profile.setBirthDate(cursor.getString(profileBDIndx));
 
                 profiles.add(profile);
             }
@@ -179,9 +179,9 @@ public class NotificationService extends Service {
         return hasPendingVaccinations;
     }
 
-    private void createNotification(String petsList) {
-        Intent resultIntent = new Intent(mContext, ProfileSummarizeActivity.class);
-        //resultIntent.putExtra(ProfileActivity.PROFILE_EXTRA, mProfile);
+    private void createNotification(String petsList, Profile petProfile) {
+        Intent resultIntent = new Intent(mContext, VaccinationActivity.class);
+        resultIntent.putExtra(ProfileActivity.PROFILE_EXTRA, petProfile);
         // Because clicking the notification opens a new ("special") activity, there's
         // no need to create an artificial back stack.
         PendingIntent resultPendingIntent =
@@ -205,6 +205,7 @@ public class NotificationService extends Service {
                 .setContentText(notificationText)
                 .setAutoCancel(true)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setVibrate(new long[] { 100, 1000, 100 })
                 .setStyle(new Notification.BigTextStyle()
                         .bigText(notificationText))
                 .build();

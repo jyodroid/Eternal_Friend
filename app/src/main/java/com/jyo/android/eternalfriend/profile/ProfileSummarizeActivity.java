@@ -1,8 +1,5 @@
 package com.jyo.android.eternalfriend.profile;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -24,7 +21,6 @@ import com.jyo.android.eternalfriend.map.MapsActivity;
 import com.jyo.android.eternalfriend.profile.adapter.ProfileAdapter;
 import com.jyo.android.eternalfriend.profile.adapter.TouchHelperCallback;
 import com.jyo.android.eternalfriend.profile.settings.SettingsActivity;
-import com.jyo.android.eternalfriend.vaccination_plan.notification.AlarmReceiver;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,16 +49,6 @@ public class ProfileSummarizeActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_summarize);
         ButterKnife.bind(this);
-
-        //To do in preferences
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        AlarmManager alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-//                AlarmManager.INTERVAL_DAY,
-                0,
-                AlarmManager.INTERVAL_DAY, alarmIntent);
-//                10, alarmIntent);
 
         View rootView = findViewById(R.id.profile_container);
 

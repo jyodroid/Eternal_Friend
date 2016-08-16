@@ -11,6 +11,7 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -112,10 +113,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
-        <activity
-            android:name=".profile.preferences.SettingsActivity"
-            android:label="@string/title_activity_settings" />
         <activity
             android:name=".profile.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -124,6 +121,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jyo.android.eternalfriend.profile.ProfileSummarizeActivity" />
         </activity>
+
+        <receiver android:name=".vaccination_plan.notification.BootReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
