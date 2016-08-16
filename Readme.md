@@ -1,6 +1,6 @@
 # Eternal Friend
 
-Eternal Friend is a tool to keep your pets closer and take care about their needs. In order to achieve this, its offers the possibility of:
+Eternal Friend is a tool to keep your pets closer and take care about their needs. In order to achieve this, it offers the possibility of:
 
   - Add several pets profiles with name, breed and birth date.
   - Create a gallery with the option of age classification so you can see how your friend changes through time.
@@ -62,24 +62,64 @@ if you prevously have a version of the app in the device use
 $adb uninstall com.jyo.android.eternalfriend
 ```
 
-
 ### Screenshots
 Profiles view
 ![profile][profile]
 
 Delete Profile
 ![delete swipe][swipe]
-![delete swipe][delete]
+![delete][delete]
+
+Add profile
+![add profile][add_profile]
 
 Profile details
 ![profile details][profile_details]
 
+Gallery
+![gallery][gallery]
+![gallery expanded][gallery_expanded]
+
+Clinical History
+![clinical history][clinical_history]
+
+Add clinical history
+![add clinical history][add_clinical_history]
+
+Vaccination Plan
+![vaccination plan][vaccination_plan]
+
+Add Vaccination Plan
+![add vaccination plan][add_vaccination_plan]
+
+Map
+![map][map]
+
+Settings
+![settings][settings]
+![settings notifications][settings_notifications]
+![notifications alert][notifications_alert]
+
+Widget
+![Widget][widget]
 
 
 [profile]: /screenshots/profile.png
 [swipe]: /screenshots/profile_swipe.png
 [delete]: /screenshots/delete_profile.png
+[add_profile]: /screenshots/add_profile.png
 [profile_details]: /screenshots/profile_details.png
+[gallery]: /screenshots/gallery_options.png
+[gallery_expanded]: /screenshots/gallery_expanded.png
+[clinical_history]: /screenshots/clinical_history.png
+[add_clinical_history]: /screenshots/add_clinical_history.png
+[vaccination_plan]: /screenshots/vaccination_plan.png
+[add_vaccination_plan]: /screenshots/add_vaccination.png
+[map]: /screenshots/map.png
+[settings]: /screenshots/settings.png
+[settings_notifications]: /screenshots/settings_notifications.png
+[notifications_alert]: /screenshots/notifications_alert.png
+[widget]: /screenshots/widget.png
 
 ### Todos
 
