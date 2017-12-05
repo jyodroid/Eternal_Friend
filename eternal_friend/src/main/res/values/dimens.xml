@@ -13,7 +13,6 @@
     <dimen name="fab_search_bottom_margin">80dp</dimen>
 
     <!--Profile summarize-->
-    <dimen name="pet_name_size">24sp</dimen>
     <dimen name="profile_normal_text">18sp</dimen>
     <dimen name="card_height_size">100dp</dimen>
     <dimen name="card_margin">8dp</dimen>

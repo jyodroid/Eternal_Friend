@@ -1,0 +1,58 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    signingConfigs {
+        release_config {
+            keyAlias 'release_config'
+            keyPassword 'udacity#capstone'
+            storeFile file('eternal_friend_sign.jks')
+            storePassword 'udacity#capstone'
+        }
+    }
+    compileSdkVersion 27
+    buildToolsVersion '27.0.0'
+    defaultConfig {
+        applicationId "com.jyo.android.eternalfriend"
+        minSdkVersion 21
+        targetSdkVersion 27
+        versionCode 3
+        versionName "2.0_Alpha"
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release_config
+        }
+    }
+    dexOptions {
+        javaMaxHeapSize "2g"
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.android.support:palette-v7:27.0.2'
+    implementation 'com.android.support:recyclerview-v7:27.0.2'
+    implementation 'com.android.support:cardview-v7:27.0.2'
+    implementation 'com.android.support:support-annotations:27.0.2'
+    implementation 'com.android.support:design:27.0.2'
+    implementation 'com.android.support:support-v4:27.0.2'
+    implementation 'com.google.android.gms:play-services:11.6.2'
+    implementation 'com.google.android.gms:play-services-ads:11.6.2'
+    implementation 'com.google.android.gms:play-services-auth:11.6.2'
+    implementation 'com.google.android.gms:play-services-gcm:11.6.2'
+    implementation 'com.android.support:multidex:1.0.2'
+    implementation 'com.android.volley:volley:1.0.0'
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'jp.wasabeef:glide-transformations:2.0.1'
+    //Butterknife
+    implementation 'com.jakewharton:butterknife:8.5.1'
+    kapt 'com.jakewharton:butterknife-compiler:8.5.1'
+}
